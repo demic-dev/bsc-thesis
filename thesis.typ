@@ -186,34 +186,63 @@ Più avanti nel capitolo, vedremo come quantificarle entrambe, grazie alla della
 
 == Teoria dei Grafi
 
-La teoria dei grafi è una branca della matematica e dell'informatica che modella situazioni o processi sotto forma di nodi (attori dell'evento) e di archi (interazioni tra i nodi). Questi vengono rappresentati discretamente come vettori e matrici #footnote[Liste e matrici di adiacenza.], il che consente di sviluppare analisi e algoritmi. I grafi si distinguono in diretti, dove gli archi hanno una direzione specifica dal nodo $a$ al nodo $a'$, e non direzionali, dove invece gli archi non hanno una direzione e quindi non è possibile distinguere il verso del collegamento tra nodo $a$ e nodo $a'$.\
-Formalmente, definiamo un grafo: $G = (V, E)$
+La teoria dei grafi è una branca della matematica e dell'informatica che modella situazioni o processi sotto forma di nodi (attori dell'evento) e di archi (interazioni tra i nodi).
+
+Un grafo viene distinto in diretto o indiretto. Un grafo si dice diretto (anche chiamato _digraph_) quando gli archi che collegano i nodi hanno una direzione. Altrimenti, viene detto indiretto.
+
+Formalmente, definiamo un grafo: $ G = (V, E) $
 dove:
 - $V = {V_1, V_2, ...}$ è un insieme di nodi
 - $E subset.eq {{x, y} | x, y in V and x eq.not y}$ è un insieme di archi non diretto, *oppure*
-  - $E subset.eq {{x, y} | (x, y) in V^2 and x eq.not y}$ è un insieme di archi diretto
+- $E subset.eq {{x, y} | (x, y) in V^2 and x eq.not y}$ è un insieme di archi diretto
+
+Questi possono essere rappresentati, come struttura dati, con una lista delle adiacenze o una matrice delle adiacenze. La prima, contiene una lista dei nodi dove l'indice $i$ della lista contiene il nodo $i$ e a cui corrispondono tutti gli archi che partono dal nodo $i$ e arrivano al nodo $i'$. Richiede $Theta(V + E)$ spazio di memoria. La matrice delle adiacenze $M$, invece, si usa una matrice $N times N$, dove $N$ è il numero dei nodi e, $M_(i j) = 0$ se non vi è alcun arco tra $i$ e $j$, $M_(i j) = w$ se vi è un arco che collega $i$ e $j$ di peso $w$. Richiede $Theta (V^2)$ spazio di memoria.
 
 I grafi vengono usati per modellizzare moltissime relazioni e processi in numerosi campi. Nell'informatica stessa, i grafi sono stati fondamentali per permetterci di sviluppare sistemi operativi multiutente e multiprocesso (nell'ambito della gestione delle risorse) e per poter espandere internet globalmente e senza sosta (routing dei pacchetti).
 
 === Proprietà principali
 
-+ Degree (single node)
-+ Cliques
-+ Paths and Cycles
-+ Connected Components
-+ Distance and Diameter
-+ Trees
-+ Bipartite Graphs
-+ Centrality Measures (?)
-+ Clustering Coefficient (?)
-+ Independence Number (?)
-+ Dense/Sparse (?)
+Di seguito riportiamo alcune proprietà principali dei grafi, che vengono usati sia nella SMA, ma anche in tutti i campi di applicazione descritti sopra.
+
+==== Grado
+Il grado di un nodo è il numero di archi di un nodo. Definita come: $ deg(x) $
+Nel caso dei digraph, si distingue il $deg_(i n) (x)$ e $deg_(o u t) (x)$, rispettivamente il numero di archi entranti e il numero di archi uscenti.
+
+==== Cammino
+Un cammino è una sequenza di nodi $v_1, v_2, ..., v_n$ tale che due nodi consecutivi nella sequenza, siano adiacenti: $ w = {v_1, v_2, ..., v_n } $
+
+==== Percorsi
+Un percorso è un cammino dove tutti i nodi nella sequenza, sono distinti: $ p_1 = { w_1, w_2 in w | w_1 eq.not w_2 } $
+
+==== Cicli
+Un ciclo è un percorso dove il nodo di partenza e di arrivo sono uguali:$ p_2 = { (i, e_1), (e_1, e_2), ..., (e_n, i) } $
+
+==== Cricca
+Una cricca è una partizione di un grafo $G$ tale che, per ogni coppia di nodi della partizione, esiste un arco che li collega. $ c = { i,j in V | (e_i, e_j) exists in E or (e_j, e_i) exists in E } $
+
+==== Componenti Connesse
+Abbiamo una componente connessa di un grafo $G$ se qualsiasi coppia di nodi è connessa da cammini e se non è parte di un sottografo connesso più grande.
+
+==== Distanza
+La distanza tra due nodi equivale al numero di archi in un cammino minimo che li connette.
+
+==== Diametro
+Il diametro di un grafo è anche detto _longest shortest path_, ovvero la massima distanza tra due nodi di un grafo.
+
+==== Alberi
+Un albero è un grafo indiretto dove ogni vertice è connesso esattamente da un percorso.
+
+==== Grafi Bipartiti
+Un grafo si dice bipartito se può essere diviso in due sottoinsiemi disgiunti $G'$ e $G''$, dove ogni arco di $G'$ connette i nodi di $G''$.
+
+==== Densità
+La densità in un grafo indica quanto questo è connesso. Se ogni nodo è connesso ad un altro, avremo un grafo completo. Al contrario, un grafo con pochi archi rispetto ai nodi, è detto sparso. Per un grafo indiretto, la densità viene definita: $ d = (2 * |E|)/(|V|(|V|-1)) $
 
 == Network Science
 
 La Network Science è una disciplina che studia le reti complesse. È un campo multidisciplinare, poiché affonda le sue radici in: _matematica_ (teoria dei grafi), _fisica_ (meccanica statistica), _statistica_ (inferenza statistica), _sociologia_ (strutture sociali) e _informatica_ (data mining). Viene definita come #quote()[lo studio delle rappresentazioni di rete dei fenomeni fisici, biologici e sociali che portano alla creazione di modelli predittivi di tali fenomeni.] [nap11516]
 
-Le reti sono modellate mediante grafi, come vedremo in dettaglio più avanti, ma sono sempre composte da due elementi: nodi ($V$) e archi ($E$). Due nodi sono collegati se esiste un arco che parte dal primo nodo e arriva al secondo. Moltissime situazioni complesse possono essere modellate come reti:
+Moltissime situazioni complesse possono essere modellate come reti:
 
 - *Social Networks*: nell'informatica, è uno degli esempi più ricorrenti. I social network sono letteralmente delle reti sociali, che modellano relazioni e interazioni tra persone. È immediato pensare alle persone come nodi di una rete e alle relazioni come archi. Instagram o Twitter sono esempi di rete diretta, poiché una persona $a$ può seguire un'altra persona $a'$, ma non è detto che $a'$ ricambi. Esiste quindi un arco diretto che parte da $a$ e arriva ad $a'$, ma non viceversa;
 - *Citazioni negli articoli scientifici*: ogni volta che un articolo viene pubblicato, questo contiene $n$ citazioni verso altri articoli e si aggiunge alla rete di articoli già esistenti. Ogni articolo è quindi un nodo e una citazione è un arco che collega due nodi. Anche in questo caso, la rete è diretta;
@@ -224,18 +253,19 @@ La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-A
 === Proprietà principali
 Posso dire che teoria dei grafi e network science siano altamente interconnesse, però giusto per semplificare, vado a spiegare che le tratto come proprietà della NS solo perché si riferiscono a misure che si possono effettuare su reti grandi/reali, mentre quelle sotto graph theory valgono per qualsiasi grafo.
 
-+ Degree Distribution
-+ Assortativity (Degree Mixing)
-+ Homophily
-+ Clustering Coefficient
-+ Small-World Property
-+ Modularity
-+ Average Path Length (?)
-+ Power Law
-+ Centrality Variants: Betweenness, eigenvector for network flow/influence
-+ Subgraph Counts (Motifs)
+==== Distribuzione del Grado
+==== Assortatività
+==== Omofilia ed Eterofilia
+==== Clustering Coefficient
+==== Small-World Property
+==== Modularity
+==== Average Path Length (?)
+==== Power-Law
+==== Centrality Variants: Betweenness, eigenvector for network flow/influence
+==== Subgraph Counts (Motifs)
 
 === Node Vector Distance
+
 === Generalized Euclidean
 
 == Python
