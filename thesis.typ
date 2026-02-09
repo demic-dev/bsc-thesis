@@ -1,3 +1,6 @@
+#import "@preview/h-graph:0.1.0": *
+#show raw.where(lang: "graph"): enable-graph-in-raw(polar-render)
+
 // Page setup
 #set page(
   paper: "a4",
@@ -206,39 +209,27 @@ I grafi vengono usati per modellizzare moltissime relazioni e processi in numero
 
 Di seguito riportiamo alcune proprietà principali dei grafi, che vengono usati sia nella SMA, ma anche in tutti i campi di applicazione descritti sopra.
 
-==== Grado
-Il grado di un nodo è il numero di archi di un nodo. Definita come: $ deg(x) $
-Nel caso dei digraph, si distingue il $deg_(i n) (x)$ e $deg_(o u t) (x)$, rispettivamente il numero di archi entranti e il numero di archi uscenti.
++ *Grado*: Il grado di un nodo è il numero di archi di un nodo. Definita come: $ deg(x) $ Nel caso dei digraph, si distingue il $deg_(i n) (x)$ e $deg_(o u t) (x)$, rispettivamente il numero di archi entranti e il numero di archi uscenti.
 
-==== Cammino
-Un cammino è una sequenza di nodi $v_1, v_2, ..., v_n$ tale che due nodi consecutivi nella sequenza, siano adiacenti: $ w = {v_1, v_2, ..., v_n } $
++ *Cammino*: Un cammino è una sequenza di nodi $v_1, v_2, ..., v_n$ tale che due nodi consecutivi nella sequenza, siano adiacenti: $ w = {v_1, v_2, ..., v_n } $
 
-==== Percorsi
-Un percorso è un cammino dove tutti i nodi nella sequenza, sono distinti: $ p_1 = { w_1, w_2 in w | w_1 eq.not w_2 } $
++ *Percorsi*: Un percorso è un cammino dove tutti i nodi nella sequenza, sono distinti: $ p_1 = { w_1, w_2 in w | w_1 eq.not w_2 } $
 
-==== Cicli
-Un ciclo è un percorso dove il nodo di partenza e di arrivo sono uguali:$ p_2 = { (i, e_1), (e_1, e_2), ..., (e_n, i) } $
++ *Cicli*: Un ciclo è un percorso dove il nodo di partenza e di arrivo sono uguali:$ p_2 = { (i, e_1), (e_1, e_2), ..., (e_n, i) } $
 
-==== Cricca
-Una cricca è una partizione di un grafo $G$ tale che, per ogni coppia di nodi della partizione, esiste un arco che li collega. $ c = { i,j in V | (e_i, e_j) exists in E or (e_j, e_i) exists in E } $
++ *Cricca*: Una cricca è una partizione di un grafo $G$ tale che, per ogni coppia di nodi della partizione, esiste un arco che li collega. $ c = { i,j in V | (e_i, e_j) exists in E or (e_j, e_i) exists in E } $
 
-==== Componenti Connesse
-Abbiamo una componente connessa di un grafo $G$ se qualsiasi coppia di nodi è connessa da cammini e se non è parte di un sottografo connesso più grande.
++ *Componenti Connesse*: Abbiamo una componente connessa di un grafo $G$ se qualsiasi coppia di nodi è connessa da cammini e se non è parte di un sottografo connesso più grande.
 
-==== Distanza
-La distanza tra due nodi equivale al numero di archi in un cammino minimo che li connette.
++ *Distanza*: La distanza tra due nodi equivale al numero di archi in un cammino minimo che li connette.
 
-==== Diametro
-Il diametro di un grafo è anche detto _longest shortest path_, ovvero la massima distanza tra due nodi di un grafo.
++ *Diametro*: Il diametro di un grafo è anche detto _longest shortest path_, ovvero la massima distanza tra due nodi di un grafo.
 
-==== Alberi
-Un albero è un grafo indiretto dove ogni vertice è connesso esattamente da un percorso.
++ *Alberi*: Un albero è un grafo indiretto dove ogni vertice è connesso esattamente da un percorso.
 
-==== Grafi Bipartiti
-Un grafo si dice bipartito se può essere diviso in due sottoinsiemi disgiunti $G'$ e $G''$, dove ogni arco di $G'$ connette i nodi di $G''$.
++ *Grafi Bipartiti*: Un grafo si dice bipartito se può essere diviso in due sottoinsiemi disgiunti $G'$ e $G''$, dove ogni arco di $G'$ connette i nodi di $G''$.
 
-==== Densità
-La densità in un grafo indica quanto questo è connesso. Se ogni nodo è connesso ad un altro, avremo un grafo completo. Al contrario, un grafo con pochi archi rispetto ai nodi, è detto sparso. Per un grafo indiretto, la densità viene definita: $ d = (2 * |E|)/(|V|(|V|-1)) $
++ *Densità*: La densità in un grafo indica quanto questo è connesso. Se ogni nodo è connesso ad un altro, avremo un grafo completo. Al contrario, un grafo con pochi archi rispetto ai nodi, è detto sparso. Per un grafo indiretto, la densità viene definita: $ d = (2 * |E|)/(|V|(|V|-1)) $
 
 == Network Science
 
@@ -259,55 +250,124 @@ Null model...
 === Proprietà principali
 La teoria dei grafi e la network science sono altamente interconnesse. Quest'ultima usa la teoria dei grafi per rappresentare le informazioni ed eseguire algoritmi sulle sue strutture dati. Però, per facilità di comprensione, qui ci riferiremo in particolare alle proprietà che vengono studiate in reti complesse, perché danno informazioni maggiormente su scala globale, invece che locale.
 
-==== Distribuzione del Grado
-Nei paragrafi precedenti, abbiamo visto cosa significa il grado di un nodo in un grafo. Se accumuliamo tutti i gradi dei nodi in una rete, possiamo calcolare la probabilità, dato un nodo in un grafo, che questo abbia grado $y$: $P(deg(x) = y) = z$. La distribuzione del grado non è altro che la distribuzione delle probabilità rispetto ai gradi dei nodi nella rete. Data una rete di $n$ nodi, la probabilità che un nodo abbia grado $k$ equivale a: $ P(k) = (n_k)/n $
++ *Distribuzione del Grado*: Nei paragrafi precedenti, abbiamo visto cosa significa il grado di un nodo in un grafo. Se accumuliamo tutti i gradi dei nodi in una rete, possiamo calcolare la probabilità, dato un nodo in un grafo, che questo abbia grado $y$: $P(deg(x) = y) = z$. La distribuzione del grado non è altro che la distribuzione delle probabilità rispetto ai gradi dei nodi nella rete. Data una rete di $n$ nodi, la probabilità che un nodo abbia grado $k$ equivale a: $ P(k) = (n_k)/n $
 
-==== Omofilia ed Eterofilia
-L'omofilia è una proprietà qualitativa che esprime quanto dei nodi in una rete sono vicini tra di loro se esprimono features simili. È uno dei metodi di community discovery, perché si parte dall'assunzione sociologica in cui le persone tendono a relazionarsi con persone simili tra di loro (stesso genere, età simile, stesse passioni o interessi) e si riusa nello studio delle reti perché si assume che nodi con features simili, tendano ad essere connessi. Questo accade sia per motivi comportamentali (l'utente in un social network ricerca solo persone/pagine che rispettano i propri interessi), sia per motivi ambientali (l'algoritmo di un social network mostra all'utente maggiormente post che potrebbero interessargli). L'eterofilia, invece, è l'esatto opposto.
++ *Laplacian*: #lorem(25)
 
-==== Assortatività e Disassortatività
-L'assortatività è una misura quantitativa per rappresentare l'omofilia. Al contrario, la disassortatività rappresenta l'eterofilia. L'intuizione dell'assortatività è quella di prendere features numeriche e, data una connessione tra due nodi, stimarne la similarità (es. due nodi con valore 1 e 5 sono più vicini rispetto a due nodi con valore 1 e 5000). La proprietà più comune è il grado di due nodi, in cui si assume che due nodi con grado molto alto, si leghino tra loro. Ad esempio, nei social networks, è più probabile che una celebrità si connetta ad un'altra.
++ *Omofilia ed Eterofilia*: L'omofilia è una proprietà qualitativa che esprime quanto dei nodi in una rete sono vicini tra di loro se esprimono features simili. È uno dei metodi di community discovery, perché si parte dall'assunzione sociologica in cui le persone tendono a relazionarsi con persone simili tra di loro (stesso genere, età simile, stesse passioni o interessi) e si riusa nello studio delle reti perché si assume che nodi con features simili, tendano ad essere connessi. Questo accade sia per motivi comportamentali (l'utente in un social network ricerca solo persone/pagine che rispettano i propri interessi), sia per motivi ambientali (l'algoritmo di un social network mostra all'utente maggiormente post che potrebbero interessargli). L'eterofilia, invece, è l'esatto opposto.
 
-==== Coefficiente di Clustering
-È una proprietà che misura quanto, in una rete, i nodi tendono a essere connessi tra di loro. Soprattutto nelle reti sociali, i nodi tendono ad avere un'alta densità di collegamenti. È una misura locale o globale. A livello locale, misura quanto è probabile che i vicini di un nodo tendono a formare una cricca. Dato $N$ l'insieme dei vicini di $i$ e $k_i = |N|$: $ C C_i = (|{ e_(j k) : v_j, v_k in N, e_(k j) in E }|)/(k_v\(k_v-1\)) $
++ *Assortatività e Disassortatività*: L'assortatività è una misura quantitativa per rappresentare l'omofilia. Al contrario, la disassortatività rappresenta l'eterofilia. L'intuizione dell'assortatività è quella di prendere features numeriche e, data una connessione tra due nodi, stimarne la similarità (es. due nodi con valore 1 e 5 sono più vicini rispetto a due nodi con valore 1 e 5000). La proprietà più comune è il grado di due nodi, in cui si assume che due nodi con grado molto alto, si leghino tra loro. Ad esempio, nei social networks, è più probabile che una celebrità si connetta ad un'altra.
 
-A livello globale, invece, ci si basa su triple di nodi (triangoli o triadi). Il coefficiente globale di clustering rappresenta quanti triangoli chiusi ci sono, rispetto a tutte le triadi in una rete:
-$ C C = (\# "triangles")/(\# "triads") $
++ *Coefficiente di Clustering*: È una proprietà che misura quanto, in una rete, i nodi tendono a essere connessi tra di loro. Soprattutto nelle reti sociali, i nodi tendono ad avere un'alta densità di collegamenti. È una misura locale o globale. A livello locale, misura quanto è probabile che i vicini di un nodo tendono a formare una cricca. Dato $N$ l'insieme dei vicini di $i$ e $k_i = |N|$: $ C C_i = (|{ e_(j k) : v_j, v_k in N, e_(k j) in E }|)/(k_v\(k_v-1\)) $\ A livello globale, invece, ci si basa su triple di nodi (triangoli o triadi). Il coefficiente globale di clustering rappresenta quanti triangoli chiusi ci sono, rispetto a tutte le triadi in una rete: $ C C = (\# "triangles")/(\# "triads") $
 
-==== Modularity
-
-
-==== Average Path Length (?)
-aaa
-==== Subgraph Counts (Motifs)
-aaa
++ *Modularity*: La modularità è una misura che valuta la qualità di una _community evaluation_ in una rete. Un alto grado di modularità significa che ci sarà un'alta densità tra i nodi nella stessa community e una densità minore tra un nodo in una community e uno all'infuori della comunità. Rappresenta la densità interna delle community. Ha anche lo scopo di ottimizzare la funzione di suddivisione in community, con l'obiettivo di massimizzare la modularità. Data $A$ la matrice delle adiacenze e $delta$ la funzione delta di Kronecker, la modularità è definita da: $ M = 1/(2|E|) sum_(i,j in V) \[A_(i j) - (deg(i) deg(j))/(2|E|) \] delta (c_i, c_j) $
 
 === Node Vector Distance
+Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi.
 
-=== Generalized Euclidean
+Le misure comuni di distanza, però, tengono conto solamente di un aspetto, ovvero di portare un dato in un nodo $i$ ad un nodo $j$. In modo binario, un dato può essere in un nodo oppure nell'altro, oppure in un qualsiasi nodo intermedio, non può diffondersi in modo "continuo", dove una parte di informazione si trova sia in un nodo, che nell'altro.\
+Però, molte situazioni del mondo reale possono essere modellizzate in questo modo:
+
+- *Diffusione di un virus*:
+- *Qualità di una campagna di marketing virale*:
+- *Polarizzazione in un social network*:
+
+L'intuizione dietro la Node Distance deriva dal misurare, data una rete e due tempi $t_1$ e $t_2$, la diffusione di una proprietà di un nodo nel tempo.
+
+Formalmente, data una rete non diretta $G = (V, E)$, dove $V$ è l'insieme dei nodi ed $E$ è l'insieme degli archi, assumiamo che la proprietà $A$ sia diffusa tra i nodi della rete, in modo tale che $sum_(i=0)^(|V|) A_i = 1$. Assumiamo anche che la rete non cambi, tra $t_1$ e $t_2$.
+
+Tramite la NVD, misuriamo la diffusione della proprietà $A$ tra i nodi:
+
+#figure(
+  [
+    ```graph
+    #scl: 1;
+    1 - 2;
+    2 - 3;
+    ```
+  ],
+  caption: "voglio fare due grafi uno accanto all'altro. il primo ha il primo nodo più colorato e i successivi pochissimi, il secondo ha l'ultimo molto colorato e i precedenti pochissimo.",
+  supplement: "Figure",
+)
+
+Concretamente, esistono quattro classi di soluzione per poter calcolare la NVD:
+
++ Generalized Euclidean
++ Shortest-Path
++ Spectral
++ Adaptions of NVD-Algorithms
+
+==== Generalized Euclidean
+==== Shortest-Path
+==== Spectral
+==== Adaptions of NVD-Algorithms
 
 == Python
+Python è un linguaggio di programmazione interpretato, orientato agli oggetti, di alto livello con semantica dinamica. Le sue strutture dati integrate di alto livello, combinate con la tipizzazione dinamica e il binding dinamico, lo rendono molto interessante per lo sviluppo rapido di applicazioni, nonché per l'uso come linguaggio di scripting o di collegamento per connettere tra loro componenti esistenti. La sintassi semplice e facile da imparare di Python enfatizza la leggibilità e quindi riduce i costi di manutenzione dei programmi.
+
+Python supporta moduli e pacchetti, che incoraggiano la modularità dei programmi e il riutilizzo del codice. L'interprete Python e l'ampia libreria standard sono disponibili in formato sorgente o binario gratuitamente per tutte le principali piattaforme e possono essere distribuiti liberamente.
+
+Python, grazie alla sua estesa fornitura di librerie e alla sua rapida curva di apprendimento, è il linguaggio più usato nel contesto di Data Science ed è stato usato per la scrittura del codice il cui prodotto si trova più avanti in questa tesi.
+
+=== NetworkX
+NetworkX è una libreria Python per la creazione, la manipolazione e lo studio della struttura, delle dinamiche e delle funzioni delle reti complesse. Fornisce:
+
+- strumenti per lo studio della struttura e delle dinamiche delle reti sociali, biologiche e infrastrutturali;
+- un'interfaccia di programmazione standard e un'implementazione grafica adatta a molte applicazioni;
+- un ambiente di sviluppo rapido per progetti collaborativi e multidisciplinari;
+- supporto per l'accelerazione degli algoritmi e funzionalità aggiuntive tramite backend di terze parti;
+- un'interfaccia per algoritmi numerici esistenti e codice scritto in C, C++ e FORTRAN;
+
+Con NetworkX è possibile caricare e memorizzare reti in formati di dati standard e non standard, generare molti tipi di reti casuali e classiche, analizzare la struttura delle reti, costruire modelli di rete, progettare nuovi algoritmi di rete, disegnare reti e molto altro ancora.
+
+=== NumPy
+NumPy è una libreria Python nata per supportare operazioni e funzioni non banali su matrici ed array multidimensionali. Ha una licenza BSD modificata.
+
+Fornisce API di alto livello per strutture dati complesse e moltissime funzioni matematiche eseguibili ad alto livello.
+
+=== PyTorch
+PyTorch è una libreria Python per il Machine Learning, che fornisce API ad alto livello, tramite implementazioni a basso livello, algoritmi e architetture per il deep learning, come i tensori o le discese dei gradienti stocastiche. Creato originariamente da Meta, adesso appartiene alla Linux Foundation, è open source ed è rilasciato con una licenza BSD modificata.
+
+Il tipo di dato alla base, in _pytorch_ è un tensore, ovvero un array multidimensionale omogeneo. Si differenzia rispetto a _NumPy_ grazie al suo supporto ai CUDA, rendendoli disponibili out-of-the-box per lavorare in modo distribuito sulle GPU NVIDIA.
+
+=== Pandas
+È una libreria Python open source. Anch'essa offre strutture dati ad alto livello, più orientate all'analisi dei dati, alla manipolazione e alla visualizzazione.
+
+Le sue strutture principali sono le _Series_ e i _DataFrame_, i primi sono array monodimensionali con un indice associato; gli ultimi, sono degli array multidimensionali con un array associato.
+
+Alla base, hanno dei NumPy arrays, ma supportano anche dati non numerici (date, stringhe).
+
+
+== Reddit
+Reddit è un social network, dove gli utenti possono pubblicare post sotto forma di link, testo, immagini o video e a cui gli utenti possono commentare. Reddit è suddiviso in comunità, chiamate subreddits, infatti viene anche definito un aggregatore di comunità. Ogni subreddit viene preceduto dalla radice `r/`. Possono essere generalisti (`r/all`, `r/news`, `r/italy`, ...) oppure monotematici (`r/python`, `r/universitaly`, ...). Esistono più di 100.000 subreddits.
+
+Il sistema di raccomandazione in Reddit è gestito tramite gli upvotes e downvotes, un giudizio che gli utenti registrati possono dare ai post e ai commenti, e che significa rispettivamente "penso che questo post (o commento) debba essere mostrato di più" e "penso che questo post (o commento) debba essere mostrato di meno".
+
+In data Dicembre 2025, è nella top 10 dei siti più visitati al mondo, ed è il quarto social media più usato @ViewWeb.
 
 == Procedura di costruzione della rete
-- Reddit + Dumps
-- `playground.ipynb`
-- Laplacian
-- Node Vector Distance
+Per la realizzazione delle reti, prima di tutto scarichiamo un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
 
-// Il mio lavoro si andava ad inserire all'interno di un progetto più ampio, dove sono stati raccolti i dati da Reddit, processati in modo da fornire delle reti settimanali che catturavano le interazioni degli utenti in subreddit (comunità) politici e su cui venivano svolte varie analisi sociali.
-//
-// Finora, il lavoro presentava un limite strutturale: le interazioni che venivano catturate, non rappresentavano la direzionalità delle interazioni. Questo vuol dire che, se utente $a$ parlava con utente $b$, per il modello, $b$ parlava anche con utente $a$. Questo però, specie nelle interazioni online, non è sempre vero, perché un utente può commentare il post/commento di un altro utente ma senza ricevere risposte a sua volta.
-//
-// Matematicamente, la polarizzazione viene calcolata sfruttando la Node Vector Distance (NVD). (spiegare...) Per essere calcolata abbiamo bisogno della matrice Laplacian, che ha due proprietà principali che devono essere soddisfatte per poter essere usate nella NVD: è simmetrica e semi-definita. Nel caso di una rete simmetrica, il problema è banale perché avendo gli archi non direzionali, la matrice $L$ sarà sempre simmetrica. Non è così invece per le reti dirette, che sono le reti che vorremmo ottenere dalla fine di questo tiricinio.
-//
-// Grazie ad un operatore, chiamato Magnetic Laplacian (cit articolo),
+Suddividiamo questa sezione in 9 fasi:
+
++ *Data Filtering*: Manteniamo solamente i subreddit politici americani; Successivamente, filtriamo dai dati i subreddit non politici e gli utenti che sono classificati come bot, ovvero utenti che però sono controllati da script e che rispondono in automatico in seguito a certi triggers; Otteniamo così un database che contiene tutti i post e commenti degli utenti, dalla creazione di Reddit, fino ad oggi.
++ *Preliminary Network*: Dato che abbiamo a che fare con una mole di dati enorme, è bene continuare la procedura di filtro, filtrando i messaggi che hanno una lunghezza minore a 15 caratteri e che quindi hanno una lunghezza significativa; Successivamente, andiamo a costruire una rete preliminare. Per ogni settimana, selezioniamo tutti i post e commenti. Definiamo un nodo per ogni utente che ha scritto almeno un post/commento significativo, un arco invece se un utente ha interagito con un altro utente. Avremo $n$ reti dove ogni nodo rappresenta un utente e ogni arco rappresenta le interazioni tra i due utenti;
++ *Topic detection*: Usiamo il modello BERTopic per classificare tutti i topic dei messaggi selezionati e per assegnare ad ogni messaggio, un topic. I macrotopic che assegneremo ad ogni messaggio sono: _abortion_, _climate_, _gender_, _guns_, _health_, _racial justice_ e _unauthorized immigration_.
++ *Toxicity*: Tramite il modello detoxify @Detoxify, calcoliamo la tossicità di ogni messaggio. Usiamo le impostazioni di default.
++ *Stance*: Misuriamo la posizione politica di ogni messaggio, utilizzando il modello LLM Llama 3 di Meta, open source. Chiediamo, tramite il seguente prompt, se un determinato messaggio può essere scritto da un utente con idee democratiche o repubblicane:```txt
+    You are an expert political scientist. The following message is part of the debate on {topic} in the United States. In this debate there are two sides. Side D thinks {democratic_opinion}. Side R thinks {republican_opinion}. If the message is ambiguous, it belongs to side U. Classify the following message as belonging to side D, R, or U. You can only reply with one letter between D, R, or U, no other answer is acceptable."
+  ``` Il prompt non ha alcun contesto addizionale e restituisce al massimo un token: `D`, `R` oppure `U`.
++ *Rete finale*: Finora, le evaluation che abbiamo fatto si riferiscono al singolo messaggio. Al fine di creare una rete che raggruppi le interazioni tra gli utenti, aggreghiamo la tossicità e l'opinione politica media e la assegnamo ad ogni utente, su ognuno dei topic citati sopra. Nel caso in cui per un utente non abbiamo abbastanza dati a disposizione in una settimana, risolviamo il problema in due modi: tramite la _rolling opinion_, ovvero assumiamo che la sua opinione sia simile a quella delle settimane precedenti e quindi prendiamo in considerazione anche i messaggi precedenti, oppure la _zombie mode_: se un utente non ha espresso opinioni su alcuni dei topic, assumiamo che la sua opinione su un altro topic, coincida con la sua tendenza ad avere opinioni vicine ai democratici o repubblicani su tutti gli altri topic.\ Restituiamo il Largest Connected Component (LCC) di ogni rete.
+
+
 
 #pagebreak()
 
 = Modifiche apportate
 
 #quote[Descrivere le attivita svolte, riportando attivita, tempi, strumenti utilizzati, risultati conseguiti, problemi affrontati e modalita di risoluzione. Potranno essere qui descritte le attivita anche dal punto di vista strettamente tecnico, approfondendo le scelte effettuate, le motivazioni, le alternative prese in considerazione, l’uso o il possibile uso dei risultati del lavoro.]\
-//
+
+// Finora, il lavoro presentava un limite strutturale: le interazioni che venivano catturate, non rappresentavano la direzionalità delle interazioni. Questo vuol dire che, se utente $a$ parlava con utente $b$, per il modello, $b$ parlava anche con utente $a$. Questo però, specie nelle interazioni online, non è sempre vero, perché un utente può commentare il post/commento di un altro utente ma senza ricevere risposte a sua volta.
 
 - Tempi: ?
 - Strumenti utilizzati:
@@ -316,6 +376,7 @@ aaa
   - numpy
   - pandas(?)
   - magnetic Laplacian
+    - `playground.ipynb`
 - Risultati conseguiti
   - Mostrare toy examples
   - Mostrare polarization results
