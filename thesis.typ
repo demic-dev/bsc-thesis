@@ -243,9 +243,48 @@ Moltissime situazioni complesse possono essere modellate come reti:
 
 La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-Albert "Emergence of Scaling in Random Networks" [Baraba_si_1999]: le reti reali complesse di grandi dimensioni non si sviluppano in modo casuale (la probabilità che un nodo $a$ abbia un arco verso un nodo $a'$ non è approssimabile casualmente, come veniva assunto nel modello _Erdős-Rényi_ [Erdos2022OnRG]), ma seguono una _power-law degree distribution_: è più probabile che nuovi nodi che entrano nella rete cerchino collegamenti con nodi che hanno già molti collegamenti. Questo fenomeno si chiama _preferential attachment_ (ad esempio, nel WWW, un nuovo sito avrà link verso siti più grandi e conosciuti). Di conseguenza, in una rete pochi nodi (detti anche _hub_) avranno un grado elevato [scale-free] e la maggior parte dei nodi avrà un grado basso.
 
-Community discovery...
-
 Null model...
+
+Spectral analysis...
+
+=== Community Discovery
+Community discovery è una pratica che ha molti use case . si usa per il backboning (es. rimuovere nodi simili tra loro, semplifico la rete e lascio solo un nodo "rappresentante" di una community), oppure per trovare i nodi simili tra di loro e raggrupparli in cluster o partizioni (es. mi interessa sapere come si comportano nodi che appartengono alla stessa community. posso fare inferenza su un altro nodo, ad es nel marketing).
+
+abbiamo una community quando tra i nodi c'è una densità molto alta tra i nodi della community e invece sparsamente connessi con i nodi fuori la community.
+
+Ci sono moltissimi modi per fare community discovery. non esiste la modalità perfetta, perché tutto dipende da qual è l'obiettivo di fare community discovery. in letteratura scientifica, son stati abbondantemente studiati e vengono tutt'ora studiati. generalmente, dividiamo quattro modi di classificarli:
++ process: come vengono effettuate
++ definition: dipende dal perché lo fai
++ performance: rispetto a delle reti para-reali, quindi magari usando un null model o delle reti randomiche, come performano mediamente gli algoritmi di community evaluation?
++ similarity: applicando sulla stessa rete reale vari algoritmi, questi danno risultati simili? ovviamente è difficile avere risultati uguali xk come detto alcuni algoritmi sono nati con obiettivi differenti, ma vediamo se i risultati sono simili
+
+il primo metodo per la community discovery è quello del stochastic block model (SBM) e della maximum likelihood function.
+
+ovvero dato un sbm, quindi un modello per generare grafi randomici con communities e con i due parametri pin e pout (gli stessi della rete iniziale), che rispettivamente sono la probabilità che un nodo si connetta con un altro nella stessa community e la probabiltà che un nodo si connetta con un altro fuori dalla community. si cerca di massimmizzare una likelihood function, ovvero una funzione che, dati i parametri pin e pout e una funzione theta che restitusice 1 se due nodi sono nella stessa community e 0 se non (oppure è una partizione che contiene tutti i nodi in una communtiy).
+cerchiamo di massimizzare questa funzione in modo tale che: $L_(Theta, A) = sum_(u, v in A) l_theta, A, u, v$
+
+inoltre, con l'sbm se noi mettiamo pout > pin allora possiamo trovare tutte le community disassortative, ovvero i nodi che si legano solo a nodi che NON sono della loro community.
+
+un altro modo per trovare le community in una rete è tramite le random walks. l'idea dietro è che, quando una random walk entra in una community, vi rimarrà per molto tempo, perché continuerà a viaggiare in nodi di una stessa community (è poco probabile che arrivi al node edge e che entri in un'altra community). il metodo più conosciuto che usa random walks è il metodo molto delle infomap.
+
+la infomap sfrutta le random walk andando a tracciare tutti i nodi che ha esplorato, associando ogni nodo ad una sequenza di bit e codificandolo con il codice di huffman. per risparmiare memoria, assegnano una codifica ad ogni community e aggiungono le label della community come prefissi nella loro codifica. quando si arriva ad un nodo edge, si usa invece la sequenza di bit `1111` per segnalare che vi è un salto di community. aggiunge un po' di overhead alla modifica, però vi è un risparmio, perché le label di inizio e fine community verranno raramente usate.
+la infomap ha una quality function, con l'obiettivo di minimizzare quanto più possibile la codifica del random walker
+
+#quote[Infomap è un algoritmo di community detection che minimizza la "map equation", una funzione information-theorica che misura la lunghezza media del codice per descrivere il percorso di una random walk sul grafo. Prima di ottimizzare le comunità, simula una random walk per calcolare le frequenze di visita ergodiche dei nodi (steady-state probabilities), usate per costruire un codebook Huffman ottimale per la descrizione del flusso.]
+
+non è deterministico.
+
+un ulteriore metodo è quello delle label percolation oppure label convergence. ad ogni nodo viene assegnato randomicamente un colore o una label. successivamente, inizierà ad ispezionare le label/colore dei suoi vicini. dopo aver concluso, l'ispezione al tempo t1, sceglierà il colore più frequente dei suoi vicini. se c'è un pareggio, allora ne sceglierà uno tra i più frequenti, randomicamente. questa ispezione continua finché quel nodo e tutti i suoi vicini avranno un colore. è un algoritmo molto semplice che converge velocemente. anche questo non è deterministico.
+
+la community detection può avvenire sia su reti statiche (snapshots ad un determinato tempo), sia su reti dinamiche. con reti dinamiche assumiamo che la rete nel tempo si modifichi, e con esse, le community. questo vuol dire che un nodo può cambiare community di appartenenza, può avere nuovi archi o può scomparire del tutto. un modo naive per gestire le reti dinamiche è quello di assumere che ogni snapshot sia indipendente tra di essi e quindi calcolare atomicamente le community detection. però, ricerche trovano che i risultati possono essere molto diversi. quindi, si può ricorrere ad una funzione di _evolutionary clustering_. date le community a t e a t-1 e dato un parametro $alpha$ che rappresenta, basically, quanta importanza dare a t attuale e alla similarità di (t-1) (rispettivamente alpha, (1-alpha) ). con diversi valori di alpha possiamo avere anche molto diversi valori. tutto dipende da quanta importanza vogliamo dare agli snapshot passati. $ Q = alpha ("your fav c.d. algorithm")_t + (1-alpha) J_(t-1) $
+Qui, $J$ è il Jaccard index, ovvero un indice di similarità tra due insiemi.
+
+==== Modularity
++ *Modularity*: La modularità è una misura che valuta la qualità di una _community evaluation_ in una rete. Un alto grado di modularità significa che ci sarà un'alta densità tra i nodi nella stessa community e una densità minore tra un nodo in una community e uno all'infuori della comunità. Rappresenta la densità interna delle community. Ha anche lo scopo di ottimizzare la funzione di suddivisione in community, con l'obiettivo di massimizzare la modularità. Data $A$ la matrice delle adiacenze e $delta$ la funzione delta di Kronecker, la modularità è definita da: $ M = 1/(2|E|) sum_(i,j in V) \[A_(i j) - (deg(i) deg(j))/(2|E|) \] delta (c_i, c_j) $
+
+il dominio va da -0.5 a +1. minimo vuol dire che c'è disassortatività totale e +1 community perfetta. 0 vuol dire che il grafo non ha struttura.
+
+questa misura ha vari problemi nella massimizzazione. durante la max, tende a convergere quando raggiunge $sqrt(|E|)$ community. a volte aggrega community che, ad interpretazione umana, sono due community diverse. inoltre, fluttuazioni random nella struttura del grafo, fanno divergere la modularità.
 
 === Proprietà principali
 La teoria dei grafi e la network science sono altamente interconnesse. Quest'ultima usa la teoria dei grafi per rappresentare le informazioni ed eseguire algoritmi sulle sue strutture dati. Però, per facilità di comprensione, qui ci riferiremo in particolare alle proprietà che vengono studiate in reti complesse, perché danno informazioni maggiormente su scala globale, invece che locale.
@@ -259,8 +298,6 @@ La teoria dei grafi e la network science sono altamente interconnesse. Quest'ult
 + *Assortatività e Disassortatività*: L'assortatività è una misura quantitativa per rappresentare l'omofilia. Al contrario, la disassortatività rappresenta l'eterofilia. L'intuizione dell'assortatività è quella di prendere features numeriche e, data una connessione tra due nodi, stimarne la similarità (es. due nodi con valore 1 e 5 sono più vicini rispetto a due nodi con valore 1 e 5000). La proprietà più comune è il grado di due nodi, in cui si assume che due nodi con grado molto alto, si leghino tra loro. Ad esempio, nei social networks, è più probabile che una celebrità si connetta ad un'altra.
 
 + *Coefficiente di Clustering*: È una proprietà che misura quanto, in una rete, i nodi tendono a essere connessi tra di loro. Soprattutto nelle reti sociali, i nodi tendono ad avere un'alta densità di collegamenti. È una misura locale o globale. A livello locale, misura quanto è probabile che i vicini di un nodo tendono a formare una cricca. Dato $N$ l'insieme dei vicini di $i$ e $k_i = |N|$: $ C C_i = (|{ e_(j k) : v_j, v_k in N, e_(k j) in E }|)/(k_v\(k_v-1\)) $\ A livello globale, invece, ci si basa su triple di nodi (triangoli o triadi). Il coefficiente globale di clustering rappresenta quanti triangoli chiusi ci sono, rispetto a tutte le triadi in una rete: $ C C = (\# "triangles")/(\# "triads") $
-
-+ *Modularity*: La modularità è una misura che valuta la qualità di una _community evaluation_ in una rete. Un alto grado di modularità significa che ci sarà un'alta densità tra i nodi nella stessa community e una densità minore tra un nodo in una community e uno all'infuori della comunità. Rappresenta la densità interna delle community. Ha anche lo scopo di ottimizzare la funzione di suddivisione in community, con l'obiettivo di massimizzare la modularità. Data $A$ la matrice delle adiacenze e $delta$ la funzione delta di Kronecker, la modularità è definita da: $ M = 1/(2|E|) sum_(i,j in V) \[A_(i j) - (deg(i) deg(j))/(2|E|) \] delta (c_i, c_j) $
 
 === Node Vector Distance
 Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi.
