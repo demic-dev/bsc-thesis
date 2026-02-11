@@ -145,18 +145,34 @@
 #pagebreak()
 
 = Introduzione
-Introduzione bla bla...
+#quote[Questa parte, da scrivere quando avrò finito la tesi...]
+
+Qualcosa del tipo: in questa tesi ... Nel primo capitolo ... etc.
 
 == NERDS: Network, Data and Society
-#quote[Si consiglia di premettere una descrizione dell'ente presso il quale è stato svolto il tirocinio e delle attivita svolte;  ]\
 
-Il gruppo di ricerca NERDS (_Network, Data and Society_), si trova a Copenhagen, nella ITU (IT-Universitetet i København) e si concentra sullo studio delle applicazioni di data science e network science nell'ambito delle scienze sociali. Dalla sua fondazione, il loro focus è
+NERDS è il gruppo di ricerca presso il quale ho svolto il mio tirocinio. È un gruppo di ricerca interdisciplinare, che studia Network Science, Intelligenza Artificiale (AI) e Computational Social Science (CSS). L'ambiente, anch'esso, è interdisciplinare: ha studenti, PhD, PostDoc e professori con background in fisica, informatica, matematica e sociologia. Si trova a Copenhagen, all'interno della IT-Universitetet i København (ITU). Gli interessi di ricerca, includono, tra i vari, anche: science of science, reti sociali, reti complesse, sostenibilità urbana, mobilità urbana ed umana, visualizzazione di dati e aspetti fondamentali dei sistemi complessi.\
+Durante il mio tirocinio, sono stato affiancato dal mio professore, Michele Coscia, che durante la sua carriera ha studiato polarizzazione social networks bla bla
 
-== Social Network Analysis
-#quote[è consigliabile inoltre descrivere brevemente il tema del lavoro mostrandone il rapporto con le attivita svolte dall'ente ospitante.]
+== Computational Social Science
+Le Scienze Sociali Computazionali (o Computational Social Science, CSS), è una scienza che studia le scienze sociali classiche (sociologia, antropologia, economia e scienze politiche) mediante l'uso di strumenti odierni per studiarle con approcci innovativi e su larga scala.\
+La CSS, utilizza due approcci principali: uno _empirico_, che fa leva su big data per generalizzare problemi e restituire analisi ed inferenze utili per affrontare la ricerca, e uno _scientifico_, che permette di creare modelli e simulazioni di certi fenomeni. Inoltre, negli ultimi anni, grazie all'esplosione dell'intelligenza artificiale, strumenti come il Natural Language Processing (NLP) o i più recenti Large Language Model (LLM) hanno accelerato la ricerca, grazie alla loro capacità di annotare dati con accuratezza più alta rispetto ad un umano non esperto; di conseguenza, è diventato possibile automatizzare tali task che altrimenti avrebbero richiesto una elevata quantità di tempo #footnote[Annotare manualmente milioni di dati può compromettere la fattibilità di un progetto @Sylolypavan2023-ov.] o di denaro #footnote[Servizi come Amazon Mechanical Turk (https://www.mturk.com/) possono essere costosi per laboratori con fondi limitati.]. Nei capitoli successivi, porteremo un esempio concreto di annotazioni automatiche tramite modelli NLP prima e LLM dopo, che hanno avuto un'utilità enorme nel progetto, per classificare la tossicità e l'opinione politica dei messaggi inviati dagli utenti. Mostreremo anche un test per misurare l'attendibilità dei modelli utilizzati.
+
+In questa tesi useremo un approccio empirico della CSS; analizzeremo i dati di una rete sociale (Reddit) per stabilirne la polarizzazione politica. Nei capitoli successivi, introdurremmo quindi il concetto di polarizzazione (a livello sociologico) e la Network Science, una scienza che studia le reti complesse.
 
 == Obiettivi della tesi
-#quote[L'introduzione dovrebbe poi contenere gli obiettivi del lavoro svolto (esigenze e motivazioni dell'ente ospitante, soluzioni alternative prese in considerazione, precedenti progetti effettuati dall'ente) e le modalita di svolgimento del progetto (con eventuale piano delle attivita).]\
+
+Il lavoro iniziale fa un'analisi estesa sui subreddit (ovvero comunità, ne parleremo in dettaglio nel capitolo successivo) politici di Reddit, mostrando come sono cambiati negli anni, la distribuzione di democratici e repubblicani e di come è cambiata l'opinione degli utenti nel tempo su sette argomenti (_aborto_, _cambiamenti climatici_, _identità di genere_, _controllo delle armi_, _sanità_, _razzismo_ e _immigrazione_), che sono diventati sempre più divisivi nel dibattito pubblico. Analizza anche le polarizzazioni ideologiche e affettive di questa rete sociale, fenomeni che hanno portato gli utenti di Reddit ad interagire solamente con utenti con idee affine alle loro.
+\ Questo studio è incentrato sul contesto statunitense, poiché più del 50% degli utenti che visita il sito ogni giorno è statunitense e abbiamo a disposizione una grande quantità di dati da analizzare.
+
+Una rete è formata da un insieme di nodi, che rappresenta l'insieme degli utenti, e un insieme di archi, che dimostra che due utenti hanno avuto un'interazione significativa tra di loro.
+
+Il limite del progetto, era quello di rappresentare le reti come reti non dirette, perdendo quindi la direzionalità dell'informazione. Quindi, il mio lavoro si inserisce in un'espansione del progetto iniziale, ovvero il supporto delle reti dirette e, successivamente, analizzare se i nuovi risultati sono, per primo, attendibili e congruenti a quanto dovrebbero; secondo, se ci possono essere utili per conoscere meglio la rete iniziale, dandoci informazioni che prima non avevamo.
+\ Il mio lavoro si concentra maggiormente nel calcolo della polarizzazione, usando un nuovo metodo che consente di calcolare la matrice Laplaciana su reti dirette. In più, proveremo ad estendere il calcolo anche su reti con segno. L'euristica è che, se un messaggio supera una certa tossicità, allora l'interazione tra due utenti è considerata negativa, e quindi ha un punteggio diverso. Intuitivamente, ci aspettiamo che la polarizzazione ideologica aumenti.
+
+In sintesi, vogliamo capire se ha senso aggiungere complessità supportando le reti dirette, oppure se con le reti non dirette riusciamo ad avere un'approssimazione che ci soddisfa.
+
+Solitamente, nella Network Science, vengono preferite reti semplici, quindi non dirette, poiché è complicato adattare tutte le misure su reti dirette, e in alcuni casi non è proprio possibile. L'obiettivo finale è quello di aggiungere un tassello in più nel grande puzzle della generalizzazione e comprensione dei sistemi complessi.
 
 #pagebreak()
 
@@ -246,7 +262,35 @@ La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-A
 il null model è un modello usato come benchmark rispetto ad una rete reale. è un modello che, data una rete, mantiene delle proprietà specificate (densità, degree, ...) per trovare correlazioni tra proprietà: se data una rete reale con proprietà X, accade Y, allora creiamo vari null models che incorporano la proprietà X e vediamo se la conseguenza Y rimane. se rimane, possiamo dire, con un certo grado di accuratezza, che la proprietà Y è correlata alla presenza della proprietà X.
 un null model può essere randomico o generativo. il randomico più comune è ottenuto tramite il processo di rewiring, ovvero, dato un insieme di archi, questi vengono randomicamente riscritti, per preservare il grado di ogni nodo (es. A -> B e C -> D diventano A -> C e B -> D). invece, con l'approccio generativo, date delle null hypotesis che devono, alla fine, essere raggiunte e rispettate, partiamo da un subset di nodi/archi e aggiungiamo nodi/archi fin quando non raggiungiamo le ipotesi iniziali che vogliamo mantenere.
 
-Spectral analysis...
+=== Spectral Analysis
+è lo studio degli eigenvalues e degli eigenvector della matrice laplaciana di un grafo (spiegherò meglio sotto cosa sia). definizione formale degli eigenvalues: $ 0 = lambda_1 <= lambda_2 <= ... <= lambda_n $
+
+la spectral analisis è importante xk da informazioni sulla struttura del grafo, per esempio il fiedler value è utile per l'algebraic connettivity, oppure nella risoluzione del graph coloring problem.
+viene anche usata per il graph drawing perché sono facili da "vedere" per chiunque, sono "aesthetically pleasing"(spectral approach, Hall). è utile anche per approssimare una matrice alla matrice delle adiacenze con un rango inferiore (low rank approximation)
+
+lambda_2 ha anche molte altre utilità (pag 16 del paper)
+
+ha le seguenti props:
++ The all-1s vctor is always an eigenvector of L G of eigenvalue 0.
+
++ The largest eigenvalue of the adjacency matrix is at least the average degree of a vertex of G and at most the maximum degree of a vertex of G (see [9] or [10, Section 3.2]).
++ If G is connected, then α1 > α2 and the eigenvector of α1 may be taken
+to be positive (this follows from the Perron-Frobenius theory; see [11]).
++ The all-1s vector is an eigenvector of AG with eigenvalue α1 if and only if G is an α1 -regular graph.
++ The multiplicity of 0 as an eigenvalue of L G is equal to the number of connected components of L G .
++ The largest eigenvalue of L G is at most twice the maximum degree of a vertex in G.
++ αn = −α1 if and only if G is bipartite (see [12], or [10, Theorem 3.4]).
+
+==== Laplacian
+la laplacian rappresenta un grafo ed è una matrice che incorpora le informazioni di grado e topologia di un grafo. si costruisce con $L = D - A$ (spiegare come... e cosa sono). nel caso di grafi diretti, la matrice è asimmetrica e si prendono l'indegree e l'outdegree, però così facendo non è simmetrica, quindi si rende il grafo non diretto per mantere le proprietà della laplacian classica e poterla usare per i vari motivi per cui viene usata
+
+studiando gli autovalori e gli autovettori della laplacian possiamo ottenere informazioni strutturali importanti sulla rete, specie studiando il fiedler value o lo Spectral gap. viene usata per lo spectral clustering.
+
+also, rispetta le seguenti proprietà
+- è simmetrica
+- è positiva-semidefinita (tutti i suoi autovalori >= 0)
+- autovalore[0] = 0
+- la somma di tutte le righe o tutte le colonne = 0
 
 === Community Discovery
 Community discovery è una pratica che ha molti use case . si usa per il backboning (es. rimuovere nodi simili tra loro, semplifico la rete e lascio solo un nodo "rappresentante" di una community), oppure per trovare i nodi simili tra di loro e raggrupparli in cluster o partizioni (es. mi interessa sapere come si comportano nodi che appartengono alla stessa community. posso fare inferenza su un altro nodo, ad es nel marketing).
@@ -291,16 +335,6 @@ questa misura ha vari problemi nella massimizzazione. durante la max, tende a co
 La teoria dei grafi e la network science sono altamente interconnesse. Quest'ultima usa la teoria dei grafi per rappresentare le informazioni ed eseguire algoritmi sulle sue strutture dati. Però, per facilità di comprensione, qui ci riferiremo in particolare alle proprietà che vengono studiate in reti complesse, perché danno informazioni maggiormente su scala globale, invece che locale.
 
 + *Distribuzione del Grado*: Nei paragrafi precedenti, abbiamo visto cosa significa il grado di un nodo in un grafo. Se accumuliamo tutti i gradi dei nodi in una rete, possiamo calcolare la probabilità, dato un nodo in un grafo, che questo abbia grado $y$: $P(deg(x) = y) = z$. La distribuzione del grado non è altro che la distribuzione delle probabilità rispetto ai gradi dei nodi nella rete. Data una rete di $n$ nodi, la probabilità che un nodo abbia grado $k$ equivale a: $ P(k) = (n_k)/n $
-
-+ *Laplacian*: la laplacian rappresenta un grafo ed è una matrice che incorpora le informazioni di grado e topologia di un grafo. si costruisce con $L = D - A$ (spiegare come... e cosa sono). nel caso di grafi diretti, la matrice è asimmetrica e si prendono l'indegree e l'outdegree, però così facendo non è simmetrica, quindi si rende il grafo non diretto per mantere le proprietà della laplacian classica e poterla usare per i vari motivi per cui viene usata
-
-studiando gli autovalori e gli autovettori della laplacian possiamo ottenere informazioni strutturali importanti sulla rete, specie studiando il fiedler value o lo Spectral gap. viene usata per lo spectral clustering.
-
-also, rispetta le seguenti proprietà
-- è simmetrica
-- è positiva-semidefinita (tutti i suoi autovalori >= 0)
-- autovalore[0] = 0
-- la somma di tutte le righe o tutte le colonne = 0
 
 + *Omofilia ed Eterofilia*: L'omofilia è una proprietà qualitativa che esprime quanto dei nodi in una rete sono vicini tra di loro se esprimono features simili. È uno dei metodi di community discovery, perché si parte dall'assunzione sociologica in cui le persone tendono a relazionarsi con persone simili tra di loro (stesso genere, età simile, stesse passioni o interessi) e si riusa nello studio delle reti perché si assume che nodi con features simili, tendano ad essere connessi. Questo accade sia per motivi comportamentali (l'utente in un social network ricerca solo persone/pagine che rispettano i propri interessi), sia per motivi ambientali (l'algoritmo di un social network mostra all'utente maggiormente post che potrebbero interessargli). L'eterofilia, invece, è l'esatto opposto.
 
