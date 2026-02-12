@@ -1,5 +1,4 @@
-#import "@preview/h-graph:0.1.0": *
-#show raw.where(lang: "graph"): enable-graph-in-raw(polar-render)
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 
 // Page setup
 #set page(
@@ -178,6 +177,7 @@ Solitamente, nella Network Science, vengono preferite reti semplici, quindi non 
 
 = Descrizione delle attivita preliminari
 #quote[Descrivere brevemente le attivita preliminari svolte, quali studio e analisi di soluzioni esistenti, studio delle tecnologie utilizzate nel seguito del lavoro.]\
+In questo capitolo ...
 
 == Social Network Analysis
 
@@ -261,7 +261,8 @@ La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-A
 
 il null model è un modello usato come benchmark rispetto ad una rete reale. è un modello che, data una rete, mantiene delle proprietà specificate (densità, degree, ...) per trovare correlazioni tra proprietà: se data una rete reale con proprietà X, accade Y, allora creiamo vari null models che incorporano la proprietà X e vediamo se la conseguenza Y rimane. se rimane, possiamo dire, con un certo grado di accuratezza, che la proprietà Y è correlata alla presenza della proprietà X.
 un null model può essere randomico o generativo. il randomico più comune è ottenuto tramite il processo di rewiring, ovvero, dato un insieme di archi, questi vengono randomicamente riscritti, per preservare il grado di ogni nodo (es. A -> B e C -> D diventano A -> C e B -> D). invece, con l'approccio generativo, date delle null hypotesis che devono, alla fine, essere raggiunte e rispettate, partiamo da un subset di nodi/archi e aggiungiamo nodi/archi fin quando non raggiungiamo le ipotesi iniziali che vogliamo mantenere.
-
+=== Backboning
+aaaa
 === Spectral Analysis
 è lo studio degli eigenvalues e degli eigenvector della matrice laplaciana di un grafo (spiegherò meglio sotto cosa sia). definizione formale degli eigenvalues: $ 0 = lambda_1 <= lambda_2 <= ... <= lambda_n $
 
@@ -359,13 +360,24 @@ Formalmente, data una rete non diretta $G = (V, E)$, dove $V$ è l'insieme dei n
 Tramite la NVD, misuriamo la diffusione della proprietà $A$ tra i nodi:
 
 #figure(
-  [
-    ```graph
-    #scl: 1;
-    1 - 2;
-    2 - 3;
-    ```
-  ],
+  diagram(
+    node-stroke: .1em,
+    node-fill: gradient.radial(
+      blue.lighten(80%),
+      blue,
+      center: (30%, 20%),
+      radius: 80%,
+    ),
+    spacing: 4em,
+    edge((-1, 0), "r", "-|>", `open(path)`, label-pos: 0, label-side: center),
+    node((0, 0), `reading`, radius: 2em, fill: green),
+    edge(`read()`, "-|>"),
+    node((1, 0), `eof`, radius: 2em),
+    edge(`close()`, "-|>"),
+    node((2, 0), `closed`, radius: 2em, extrude: (-2.5, 0)),
+    edge((0, 0), (0, 0), `read()`, "--|>", bend: 130deg),
+    edge((0, 0), (2, 0), `close()`, "-|>", bend: -40deg),
+  ),
   caption: "voglio fare due grafi uno accanto all'altro. il primo ha il primo nodo più colorato e i successivi pochissimi, il secondo ha l'ultimo molto colorato e i precedenti pochissimo.",
   supplement: "Figure",
 )
@@ -428,16 +440,21 @@ In data Dicembre 2025, è nella top 10 dei siti più visitati al mondo, ed è il
 == Procedura di costruzione della rete
 Per la realizzazione delle reti, prima di tutto scarichiamo un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
 
-Suddividiamo questa sezione in 9 fasi:
+Suddividiamo questa sezione in n fasi:
 
 + *Data Filtering*: Manteniamo solamente i subreddit politici americani; Successivamente, filtriamo dai dati i subreddit non politici e gli utenti che sono classificati come bot, ovvero utenti che però sono controllati da script e che rispondono in automatico in seguito a certi triggers; Otteniamo così un database che contiene tutti i post e commenti degli utenti, dalla creazione di Reddit, fino ad oggi.
+partendo da .zip, rimuoviamo i subreddit non us e poi filtriamo i subreddit non politici. rimuoviamo i messaggi che sono stati scritti da bot (solitamente i bot sono conosciuti e hanno risposte automatiche. inoltre, ci sono varie liste online di bot. in piu, alla fine hanno la desinenza \_bot. quindi son facili da trovare)
 + *Preliminary Network*: Dato che abbiamo a che fare con una mole di dati enorme, è bene continuare la procedura di filtro, filtrando i messaggi che hanno una lunghezza minore a 15 caratteri e che quindi hanno una lunghezza significativa; Successivamente, andiamo a costruire una rete preliminare. Per ogni settimana, selezioniamo tutti i post e commenti. Definiamo un nodo per ogni utente che ha scritto almeno un post/commento significativo, un arco invece se un utente ha interagito con un altro utente. Avremo $n$ reti dove ogni nodo rappresenta un utente e ogni arco rappresenta le interazioni tra i due utenti;
+partendo da una cartella con i messaggi divisi per mesi, iniziamo a fare una divisione per settimane. prima di tutto, rimuoviamo dall'immagine i messaggi che non hanno una lunghezza significativa, che nel nostro caso, significa almeno 15 lettere. manteniamo solo gli utenti che hanno mandato una quantita di mesaggi nella media ($|M| > a v g(|M|)$). successivamente iniziamo a creare una rete dove ogni nodo e' un utente e ogni arco e' un'interazione. se due utenti hanno interagito molto tra loro, avranno piu archi che li collegano e quindi un peso maggiore. per il backboning, viene utilizzato il metodo noise-corrected. l'obiettivo e' di mantenere piu' nodi possibili, ma di minimizzare il numero di archi. alla fine, viene restituito il LCC. al fine di anonimizzare i dati - e renderli apposto con il GDPR -, viene assegnato un nuovo id ad ogni utente. per collegare lo stesso utente nel tempo, si mantiene una tabella globale che verifica se l'utente esiste gia o meno.
 + *Topic detection*: Usiamo il modello BERTopic per classificare tutti i topic dei messaggi selezionati e per assegnare ad ogni messaggio, un topic. I macrotopic che assegneremo ad ogni messaggio sono: _abortion_, _climate_, _gender_, _guns_, _health_, _racial justice_ e _unauthorized immigration_.
+per ogni rete, iteriamo sui messaggi e utilizziamo il modello berttopic per classificare ogni messaggio con il suo argomento. prima lo trainiamo con 4k messaggi di ogni settimana, poi lo eseguiamo su ogni messaggio di ogni settimana. alla conclusione, i topic son stati aggregati e manualmente selezionati 7 macrotopic (quelli di sopra). droppiamo i messaggi che non hanno topic rilevanti
 + *Toxicity*: Tramite il modello detoxify @Detoxify, calcoliamo la tossicità di ogni messaggio. Usiamo le impostazioni di default.
 + *Stance*: Misuriamo la posizione politica di ogni messaggio, utilizzando il modello LLM Llama 3 di Meta, open source. Chiediamo, tramite il seguente prompt, se un determinato messaggio può essere scritto da un utente con idee democratiche o repubblicane:```txt
     You are an expert political scientist. The following message is part of the debate on {topic} in the United States. In this debate there are two sides. Side D thinks {democratic_opinion}. Side R thinks {republican_opinion}. If the message is ambiguous, it belongs to side U. Classify the following message as belonging to side D, R, or U. You can only reply with one letter between D, R, or U, no other answer is acceptable."
   ``` Il prompt non ha alcun contesto addizionale e restituisce al massimo un token: `D`, `R` oppure `U`.
+startiamo llama e gli forniamo come prompt quello che ho scritto sopra. per ogni topic, c'e un prompt diverso, adattato a quest'ultimo. vengono ritornati i token R e D, con le rispettive probabilita'. vengono sottratte le probabilita che sia d oppure r, per ottenere quanto e' dem/rep. l'idea e' che +1 = 100% R, -1 = 100% D.
 + *Rete finale*: Finora, le evaluation che abbiamo fatto si riferiscono al singolo messaggio. Al fine di creare una rete che raggruppi le interazioni tra gli utenti, aggreghiamo la tossicità e l'opinione politica media e la assegnamo ad ogni utente, su ognuno dei topic citati sopra. Nel caso in cui per un utente non abbiamo abbastanza dati a disposizione in una settimana, risolviamo il problema in due modi: tramite la _rolling opinion_, ovvero assumiamo che la sua opinione sia simile a quella delle settimane precedenti e quindi prendiamo in considerazione anche i messaggi precedenti, oppure la _zombie mode_: se un utente non ha espresso opinioni su alcuni dei topic, assumiamo che la sua opinione su un altro topic, coincida con la sua tendenza ad avere opinioni vicine ai democratici o repubblicani su tutti gli altri topic.\ Restituiamo il Largest Connected Component (LCC) di ogni rete.
+infine, creiamo la rete. modalita zombie o rolling. selezioniamo l'LCC perche abbiamo bisogno di una rete connessa. prima di ritornare, facciamo la PCA sui vari topic.
 
 
 
