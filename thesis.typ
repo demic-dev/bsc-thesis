@@ -362,37 +362,28 @@ Tramite la NVD, misuriamo la diffusione della proprietà $A$ tra i nodi:
 #figure(
   diagram(
     node-stroke: .1em,
-    node-fill: gradient.radial(
-      blue.lighten(80%),
-      blue,
-      center: (30%, 20%),
-      radius: 80%,
-    ),
-    spacing: 4em,
-    edge((-1, 0), "r", "-|>", `open(path)`, label-pos: 0, label-side: center),
-    node((0, 0), `reading`, radius: 2em, fill: green),
-    edge(`read()`, "-|>"),
-    node((1, 0), `eof`, radius: 2em),
-    edge(`close()`, "-|>"),
-    node((2, 0), `closed`, radius: 2em, extrude: (-2.5, 0)),
-    edge((0, 0), (0, 0), `read()`, "--|>", bend: 130deg),
-    edge((0, 0), (2, 0), `close()`, "-|>", bend: -40deg),
+    spacing: 3em,
+    node((0, 0), `1`, radius: 1em, fill: red),
+    edge(``, "-"),
+    node((1, 0), `2`, radius: 1em),
+    edge(``, "-"),
+    node((2, 0), `3`, radius: 1em),
+    // ---------------------------------------
+    node((3, 0), `1`, radius: 1em, fill: red.lighten(90%)),
+    edge(``, "-"),
+    node((4, 0), `2`, radius: 1em, fill: red.lighten(75%)),
+    edge(``, "-"),
+    node((5, 0), `3`, radius: 1em, fill: red.lighten(35%)),
   ),
-  caption: "voglio fare due grafi uno accanto all'altro. il primo ha il primo nodo più colorato e i successivi pochissimi, il secondo ha l'ultimo molto colorato e i precedenti pochissimo.",
-  supplement: "Figure",
+  caption: [$A = [1, 0, 0]$ (sx). $A = [0.1, 0.25, 0.65]$ (dx)],
 )
 
 Concretamente, esistono quattro classi di soluzione per poter calcolare la NVD:
 
-+ Generalized Euclidean
-+ Shortest-Path
-+ Spectral
-+ Adaptions of NVD-Algorithms
-
-==== Generalized Euclidean
-==== Shortest-Path
-==== Spectral
-==== Adaptions of NVD-Algorithms
++ *Generalized Euclidean*:
++ *Shortest-Path*:
++ *Spectral*:
++ *Adaptions of NVD-Algorithms*:
 
 == Python
 Python è un linguaggio di programmazione interpretato, orientato agli oggetti, di alto livello con semantica dinamica. Le sue strutture dati integrate di alto livello, combinate con la tipizzazione dinamica e il binding dinamico, lo rendono molto interessante per lo sviluppo rapido di applicazioni, nonché per l'uso come linguaggio di scripting o di collegamento per connettere tra loro componenti esistenti. La sintassi semplice e facile da imparare di Python enfatizza la leggibilità e quindi riduce i costi di manutenzione dei programmi.
@@ -440,23 +431,35 @@ In data Dicembre 2025, è nella top 10 dei siti più visitati al mondo, ed è il
 == Procedura di costruzione della rete
 Per la realizzazione delle reti, prima di tutto scarichiamo un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
 
-Suddividiamo questa sezione in n fasi:
+Suddividiamo questa sezione in 6 fasi:
 
-+ *Data Filtering*: Manteniamo solamente i subreddit politici americani; Successivamente, filtriamo dai dati i subreddit non politici e gli utenti che sono classificati come bot, ovvero utenti che però sono controllati da script e che rispondono in automatico in seguito a certi triggers; Otteniamo così un database che contiene tutti i post e commenti degli utenti, dalla creazione di Reddit, fino ad oggi.
-partendo da .zip, rimuoviamo i subreddit non us e poi filtriamo i subreddit non politici. rimuoviamo i messaggi che sono stati scritti da bot (solitamente i bot sono conosciuti e hanno risposte automatiche. inoltre, ci sono varie liste online di bot. in piu, alla fine hanno la desinenza \_bot. quindi son facili da trovare)
-+ *Preliminary Network*: Dato che abbiamo a che fare con una mole di dati enorme, è bene continuare la procedura di filtro, filtrando i messaggi che hanno una lunghezza minore a 15 caratteri e che quindi hanno una lunghezza significativa; Successivamente, andiamo a costruire una rete preliminare. Per ogni settimana, selezioniamo tutti i post e commenti. Definiamo un nodo per ogni utente che ha scritto almeno un post/commento significativo, un arco invece se un utente ha interagito con un altro utente. Avremo $n$ reti dove ogni nodo rappresenta un utente e ogni arco rappresenta le interazioni tra i due utenti;
-partendo da una cartella con i messaggi divisi per mesi, iniziamo a fare una divisione per settimane. prima di tutto, rimuoviamo dall'immagine i messaggi che non hanno una lunghezza significativa, che nel nostro caso, significa almeno 15 lettere. manteniamo solo gli utenti che hanno mandato una quantita di mesaggi nella media ($|M| > a v g(|M|)$). successivamente iniziamo a creare una rete dove ogni nodo e' un utente e ogni arco e' un'interazione. se due utenti hanno interagito molto tra loro, avranno piu archi che li collegano e quindi un peso maggiore. per il backboning, viene utilizzato il metodo noise-corrected. l'obiettivo e' di mantenere piu' nodi possibili, ma di minimizzare il numero di archi. alla fine, viene restituito il LCC. al fine di anonimizzare i dati - e renderli apposto con il GDPR -, viene assegnato un nuovo id ad ogni utente. per collegare lo stesso utente nel tempo, si mantiene una tabella globale che verifica se l'utente esiste gia o meno.
-+ *Topic detection*: Usiamo il modello BERTopic per classificare tutti i topic dei messaggi selezionati e per assegnare ad ogni messaggio, un topic. I macrotopic che assegneremo ad ogni messaggio sono: _abortion_, _climate_, _gender_, _guns_, _health_, _racial justice_ e _unauthorized immigration_.
-per ogni rete, iteriamo sui messaggi e utilizziamo il modello berttopic per classificare ogni messaggio con il suo argomento. prima lo trainiamo con 4k messaggi di ogni settimana, poi lo eseguiamo su ogni messaggio di ogni settimana. alla conclusione, i topic son stati aggregati e manualmente selezionati 7 macrotopic (quelli di sopra). droppiamo i messaggi che non hanno topic rilevanti
-+ *Toxicity*: Tramite il modello detoxify @Detoxify, calcoliamo la tossicità di ogni messaggio. Usiamo le impostazioni di default.
-+ *Stance*: Misuriamo la posizione politica di ogni messaggio, utilizzando il modello LLM Llama 3 di Meta, open source. Chiediamo, tramite il seguente prompt, se un determinato messaggio può essere scritto da un utente con idee democratiche o repubblicane:```txt
++ *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, perché l'analisi e' solo sui commmenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti della rete sociale che scrivono risposte automatiche in base a determinati triggers.
+
++ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato solamente una quantità di messaggi nella media (i self loop, quindi utenti che rispondono a se stessi, non vengono contati): $|M_u| > (sum_(u in U) |M|)/(|U|)$. Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due  utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore e' il numero di archi che li collega, maggiore e' il peso (la significativita' statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
+
+  Inoltre, al fine di anonimizzare i dati, e rendersi conforme al GDPR, viene assegnato un nuovo id all'utente. Viene mantenuta una tabella di mapping globale per rendere coerente l'id dell'utente tra le settimane e i mesi.
+
++ *Topic Detection*: Per ogni rete e per ogni messaggio di ogni rete, si utilizza il modello BERTopic @grootendorst2022bertopic per classificare automaticamente ogni messaggio con l'argomento più adatto. Ogni rete preliminare, viene divisa in due sottoinsiemi rispettivamente di allenamento (training) e di classificazione. Inizialmente, il modello viene addestrato con $4096$ messaggi per ogni settimana. Dopo il training, si iniziano ad etichettare tutti i messaggi di ogni rete. I topic vengono aggregati e, manualmente, vengono esaminati, raggruppati in macrotopic e scartati quelli non rilevanti. Infine, ad ogni messaggio viene assegnato uno dei seguenti topic:
+  - _abortion_: Technically not just about abortion, but rather reproductive health in general (birth control, pregnancy etc.)
+  - _climate_: Posts are about lobbying, global warming, renewable energy, deforestation, sea level, EVs, etc.
+  - _gender_: Contains posts on feminism, the gender wage gap, gender identities, LGBTQ+, pronouns etc.
+  - _guns_: Includes subtopics such as the NRA, gun policy, background checks, mass shootings, suicide, militias etc.
+  - _health_: Is a general health-related category comprising topics such as childcare, insurance, or drug development.
+  - _racial_justice_: Is about racial justice and law enforcement, broadly defined. Topics include Black Lives Matter, the police in general, calls for defunding, and arrests.
+  - _unauthorized_immigration_: Includes topics such as the US border, deportation, or kids and immigration in the US. The posts do not only focus on unauthorized immigration, but might also feature broader discussions about Latin American immigrants.
+
++ *Toxicity*: Viene calcolata la tossicità di ogni messaggio, con un punteggio che varia da 0 (messaggio educato e che rispetta l'interlocutore) ad 1 (messaggio volgare, con insulti o minacce verso l'interlocutore). Viene usato il modello _Detoxify_ @Detoxify con le impostazioni di default.
+
++ *Stance*: Tramite un modello LLM open source, Llama 3 @llama3modelcard, viene effettuato il rilevamento dell'opinione politica che ha un messaggio. L'opinione può essere di tipo democratico o repubblicano, il che rende più semplice la valutazione. Si inizializza un'istanza di Llama con il seguente messaggio (o prompt):```txt
     You are an expert political scientist. The following message is part of the debate on {topic} in the United States. In this debate there are two sides. Side D thinks {democratic_opinion}. Side R thinks {republican_opinion}. If the message is ambiguous, it belongs to side U. Classify the following message as belonging to side D, R, or U. You can only reply with one letter between D, R, or U, no other answer is acceptable."
-  ``` Il prompt non ha alcun contesto addizionale e restituisce al massimo un token: `D`, `R` oppure `U`.
-startiamo llama e gli forniamo come prompt quello che ho scritto sopra. per ogni topic, c'e un prompt diverso, adattato a quest'ultimo. vengono ritornati i token R e D, con le rispettive probabilita'. vengono sottratte le probabilita che sia d oppure r, per ottenere quanto e' dem/rep. l'idea e' che +1 = 100% R, -1 = 100% D.
-+ *Rete finale*: Finora, le evaluation che abbiamo fatto si riferiscono al singolo messaggio. Al fine di creare una rete che raggruppi le interazioni tra gli utenti, aggreghiamo la tossicità e l'opinione politica media e la assegnamo ad ogni utente, su ognuno dei topic citati sopra. Nel caso in cui per un utente non abbiamo abbastanza dati a disposizione in una settimana, risolviamo il problema in due modi: tramite la _rolling opinion_, ovvero assumiamo che la sua opinione sia simile a quella delle settimane precedenti e quindi prendiamo in considerazione anche i messaggi precedenti, oppure la _zombie mode_: se un utente non ha espresso opinioni su alcuni dei topic, assumiamo che la sua opinione su un altro topic, coincida con la sua tendenza ad avere opinioni vicine ai democratici o repubblicani su tutti gli altri topic.\ Restituiamo il Largest Connected Component (LCC) di ogni rete.
-infine, creiamo la rete. modalita zombie o rolling. selezioniamo l'LCC perche abbiamo bisogno di una rete connessa. prima di ritornare, facciamo la PCA sui vari topic.
+  ``` Ogni topic avrà un prompt con una struttura uguale, ma con il contenuto adattato ad esso. Data la natura probabilistica degli LLM, verranno restituiti i token `R` e `D`, con le rispettive probabilità. Viene assegnato il valore $-1$ per l'opinione democratica, e $+1$ per l'opinione repubblicana. Il valore numerico della posizione politica del messaggio, sarà: $p(R) - p(D)$.
 
++ *Final Network*: Come ultimo step, vengono create le reti finali. Le reti possono essere sia per topic, sia complete. Durante la costruzioen della rete, vengono raccolti gli utenti e i relativi messaggi di una settimana, i messaggi vengono raggruppati per topic e, infine, si fa una media generale rispetto alle opinioni rilevate in base ai suoi messaggi. Nel caso in cui un utente, in una settimana, non abbia scritto abbastanza commenti significativi, tali da riuscire a calcolare un punteggio rispetto alle sue opinioni, per ogni topic, vengono aggiunti due parametri:
+  - _rolling opinion_: assumiamo che la sua opinione durante la settimana $x$ sia simile alla sua opinione alle settimane precedenti ($x-1$, $x-2$, ..., $x-n$) e vengono quindi recuperati tutti i suoi messaggi nel dataset;
+  - _zombie mode_: se un utente non ha, invece, espresso opinioni su un determinato argomento, viene assunto che la sua posizione politica (democratica o repubblicana) su un argomento, sia la medesima anche sugli altri.
+  Viene restituito il componente connesso maggiore (LCC), poiché c'e' bisogno di una rete connessa.
 
+  In conclusione, viene eseguita una riduzione dei parametri tramite la Principal Component Analysis (PCA), con il fine di restituire un valore generale circa la posizione politica di un utente.
 
 #pagebreak()
 
