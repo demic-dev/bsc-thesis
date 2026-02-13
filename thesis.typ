@@ -261,26 +261,6 @@ La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-A
 
 il null model è un modello usato come benchmark rispetto ad una rete reale. è un modello che, data una rete, mantiene delle proprietà specificate (densità, degree, ...) per trovare correlazioni tra proprietà: se data una rete reale con proprietà X, accade Y, allora creiamo vari null models che incorporano la proprietà X e vediamo se la conseguenza Y rimane. se rimane, possiamo dire, con un certo grado di accuratezza, che la proprietà Y è correlata alla presenza della proprietà X.
 un null model può essere randomico o generativo. il randomico più comune è ottenuto tramite il processo di rewiring, ovvero, dato un insieme di archi, questi vengono randomicamente riscritti, per preservare il grado di ogni nodo (es. A -> B e C -> D diventano A -> C e B -> D). invece, con l'approccio generativo, date delle null hypotesis che devono, alla fine, essere raggiunte e rispettate, partiamo da un subset di nodi/archi e aggiungiamo nodi/archi fin quando non raggiungiamo le ipotesi iniziali che vogliamo mantenere.
-=== Backboning
-aaaa
-=== Spectral Analysis
-è lo studio degli eigenvalues e degli eigenvector della matrice laplaciana di un grafo (spiegherò meglio sotto cosa sia). definizione formale degli eigenvalues: $ 0 = lambda_1 <= lambda_2 <= ... <= lambda_n $
-
-la spectral analisis è importante xk da informazioni sulla struttura del grafo, per esempio il fiedler value è utile per l'algebraic connettivity, oppure nella risoluzione del graph coloring problem.
-viene anche usata per il graph drawing perché sono facili da "vedere" per chiunque, sono "aesthetically pleasing"(spectral approach, Hall). è utile anche per approssimare una matrice alla matrice delle adiacenze con un rango inferiore (low rank approximation)
-
-lambda_2 ha anche molte altre utilità (pag 16 del paper)
-
-ha le seguenti props:
-+ The all-1s vctor is always an eigenvector of L G of eigenvalue 0.
-
-+ The largest eigenvalue of the adjacency matrix is at least the average degree of a vertex of G and at most the maximum degree of a vertex of G (see [9] or [10, Section 3.2]).
-+ If G is connected, then α1 > α2 and the eigenvector of α1 may be taken
-to be positive (this follows from the Perron-Frobenius theory; see [11]).
-+ The all-1s vector is an eigenvector of AG with eigenvalue α1 if and only if G is an α1 -regular graph.
-+ The multiplicity of 0 as an eigenvalue of L G is equal to the number of connected components of L G .
-+ The largest eigenvalue of L G is at most twice the maximum degree of a vertex in G.
-+ αn = −α1 if and only if G is bipartite (see [12], or [10, Theorem 3.4]).
 
 ==== Laplacian
 la laplacian rappresenta un grafo ed è una matrice che incorpora le informazioni di grado e topologia di un grafo. si costruisce con $L = D - A$ (spiegare come... e cosa sono). nel caso di grafi diretti, la matrice è asimmetrica e si prendono l'indegree e l'outdegree, però così facendo non è simmetrica, quindi si rende il grafo non diretto per mantere le proprietà della laplacian classica e poterla usare per i vari motivi per cui viene usata
@@ -293,16 +273,32 @@ also, rispetta le seguenti proprietà
 - autovalore[0] = 0
 - la somma di tutte le righe o tutte le colonne = 0
 
+=== Backboning
+aaaa
+=== Spectral Analysis
+La Spectral Analysis è lo studio degli autovalori ed autovettori della matrice Laplaciana di un grafo. Data una Laplacian $L$, definiamo gli autovalori $lambda$: $ lambda in sigma(L) quad sigma(L) = {lambda | det(L - lambda I) = 0} $ e gli autovettori $v$: $ v in ker(L - lambda I), quad v eq.not 0 $
+Come definito sopra, il primo autovalore $lambda_0$ in una Laplacian è sempre uguale a $0$. Gli altri autovalori, invece, sono monotoni crescenti: $ 0 = lambda_1 <= lambda_2 <= ... <= lambda_n $
+
+La spectral analysis è importante perché fornice informazioni importanti sulla struttura del grafo. Può essere utilizzata per la risoluzione del graph coloring problem #footnote[fonte] o per effettuare una low-rank approximation (approssimazione della matrice delle adiacenze ad una matrice di rango inferiore) #footnote[fonte]. Inoltre, l'uso del secondo e terzo autovettore $v_2$ e $v_3$, vengono usati per la visualizzazione di grafi con un layout semplificato e più piacevole all'occhio umano (anche $v_4$ per visualizzarlo in tre dimensioni), come dimostrato da Hall @hall-quadratic-placement.
+
+Uno dei suoi usi più comuni invece risiede nello studio del secondo autovalore $lambda_2$, ovvero il Fiedler Value, chiamato anche _connettività algebrica_.\
+lambda_2 ha anche molte altre utilità (pag 16 del paper)
+
+Gli autovalori e autovettori, hanno le seguenti proprietà:
+
++ Il vettore di tutti 1 è sempre un autovettore del primo autovalore $lambda_1$ di $L$, di valore 0;
++ L'autovalore più grande della matrice delle adiacenze, è sempre compreso tra il grado medio e il grado massimo di un nodo in un grafo $G$; #footnote[see [9] or [10, Section 3.2]].
++ Se $G$ è connesso, allora $lambda_1$ > $lambda_2$ e l'autovettori $v_1$ sarà positivo; #footnote[see [11]].
++ The multiplicity of 0 as an eigenvalue of $L_G$ is equal to the number of connected components of $L_G$.
++ L'autovalore maggiore di $L$ è al massimo il doppio del grado massimo in $G$;
++ $lambda_n$ = -$lambda_1$ se e solo se $G$ è un grafo bipartito #footnote[see [12], or [10, Theorem 3.4]].
+
 === Community Discovery
-Community discovery è una pratica che ha molti use case . si usa per il backboning (es. rimuovere nodi simili tra loro, semplifico la rete e lascio solo un nodo "rappresentante" di una community), oppure per trovare i nodi simili tra di loro e raggrupparli in cluster o partizioni (es. mi interessa sapere come si comportano nodi che appartengono alla stessa community. posso fare inferenza su un altro nodo, ad es nel marketing).
+Studiando una rete, è frequente che si voglia analizzare se un gruppo di nodi forma una community. Ovvero, se questi possono essere raggruppati e suddivisi in base ad una proprietà in comune. Nella nostra societa', le community sono ovunque: persone che appartengono alla stessa citta, allo stesso gruppo di amici o che hanno lo stesso attore preferito. Chi vive in una determinata citta', sicuramente avra' molte interazioni con persone che vivono nella sua stessa citta'. Al contrario, ne avra' poche o nulle con chi vive in citta' differenti, per forza di cose. Il ragionamento e' il medesimo per le reti e la Network Science. Formalmente, una community si dice tale quando c'e' una densità molto alta tra i nodi della community ed interazioni sparse con i nodi al di fuori di essa.
 
-abbiamo una community quando tra i nodi c'è una densità molto alta tra i nodi della community e invece sparsamente connessi con i nodi fuori la community.
+Lo studio e la valutazione delle community in una rete, viene detto _community discovery_. Questa pratica ha svariati casi d'uso. Ad esempio, per il _backboning_, dove si possono individuare i nodi simili tra loro e rimuoverli, lasciando solo un nodo "rappresentante", al fine di semplificare la rete, oppure per raggruppare e classificare i nodi in cluster specifici, per testare il loro comportamento al cambio di determinate condizioni della rete (ad esempio nel campo dell'advertising e del marketing).
 
-Ci sono moltissimi modi per fare community discovery. non esiste la modalità perfetta, perché tutto dipende da qual è l'obiettivo di fare community discovery. in letteratura scientifica, son stati abbondantemente studiati e vengono tutt'ora studiati. generalmente, dividiamo quattro modi di classificarli:
-+ process: come vengono effettuate
-+ definition: dipende dal perché lo fai
-+ performance: rispetto a delle reti para-reali, quindi magari usando un null model o delle reti randomiche, come performano mediamente gli algoritmi di community evaluation?
-+ similarity: applicando sulla stessa rete reale vari algoritmi, questi danno risultati simili? ovviamente è difficile avere risultati uguali xk come detto alcuni algoritmi sono nati con obiettivi differenti, ma vediamo se i risultati sono simili
+La Community Discovery è un campo molto vasto, ed esistono svariati modi per raggruppare i nodi in comunità, e nuovi metodi vengono continuamente studiati. Infatti, non esiste il metodo definitivo, ma anzi tutto dipende dall'obiettivo che si vuole raggiungere. Generalmente, si da importanza alle performance del metodo di community detection e alla sua attendibilità, misurata con la somiglianza rispetto agli altri algoritmi.
 
 il primo metodo per la community discovery è quello del stochastic block model (SBM) e della maximum likelihood function.
 
@@ -429,37 +425,43 @@ Il sistema di raccomandazione in Reddit è gestito tramite gli upvotes e downvot
 In data Dicembre 2025, è nella top 10 dei siti più visitati al mondo, ed è il quarto social media più usato @ViewWeb.
 
 == Procedura di costruzione della rete
-Per la realizzazione delle reti, prima di tutto scarichiamo un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
+Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
 
-Suddividiamo questa sezione in 6 fasi:
+E' possibile suddividere questa sezione in 6 fasi:
 
-+ *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, perché l'analisi e' solo sui commmenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti della rete sociale che scrivono risposte automatiche in base a determinati triggers.
++ *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, perché l'analisi e' solo sui commmenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti di Reddit che scrivono risposte automatiche in base a determinati triggers.
 
-+ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato solamente una quantità di messaggi nella media (i self loop, quindi utenti che rispondono a se stessi, non vengono contati): $|M_u| > (sum_(u in U) |M|)/(|U|)$. Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due  utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore e' il numero di archi che li collega, maggiore e' il peso (la significativita' statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
++ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato solamente una quantità di messaggi nella media; (i self loop, quindi utenti che rispondono a se stessi, non vengono contati): $ |M_u| > (sum_(u in U) |M|)/(|U|) $Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due  utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore e' il numero di archi che li collega, maggiore e' il peso (la significativita' statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
 
-  Inoltre, al fine di anonimizzare i dati, e rendersi conforme al GDPR, viene assegnato un nuovo id all'utente. Viene mantenuta una tabella di mapping globale per rendere coerente l'id dell'utente tra le settimane e i mesi.
+  Inoltre, al fine di anonimizzare i dati, e rendersi conforme al GDPR, viene assegnato un nuovo id all'utente. Si mantiene una tabella di mapping globale per rendere coerente l'`id` dell'utente tra le settimane e i mesi.
 
 + *Topic Detection*: Per ogni rete e per ogni messaggio di ogni rete, si utilizza il modello BERTopic @grootendorst2022bertopic per classificare automaticamente ogni messaggio con l'argomento più adatto. Ogni rete preliminare, viene divisa in due sottoinsiemi rispettivamente di allenamento (training) e di classificazione. Inizialmente, il modello viene addestrato con $4096$ messaggi per ogni settimana. Dopo il training, si iniziano ad etichettare tutti i messaggi di ogni rete. I topic vengono aggregati e, manualmente, vengono esaminati, raggruppati in macrotopic e scartati quelli non rilevanti. Infine, ad ogni messaggio viene assegnato uno dei seguenti topic:
-  - _abortion_: Technically not just about abortion, but rather reproductive health in general (birth control, pregnancy etc.)
-  - _climate_: Posts are about lobbying, global warming, renewable energy, deforestation, sea level, EVs, etc.
-  - _gender_: Contains posts on feminism, the gender wage gap, gender identities, LGBTQ+, pronouns etc.
-  - _guns_: Includes subtopics such as the NRA, gun policy, background checks, mass shootings, suicide, militias etc.
-  - _health_: Is a general health-related category comprising topics such as childcare, insurance, or drug development.
-  - _racial_justice_: Is about racial justice and law enforcement, broadly defined. Topics include Black Lives Matter, the police in general, calls for defunding, and arrests.
-  - _unauthorized_immigration_: Includes topics such as the US border, deportation, or kids and immigration in the US. The posts do not only focus on unauthorized immigration, but might also feature broader discussions about Latin American immigrants.
+  - _abortion_: Raggruppa temi come l'aborto, i metodi contraccettivi e i diritti riproduttivi in generale;
+  - _climate_: Contiene commenti riguardo il riscaldamento globale, la deforestazione, i veicoli elettrici, lobby fossili, energie rinnovabili, etc.;
+  - _gender_: Commenti riguardo il femminismo, il divario retributivo di genere, l'identita' di genere, LGBTQ+, pronomi, etc.;
+  - _guns_: Raggruppa temi come regole sulle armi, associazioni lobbistiche sulle armi, sparatorie di massa, suicidi, milizie, etc.;
+  - _health_: Contiene commenti riguardo assistenza sanitaria, assistenza sanitaria per bambini, assicurazioni, sviluppo di farmaci, etc.;
+  - _racial_justice_: Riguarda la giustizia razziale e le forze dell'ordine, in senso lato. Gli argomenti trattati includono Black Lives Matter, la polizia in generale, le richieste di defunding e gli arresti.
+  - _unauthorized_immigration_: Include argomenti quali il confine degli Stati Uniti, l'espulsione o i bambini e l'immigrazione negli Stati Uniti. I post non si concentrano solo sull'immigrazione clandestina, ma possono anche trattare discussioni più ampie sugli immigrati latinoamericani.
 
 + *Toxicity*: Viene calcolata la tossicità di ogni messaggio, con un punteggio che varia da 0 (messaggio educato e che rispetta l'interlocutore) ad 1 (messaggio volgare, con insulti o minacce verso l'interlocutore). Viene usato il modello _Detoxify_ @Detoxify con le impostazioni di default.
 
-+ *Stance*: Tramite un modello LLM open source, Llama 3 @llama3modelcard, viene effettuato il rilevamento dell'opinione politica che ha un messaggio. L'opinione può essere di tipo democratico o repubblicano, il che rende più semplice la valutazione. Si inizializza un'istanza di Llama con il seguente messaggio (o prompt):```txt
++ *Stance*: Tramite un modello LLM open source, Llama 3 @llama3modelcard, viene effettuato il rilevamento dell'opinione politica che ha un messaggio. L'opinione può essere etichettata come democratica o repubblicana. Essendo una scelta binaria diventa piu' semplice effettuare una classificazione. Si inizializza un'istanza di Llama con il seguente messaggio (o prompt):```txt
     You are an expert political scientist. The following message is part of the debate on {topic} in the United States. In this debate there are two sides. Side D thinks {democratic_opinion}. Side R thinks {republican_opinion}. If the message is ambiguous, it belongs to side U. Classify the following message as belonging to side D, R, or U. You can only reply with one letter between D, R, or U, no other answer is acceptable."
-  ``` Ogni topic avrà un prompt con una struttura uguale, ma con il contenuto adattato ad esso. Data la natura probabilistica degli LLM, verranno restituiti i token `R` e `D`, con le rispettive probabilità. Viene assegnato il valore $-1$ per l'opinione democratica, e $+1$ per l'opinione repubblicana. Il valore numerico della posizione politica del messaggio, sarà: $p(R) - p(D)$.
+  ``` Ogni topic avrà un prompt con una struttura uguale, ma con il contenuto adattato ad esso. Data la natura probabilistica degli LLM, verranno restituiti i token `R` e `D`, con le rispettive probabilità. Viene assegnato il valore $-1$ per un'opinione democratica, e $+1$ per un'opinione repubblicana. Il valore finale della posizione politica del messaggio, sarà: $p(R) - p(D)$.
 
-+ *Final Network*: Come ultimo step, vengono create le reti finali. Le reti possono essere sia per topic, sia complete. Durante la costruzioen della rete, vengono raccolti gli utenti e i relativi messaggi di una settimana, i messaggi vengono raggruppati per topic e, infine, si fa una media generale rispetto alle opinioni rilevate in base ai suoi messaggi. Nel caso in cui un utente, in una settimana, non abbia scritto abbastanza commenti significativi, tali da riuscire a calcolare un punteggio rispetto alle sue opinioni, per ogni topic, vengono aggiunti due parametri:
++ *Final Network*: Come ultimo step, vengono create le reti finali. Le reti possono essere sia per topic, sia complete. Durante la costruzione della rete, vengono raccolti gli utenti e i relativi messaggi di una settimana; i messaggi vengono raggruppati per topic e, infine, si fa una media generale rispetto alle opinioni rilevate in base ai suoi messaggi. Nel caso in cui un utente, in una settimana, non abbia scritto abbastanza commenti significativi, tali da riuscire a calcolare un punteggio rispetto alle sue opinioni per ogni topic, si risolve il problema tramite due parametri:
   - _rolling opinion_: assumiamo che la sua opinione durante la settimana $x$ sia simile alla sua opinione alle settimane precedenti ($x-1$, $x-2$, ..., $x-n$) e vengono quindi recuperati tutti i suoi messaggi nel dataset;
-  - _zombie mode_: se un utente non ha, invece, espresso opinioni su un determinato argomento, viene assunto che la sua posizione politica (democratica o repubblicana) su un argomento, sia la medesima anche sugli altri.
-  Viene restituito il componente connesso maggiore (LCC), poiché c'e' bisogno di una rete connessa.
+  - _zombie mode_: se un utente non ha, invece, espresso opinioni su un determinato argomento, si assume che la sua posizione politica (democratica o repubblicana) su un argomento, sia analoga anche sugli altri, determinandola con una media delle sue opinioni.
 
-  In conclusione, viene eseguita una riduzione dei parametri tramite la Principal Component Analysis (PCA), con il fine di restituire un valore generale circa la posizione politica di un utente.
+  Viene restituito il componente connesso maggiore (LCC), poiché c'e' bisogno di una rete connessa con il maggior numero di nodi.
+
+  In conclusione, viene eseguita una riduzione dei parametri tramite la Principal Component Analysis (PCA), con il fine di restituire un valore generale circa la posizione politica di un utente. In @final-network-example, un esempio di una rete finale.
+
+#figure(
+  [ciao],
+  caption: "qui metto un'immagine di cytoscape con una rete di marzo 19, con i nodi che vanno da dems a reps",
+) <final-network-example>
 
 #pagebreak()
 
