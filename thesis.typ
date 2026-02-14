@@ -300,29 +300,40 @@ Lo studio e la valutazione delle community in una rete, viene detto _community d
 
 La Community Discovery è un campo molto vasto, ed esistono svariati modi per raggruppare i nodi in comunità, e nuovi metodi vengono continuamente studiati. Infatti, non esiste il metodo definitivo, ma anzi tutto dipende dall'obiettivo che si vuole raggiungere. Generalmente, si da importanza alle performance del metodo di community detection e alla sua attendibilità, misurata con la somiglianza rispetto agli altri algoritmi.
 
-il primo metodo per la community discovery è quello del stochastic block model (SBM) e della maximum likelihood function.
+Il primo metodo trovato per effettuare Community Discovery è chiamato Stochastic Block Model (SBM), con la massimizzazione della _likelihood function_. Dato un SBM, ovvero un modello di generazione di grafi randomici che contiene comunità, generato con due parametri $p_(i n)$ e $p_(o u t)$, che rispettivamente sono la probabilità che un nodo interagisca con un nodo all'interno della comunità e che un nodo si connetta con un nodo all'esterno della comunità (generalmente, $p_(i n) > p_(o u t)$), si inizializzano i due parametri agli stessi valori della rete iniziale. Successivamente, si definisce la _likelihood function_: $ L_(Theta, A) = sum_(u, v in A) l_theta, A, u, v $ dove
+$
+  l_(theta,A, u, v) = cases(
+    θ_1 - 1 "if" A_(u v) = 1 & (u, v) ∈ theta_3,
+    θ_2 - 1 "if" A_(u v) = 1 & (u, v) ∉ theta_3,
+    -θ_1 "if" A_(u v) = 0 & (u, v) ∈ theta_3,
+    -θ_2 "if" A_(u v) = 0 & (u, v) ∉ theta_3,
+  )
+$
+Si cerca di massimizzare la funzione, in modo tale che: $ hat(theta) = arg_(theta in Theta)max L_(theta, A) $
 
-ovvero dato un sbm, quindi un modello per generare grafi randomici con communities e con i due parametri pin e pout (gli stessi della rete iniziale), che rispettivamente sono la probabilità che un nodo si connetta con un altro nella stessa community e la probabiltà che un nodo si connetta con un altro fuori dalla community. si cerca di massimmizzare una likelihood function, ovvero una funzione che, dati i parametri pin e pout e una funzione theta che restitusice 1 se due nodi sono nella stessa community e 0 se non (oppure è una partizione che contiene tutti i nodi in una communtiy).
-cerchiamo di massimizzare questa funzione in modo tale che: $L_(Theta, A) = sum_(u, v in A) l_theta, A, u, v$
+Infine, se, dato un SBM, $p_(o u t) > p_(i n)$, allora si possono trovare tutte le community disassortative, ovvero di nodi che legano solo con nodi che _non_ sono nella loro comunità.
 
-inoltre, con l'sbm se noi mettiamo pout > pin allora possiamo trovare tutte le community disassortative, ovvero i nodi che si legano solo a nodi che NON sono della loro community.
+Questo metodo è l'equivalente del metodo di modularity optimization @Newman_2016, che definiremo più avanti.
 
-un altro modo per trovare le community in una rete è tramite le random walks. l'idea dietro è che, quando una random walk entra in una community, vi rimarrà per molto tempo, perché continuerà a viaggiare in nodi di una stessa community (è poco probabile che arrivi al node edge e che entri in un'altra community). il metodo più conosciuto che usa random walks è il metodo molto delle infomap.
+Un altro dei metodi più comuni per trovare le comunità in una rete, è quello di usare la _random walk_, ovvero partendo da un nodo casuale, esplorare casualmente uno dei suoi vicini, e così via, iterando $n$ volte. L'idea alla base è che quando con una random walk si entra in una community, allora vi rimarrà per molto tempo, dato l'elevato numero di archi all'interno della community. Al contrario, la probabilità che arrivi ad un nodo di confine e che questo poi entri in un'altra comunità, è molto bassa. Per tanto, utilizzare la tecnica delle random walk non è la più efficiente. Ci riesce bene, però, il metodo delle Infomap, che ha l'obiettivo di minimizzare la map equation @Rosvall2009, ovvero una codifica di una _random walk_.
 
-la infomap sfrutta le random walk andando a tracciare tutti i nodi che ha esplorato, associando ogni nodo ad una sequenza di bit e codificandolo con il codice di huffman. per risparmiare memoria, assegnano una codifica ad ogni community e aggiungono le label della community come prefissi nella loro codifica. quando si arriva ad un nodo edge, si usa invece la sequenza di bit `1111` per segnalare che vi è un salto di community. aggiunge un po' di overhead alla modifica, però vi è un risparmio, perché le label di inizio e fine community verranno raramente usate.
-la infomap ha una quality function, con l'obiettivo di minimizzare quanto più possibile la codifica del random walker
+Inizialmente, l'algoritmo simula una normale random walk, per calcolare le frequenze di visita dei nodi. Ogni volta che esplora un nodo, gli assegnerà una sequenza di bit codificata con la codifica di Huffman @itwiki:147328281. Al fine di risparmiare memoria e riutilizzare gli id, in modo analogo alle vie, che si ripetono in varie città, inizierà a raggruppare i nodi vicini tra loro sotto una stessa community, al quale assegnerà un numero di bit crescente. In questo modo, nella codifica, quando entrerà in una nuova community, lo segnalerà scrivendo inizialmente il numero della community, e successivamente il numero di ogni nodo. Quando arriva ad un nodo di confine e si sposta in una nuova community, allora userà la codifica `1111`, che segnala il salto in una nuova community. Aggiunge un po' di overhead, perché in ogni community ci saranno almeno 5 bit in più, ma il breakeven point si raggiunge velocemente. Questo processo viene iterato molteplici volte, finché non si ottiene la lunghezza minima della codifica del random walker. Data la natura randomica delle random walk, è un algoritmo non deterministico.
 
-#quote[Infomap è un algoritmo di community detection che minimizza la "map equation", una funzione information-theorica che misura la lunghezza media del codice per descrivere il percorso di una random walk sul grafo. Prima di ottimizzare le comunità, simula una random walk per calcolare le frequenze di visita ergodiche dei nodi (steady-state probabilities), usate per costruire un codebook Huffman ottimale per la descrizione del flusso.]
+Un ulteriore metodo di community detection è ottenuto tramite il metodo di _label percolation_, oppure _label convergence_, che, partendo da un subset di nodi a cui sono assegnate randomicamente delle label, queste vengono propagate a tutto il resto dei nodi, fino ad avere tutti i nodi etichettati. Anch'esso è un algoritmo non deterministico.
 
-non è deterministico.
+Inizialmente, ad ogni nodo viene assegnata una label casuale. Successivamente, in modo iterativo, inizierà ad esplorare le label dei suoi nodi vicini. Questo, si autoassegnerà la label più frequente tra i suoi vicini e, in caso di pareggio, ne sceglierà una casualmente, pescando dai più frequenti. Si continua finché non si arriva ad una convergenza in cui ogni nodo ha la stessa label della maggioranza dei suoi vicini.\ L'aspetto positivo di questo algoritmo è che è molto semplice da implementare e converge velocemente.
 
-un ulteriore metodo è quello delle label percolation oppure label convergence. ad ogni nodo viene assegnato randomicamente un colore o una label. successivamente, inizierà ad ispezionare le label/colore dei suoi vicini. dopo aver concluso, l'ispezione al tempo t1, sceglierà il colore più frequente dei suoi vicini. se c'è un pareggio, allora ne sceglierà uno tra i più frequenti, randomicamente. questa ispezione continua finché quel nodo e tutti i suoi vicini avranno un colore. è un algoritmo molto semplice che converge velocemente. anche questo non è deterministico.
+In più, data la natura non deterministica, multiple iterazioni dello stesso algoritmo, evidenziano diverse community structures, che possono essere aggregate tramite l'indice di similarità di Jaccard @Raghavan_2007.
 
-la community detection può avvenire sia su reti statiche (snapshots ad un determinato tempo), sia su reti dinamiche. con reti dinamiche assumiamo che la rete nel tempo si modifichi, e con esse, le community. questo vuol dire che un nodo può cambiare community di appartenenza, può avere nuovi archi o può scomparire del tutto. un modo naive per gestire le reti dinamiche è quello di assumere che ogni snapshot sia indipendente tra di essi e quindi calcolare atomicamente le community detection. però, ricerche trovano che i risultati possono essere molto diversi. quindi, si può ricorrere ad una funzione di _evolutionary clustering_. date le community a t e a t-1 e dato un parametro $alpha$ che rappresenta, basically, quanta importanza dare a t attuale e alla similarità di (t-1) (rispettivamente alpha, (1-alpha) ). con diversi valori di alpha possiamo avere anche molto diversi valori. tutto dipende da quanta importanza vogliamo dare agli snapshot passati. $ Q = alpha ("your fav c.d. algorithm")_t + (1-alpha) J_(t-1) $
+Infine, la community detection può avvenire sia su reti statiche (_snapshots_ ad un determinato punto nel tempo), sia su reti dinamiche, in cui assumiamo che la rete si modifichi, si aggiungano nodi, si rimuovano archi e, di conseguenza, si modifichino le community.
+
+Un metodo naif di valutazione delle community nelle reti dinamiche, è quello di assumere che ogni snapshot sia indipendente nel tempo, e cercare indipendentemente su ogni snapshot, le community. La letteratura scientifica però, ci dice che i risultati possono essere molto diversi. Si può, quindi, ricorrere ad una tecnica chiamata _evolutionary clustering_.
+
+date le community a t e a t-1 e dato un parametro $alpha$ che rappresenta, basically, quanta importanza dare a t attuale e alla similarità di (t-1) (rispettivamente alpha, (1-alpha) ). con diversi valori di alpha possiamo avere anche molto diversi valori. tutto dipende da quanta importanza vogliamo dare agli snapshot passati. $ Q = alpha ("your fav c.d. algorithm")_t + (1-alpha) J_(t-1) $
 Qui, $J$ è il Jaccard index, ovvero un indice di similarità tra due insiemi.
 
-==== Modularity
-+ *Modularity*: La modularità è una misura che valuta la qualità di una _community evaluation_ in una rete. Un alto grado di modularità significa che ci sarà un'alta densità tra i nodi nella stessa community e una densità minore tra un nodo in una community e uno all'infuori della comunità. Rappresenta la densità interna delle community. Ha anche lo scopo di ottimizzare la funzione di suddivisione in community, con l'obiettivo di massimizzare la modularità. Data $A$ la matrice delle adiacenze e $delta$ la funzione delta di Kronecker, la modularità è definita da: $ M = 1/(2|E|) sum_(i,j in V) \[A_(i j) - (deg(i) deg(j))/(2|E|) \] delta (c_i, c_j) $
+=== Modularity
+La modularità è una misura che valuta la qualità di una _community evaluation_ in una rete. Un alto grado di modularità significa che ci sarà un'alta densità tra i nodi nella stessa community e una densità minore tra un nodo in una community e uno all'infuori della comunità. Rappresenta la densità interna delle community. Ha anche lo scopo di ottimizzare la funzione di suddivisione in community, con l'obiettivo di massimizzare la modularità. Data $A$ la matrice delle adiacenze e $delta$ la funzione delta di Kronecker, la modularità è definita da: $ M = 1/(2|E|) sum_(i,j in V) \[A_(i j) - (deg(i) deg(j))/(2|E|) \] delta (c_i, c_j) $
 
 il dominio va da -0.5 a +1. minimo vuol dire che c'è disassortatività totale e +1 community perfetta. 0 vuol dire che il grafo non ha struttura.
 
@@ -460,7 +471,7 @@ E' possibile suddividere questa sezione in 6 fasi:
 
 #figure(
   [ciao],
-  caption: "qui metto un'immagine di cytoscape con una rete di marzo 19, con i nodi che vanno da dems a reps",
+  caption: "qui metto un'immagine di cytoscape con una rete di marzo 19, con i nodi che vanno da dems a reps con un gradiente",
 ) <final-network-example>
 
 #pagebreak()
