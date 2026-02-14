@@ -327,15 +327,16 @@ In più, data la natura non deterministica, multiple iterazioni dello stesso alg
 
 Infine, la community detection può avvenire sia su reti statiche (_snapshots_ ad un determinato punto nel tempo), sia su reti dinamiche, in cui assumiamo che la rete si modifichi, si aggiungano nodi, si rimuovano archi e, di conseguenza, si modifichino le community.
 
-Un metodo naif di valutazione delle community nelle reti dinamiche, è quello di assumere che ogni snapshot sia indipendente nel tempo, e cercare indipendentemente su ogni snapshot, le community. La letteratura scientifica però, ci dice che i risultati possono essere molto diversi. Si può, quindi, ricorrere ad una tecnica chiamata _evolutionary clustering_.
+Un metodo naif di valutazione delle community nelle reti dinamiche, è quello di assumere che ogni snapshot sia indipendente nel tempo, e cercare indipendentemente su ogni snapshot, le community. La letteratura scientifica però, ci dice che i risultati possono essere molto diversi. Si può, quindi, ricorrere ad una tecnica chiamata _evolutionary clustering_ @evolutionary-clustering.
 
-date le community a t e a t-1 e dato un parametro $alpha$ che rappresenta, basically, quanta importanza dare a t attuale e alla similarità di (t-1) (rispettivamente alpha, (1-alpha) ). con diversi valori di alpha possiamo avere anche molto diversi valori. tutto dipende da quanta importanza vogliamo dare agli snapshot passati. $ Q = alpha ("your fav c.d. algorithm")_t + (1-alpha) J_(t-1) $
-Qui, $J$ è il Jaccard index, ovvero un indice di similarità tra due insiemi.
+Con l'evolutionary clustering, si cerca di bilanciare due obiettivi: massimizzare la qualità dello snapshot al tempo $t$, che riflette i cambiamenti più recenti, e minimizzare l'_history cost_, ovvero la distanza tra il clustering al tempo $t$ e quello al tempo $t-1$.
+
+L'algoritmo usa un indice di similarità o una matrice delle distanze dei vari timestamps $T$, costruiti nel tempo, definita come $M_t$. Ad ogni timestamp, l'algoritmo cerca di ottimizzare la qualità dello snapshot: $ s q(C_t, M_t) - alpha dot h c (C_(t-1), C_t) $ dove $C_t$ è il clustering calcolato al tempo $t$. $s q$ è una funzione che valuta la qualità dello snapshot, $h c$ è la funzione di history cost e $alpha$ è un parametro di trade-off che stabilisce quanta importanza dare alle configurazioni passate degli snapshot.
 
 === Modularity
 La modularità è una misura che valuta la qualità di una _community evaluation_ in una rete. Un alto grado di modularità significa che ci sarà un'alta densità tra i nodi nella stessa community e una densità minore tra un nodo in una community e uno all'infuori della comunità. Rappresenta la densità interna delle community. Ha anche lo scopo di ottimizzare la funzione di suddivisione in community, con l'obiettivo di massimizzare la modularità. Data $A$ la matrice delle adiacenze e $delta$ la funzione delta di Kronecker, la modularità è definita da: $ M = 1/(2|E|) sum_(i,j in V) \[A_(i j) - (deg(i) deg(j))/(2|E|) \] delta (c_i, c_j) $
 
-il dominio va da -0.5 a +1. minimo vuol dire che c'è disassortatività totale e +1 community perfetta. 0 vuol dire che il grafo non ha struttura.
+Il dominio di esistenza della modularità è definito in $[-0.5, +1]$: più è basso, più c'è disassortatività nella rete. Al contrario, se tende a $+1$, la divisione delle community è ottimale. Se la modularità è uguale a 0, allora il grafo non ha alcuna struttura.
 
 questa misura ha vari problemi nella massimizzazione. durante la max, tende a convergere quando raggiunge $sqrt(|E|)$ community. a volte aggrega community che, ad interpretazione umana, sono due community diverse. inoltre, fluttuazioni random nella struttura del grafo, fanno divergere la modularità.
 
