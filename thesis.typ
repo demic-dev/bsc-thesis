@@ -139,19 +139,17 @@
 
 #outline(
   title: [Indice],
-  depth: 3,
+  depth: 2,
 )
 #pagebreak()
 
 = Introduzione
 #quote[Questa parte, da scrivere quando avrò finito la tesi...]
 
-Qualcosa del tipo: in questa tesi ... Nel primo capitolo ... etc.
+Qualcosa del tipo: in questa tesi vedremo etc... Nel primo capitolo ... etc.
 
 == NERDS: Network, Data and Society
-
-NERDS è il gruppo di ricerca presso il quale ho svolto il mio tirocinio. È un gruppo di ricerca interdisciplinare, che studia Network Science, Intelligenza Artificiale (AI) e Computational Social Science (CSS). L'ambiente, anch'esso, è interdisciplinare: ha studenti, PhD, PostDoc e professori con background in fisica, informatica, matematica e sociologia. Si trova a Copenhagen, all'interno della IT-Universitetet i København (ITU). Gli interessi di ricerca, includono, tra i vari, anche: science of science, reti sociali, reti complesse, sostenibilità urbana, mobilità urbana ed umana, visualizzazione di dati e aspetti fondamentali dei sistemi complessi.\
-Durante il mio tirocinio, sono stato affiancato dal mio professore, Michele Coscia, che durante la sua carriera ha studiato polarizzazione social networks bla bla
+NERDS è il gruppo di ricerca presso il quale ho svolto il mio tirocinio. È un gruppo di ricerca interdisciplinare, che studia Network Science, Intelligenza Artificiale (AI) e Computational Social Science (CSS). L'ambiente, anch'esso, è interdisciplinare: ha studenti, PhD, PostDoc e professori con background in fisica, informatica, matematica e sociologia. Si trova a Copenhagen, all'interno della IT-Universitetet i København (ITU). Gli interessi di ricerca, includono, tra i vari, anche: science of science, reti sociali, reti complesse, sostenibilità urbana, mobilità urbana ed umana, visualizzazione di dati e aspetti fondamentali dei sistemi complessi.
 
 == Computational Social Science
 Le Scienze Sociali Computazionali (o Computational Social Science, CSS), è una scienza che studia le scienze sociali classiche (sociologia, antropologia, economia e scienze politiche) mediante l'uso di strumenti odierni per studiarle con approcci innovativi e su larga scala.\
@@ -180,7 +178,6 @@ Solitamente, nella Network Science, vengono preferite reti semplici, quindi non 
 In questo capitolo ...
 
 == Social Network Analysis
-
 La Social Network Analysis - analisi delle reti sociali - non è una vera e propria teoria, ma più una strategia generale da usare per analizzare le strutture sociali. Nasce da ben prima dell'informatica, con la sociologia. È nata con l'intento di studiare i comportamenti delle persone, in base al contesto in cui si trovano. Le relazioni tra gli "attori" di una rete sono la priorità. Nonostante questo, le proprietà singole di un attore sono necessarie per analizzare fenomeni sociali.
 
 Grazie alla diffusione su larga scala della tecnologia e grazie alle crescenti prestazioni dei computer, la SNA ha trovato una sinergia con l'informatica. Attualmente, la SNA si concentra nello studio delle reti sociali, quali Facebook, Twitter (X) o Reddit tra i principali, data la grande mole di dati presenti.\
@@ -253,25 +250,59 @@ La Network Science è una scienza che studia le reti complesse. È un campo mult
 
 Moltissime situazioni complesse possono essere modellate come reti:
 
-- *Social Networks*: nell'informatica, è uno degli esempi più ricorrenti. I social network sono letteralmente delle reti sociali, che modellano relazioni e interazioni tra persone. È immediato pensare alle persone come nodi di una rete e alle relazioni come archi. Instagram o Twitter sono esempi di rete diretta, poiché una persona $a$ può seguire un'altra persona $a'$, ma non è detto che $a'$ ricambi. Esiste quindi un arco diretto che parte da $a$ e arriva ad $a'$, ma non viceversa;
+- *Social Networks*: nell'informatica, è uno degli esempi più ricorrenti. I social network sono letteralmente delle reti sociali, che modellano relazioni e interazioni tra persone. È immediato pensare alle persone come nodi di una rete e alle relazioni come archi. Instagram o Twitter sono esempi di rete diretta, poiché una persona $a$ può seguire un'altra persona $è$, ma non è detto che $a'$ ricambi. Esiste quindi un arco diretto che parte da $a$ e arriva ad $a'$, ma non viceversa;
 - *Citazioni negli articoli scientifici*: ogni volta che un articolo viene pubblicato, questo contiene $n$ citazioni verso altri articoli e si aggiunge alla rete di articoli già esistenti. Ogni articolo è quindi un nodo e una citazione è un arco che collega due nodi. Anche in questo caso, la rete è diretta;
 - *Interazione Proteina-Proteina*: nella biologia, si parla di _interazione proteina-proteina_ quando due o più proteine interagiscono tra di loro per mezzo di reazioni biochimiche. Queste interazioni avvengono all'interno delle cellule di un organismo vivente. In questo contesto, i nodi sono le proteine e il risultato di una reazione porta alla creazione di un arco tra le proteine.
 
-La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-Albert "Emergence of Scaling in Random Networks" [Baraba_si_1999]: le reti reali complesse di grandi dimensioni non si sviluppano in modo casuale (la probabilità che un nodo $a$ abbia un arco verso un nodo $a'$ non è approssimabile casualmente, come veniva assunto nel modello _Erdős-Rényi_ [Erdos2022OnRG]), ma seguono una _power-law degree distribution_: è più probabile che nuovi nodi che entrano nella rete cerchino collegamenti con nodi che hanno già molti collegamenti. Questo fenomeno si chiama _preferential attachment_ (ad esempio, nel WWW, un nuovo sito avrà link verso siti più grandi e conosciuti). Di conseguenza, in una rete pochi nodi (detti anche _hub_) avranno un grado elevato [scale-free] e la maggior parte dei nodi avrà un grado basso.
+La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-Albert "Emergence of Scaling in Random Networks" [Baraba_si_1999]: le reti reali complesse di grandi dimensioni non si sviluppano in modo casuale (la probabilità che un nodo $a$ abbia un arco verso un nodo $è$ non è approssimabile casualmente, come veniva assunto nel modello _Erdős-Rényi_ [Erdos2022OnRG]), ma seguono una _power-law degree distribution_: è più probabile che nuovi nodi che entrano nella rete cerchino collegamenti con nodi che hanno già molti collegamenti. Questo fenomeno si chiama _preferential attachment_ (ad esempio, nel WWW, un nuovo sito avrà link verso siti più grandi e conosciuti). Di conseguenza, in una rete pochi nodi (detti anche _hub_) avranno un grado elevato [scale-free] e la maggior parte dei nodi avrà un grado basso.
 
-il null model è un modello usato come benchmark rispetto ad una rete reale. è un modello che, data una rete, mantiene delle proprietà specificate (densità, degree, ...) per trovare correlazioni tra proprietà: se data una rete reale con proprietà X, accade Y, allora creiamo vari null models che incorporano la proprietà X e vediamo se la conseguenza Y rimane. se rimane, possiamo dire, con un certo grado di accuratezza, che la proprietà Y è correlata alla presenza della proprietà X.
-un null model può essere randomico o generativo. il randomico più comune è ottenuto tramite il processo di rewiring, ovvero, dato un insieme di archi, questi vengono randomicamente riscritti, per preservare il grado di ogni nodo (es. A -> B e C -> D diventano A -> C e B -> D). invece, con l'approccio generativo, date delle null hypotesis che devono, alla fine, essere raggiunte e rispettate, partiamo da un subset di nodi/archi e aggiungiamo nodi/archi fin quando non raggiungiamo le ipotesi iniziali che vogliamo mantenere.
+---
 
-==== Laplacian
-la laplacian rappresenta un grafo ed è una matrice che incorpora le informazioni di grado e topologia di un grafo. si costruisce con $L = D - A$ (spiegare come... e cosa sono). nel caso di grafi diretti, la matrice è asimmetrica e si prendono l'indegree e l'outdegree, però così facendo non è simmetrica, quindi si rende il grafo non diretto per mantere le proprietà della laplacian classica e poterla usare per i vari motivi per cui viene usata
+La teoria dei grafi e la network science sono altamente interconnesse. Quest'ultima usa la teoria dei grafi per rappresentare le informazioni ed eseguire algoritmi sulle sue strutture dati. Però, per facilità di comprensione, qui ci riferiremo in particolare alle proprietà che vengono studiate in reti complesse, perché danno informazioni maggiormente su scala globale, invece che locale.
 
-studiando gli autovalori e gli autovettori della laplacian possiamo ottenere informazioni strutturali importanti sulla rete, specie studiando il fiedler value o lo Spectral gap. viene usata per lo spectral clustering.
+=== Distribuzione di grado
+Nei paragrafi precedenti, abbiamo visto cos'è il grado di un nodo in un grafo. Se accumuliamo tutti i gradi dei nodi in una rete, possiamo calcolare la probabilità, dato un nodo in un grafo, che questo abbia grado $y$: $P(deg(x) = y) = z$. La distribuzione del grado non è altro che la distribuzione delle probabilità rispetto ai gradi dei nodi nella rete. Data una rete di $n$ nodi, la probabilità che un nodo abbia grado $k$ equivale a: $ P(k) = (n_k)/n $
 
-also, rispetta le seguenti proprietà
-- è simmetrica
-- è positiva-semidefinita (tutti i suoi autovalori >= 0)
-- autovalore[0] = 0
-- la somma di tutte le righe o tutte le colonne = 0
+=== Matrice Laplaciana
+La matrice Laplaciana $L$, anche detta Laplacian, è una matrice che rappresenta le informazioni topologiche di un grafo o di una rete. Dato un grafo indiretto $G = (V, E)$, da cui si ricava la matrice delle adiacenze $A_G$ e la matrice di grado $D_G$, la matrice Laplaciana $L_G$ si ottiene sottraendo la matrice di grado dalla matrice delle adiacenze: $ L_G = D_G - A_G $
+$L_G$, di dimensioni $|V|times|V|$, è simmetrica e la somma di tutte le righe e colonne è uguale a $0$: $ sum_(i = 0 in |V|) L_(i j) = 0 sum_(j = 0 in |V|) L_(j i) = 0 $
+In un grafo diretto, invece, la matrice Laplacian utilizza l'indegree matrix oppure l'outdegree matrix, rispettivamente $D_(G_(i n))$ e $D_(G_(o u t))$. Pertanto, non è simmetrica e, di conseguenza, invalida le proprietà della Laplacian che vedremo nei prossimi paragrafi. Quindi, solitamente, questa viene simmetrizzata oppure si tratta il grafo come un grafo indiretto.
+
+Una matrice Laplaciana rispetta sempre le seguenti proprietà:
+- È simmetrica: $L_(i j) = L_(j i)$;
+- È positiva semidefinita, ovvero tutti gli autovalori $lambda_1, lambda_2, ... lambda_n >=0$;
+- $lambda_0 = 0$
+- $sum_(i = 0 in |V|) L_(i j) = 0$; $sum_(j = 0 in |V|) L_(j i) = 0$
+
+La matrice Laplacian ha numerose applicazioni nella teoria dei grafi e nella network science. Lo studio dei suoi autovalori ed autovettori permette di svolgere la _spectral analysis_, che fornisce informazioni importanti sulla struttura della rete, o per la community evaluation. Permette di calcolare la node distance vector, ovvero la diffusione di una proprietà di un nodo all'interno della rete @node-distance-vector. Inoltre, trova moltissime applicazioni nella fisica, campo da cui è nata, per modellizzare matematicamente reti elettriche @doyle2000randomwalkselectricnetworks. Viene anche usata per trovare il numero di Spanning Tree in un grafo, in tempo polinomiale @kirchoff-theory.
+
+Esitono diverse declinazioni della Laplacian, ognuna adattata a diversi usi. Ad esempio, c'è la laplaciana normalizzata, una matrice che normalizza il grado dei nodi, in cui ci siano alcuni nodi con un grado alto e la maggior parte con un grado basso, come nel caso delle scale-free network. Esiste la matrice Laplacian costruita tramite la matrice delle incidenze (una matrice che codifica le relazioni tra i nodi e gli archi), usata per reti con gli archi pesati. Infine, abbiamo la _magnetic laplacian_, una matrice che rappresenta un grafo diretto, trattando le direzioni degli archi come una fase in un piano complesso. La approfondiremo nei capitoli successivi, poiché parte centrale del progetto di tesi.
+
+=== Null Model
+Il _null model_ è un modello di rete che viene usato come benchmark rispetto ad una rete reale. Viene generato randomicamente partendo da delle proprietà di una rete reale (ad es. la densità, la distribuzione di grado, l'assortatività, ...). Viene usato per isolare uno specifico comportamento di una rete ad un ristretto gruppo di proprietà, generando casualmente delle reti che hanno quelle singole proprietà. Inoltre, può essere usato per trovare correlazioni tra proprietà su reti particolari: se data una rete reale con proprietà $X$ (es. average degree = 4), accade $Y$ (es. l'omofilia cresce), allora verranno generate delle reti randomiche con proprietà $X$ (average degree = 4) per verificare la presenza di $Y$.
+
+Un null model può essere randomico o generativo @Váša2022. Il modello randomico è il più comune, solitamente si ottiene tramite il metodo di rewiring, dove, dato un insieme di archi, questi vengono casualmente riscritti, per preservare il grado di ogni nodo. In @rewiring-null-model un esempio. Invece, con l'approccio generativo, date delle ipotesi nulle che devono essere raggiunte, si preleva una partizione della rete iniziale e si aggiungono nuovi nodi e archi finché non si raggiungono le ipotesi nulle definite inizialmente e che si vogliono mantenere.
+
+#figure(
+  diagram(
+    node-stroke: .1em,
+    spacing: 3em,
+    node((0, 0), `A`, radius: 1em),
+    edge(``, "-", stroke: 0.1em),
+    node((1, 0), `B`, radius: 1em),
+    node((2, 0), `C`, radius: 1em),
+    edge(``, "-", stroke: 0.1em),
+    node((3, 0), `D`, radius: 1em),
+    // -----------------------
+    node((0, 1), `A`, radius: 1em),
+    edge(``, "-", stroke: 0.1em),
+    node((1, 1), `C`, radius: 1em),
+    node((2, 1), `B`, radius: 1em),
+    edge(``, "-", stroke: 0.1em),
+    node((3, 1), `D`, radius: 1em),
+  ),
+  caption: [Sopra: prima del rewiring. Sotto: dopo il rewiring],
+) <rewiring-null-model>
 
 === Backboning
 aaaa
@@ -294,7 +325,7 @@ Gli autovalori e autovettori, hanno le seguenti proprietà:
 + $lambda_n$ = -$lambda_1$ se e solo se $G$ è un grafo bipartito #footnote[see [12], or [10, Theorem 3.4]].
 
 === Community Discovery
-Studiando una rete, è frequente che si voglia analizzare se un gruppo di nodi forma una community. Ovvero, se questi possono essere raggruppati e suddivisi in base ad una proprietà in comune. Nella nostra societa', le community sono ovunque: persone che appartengono alla stessa citta, allo stesso gruppo di amici o che hanno lo stesso attore preferito. Chi vive in una determinata citta', sicuramente avra' molte interazioni con persone che vivono nella sua stessa citta'. Al contrario, ne avra' poche o nulle con chi vive in citta' differenti, per forza di cose. Il ragionamento e' il medesimo per le reti e la Network Science. Formalmente, una community si dice tale quando c'e' una densità molto alta tra i nodi della community ed interazioni sparse con i nodi al di fuori di essa.
+Studiando una rete, è frequente che si voglia analizzare se un gruppo di nodi forma una community. Ovvero, se questi possono essere raggruppati e suddivisi in base ad una proprietà in comune. Nella nostra societè, le community sono ovunque: persone che appartengono alla stessa citta, allo stesso gruppo di amici o che hanno lo stesso attore preferito. Chi vive in una determinata città, sicuramente avrà molte interazioni con persone che vivono nella sua stessa città. Al contrario, ne avrà poche o nulle con chi vive in città differenti, per forza di cose. Il ragionamento è il medesimo per le reti e la Network Science. Formalmente, una community si dice tale quando c'è una densità molto alta tra i nodi della community ed interazioni sparse con i nodi al di fuori di essa.
 
 Lo studio e la valutazione delle community in una rete, viene detto _community discovery_. Questa pratica ha svariati casi d'uso. Ad esempio, per il _backboning_, dove si possono individuare i nodi simili tra loro e rimuoverli, lasciando solo un nodo "rappresentante", al fine di semplificare la rete, oppure per raggruppare e classificare i nodi in cluster specifici, per testare il loro comportamento al cambio di determinate condizioni della rete (ad esempio nel campo dell'advertising e del marketing).
 
@@ -338,12 +369,7 @@ La modularità è una misura che valuta la qualità di una _community evaluation
 
 Il dominio di esistenza della modularità è definito in $[-0.5, +1]$: più è basso, più c'è disassortatività nella rete. Al contrario, se tende a $+1$, la divisione delle community è ottimale. Se la modularità è uguale a 0, allora il grafo non ha alcuna struttura.
 
-questa misura ha vari problemi nella massimizzazione. durante la max, tende a convergere quando raggiunge $sqrt(|E|)$ community. a volte aggrega community che, ad interpretazione umana, sono due community diverse. inoltre, fluttuazioni random nella struttura del grafo, fanno divergere la modularità.
-
-=== Proprietà principali
-La teoria dei grafi e la network science sono altamente interconnesse. Quest'ultima usa la teoria dei grafi per rappresentare le informazioni ed eseguire algoritmi sulle sue strutture dati. Però, per facilità di comprensione, qui ci riferiremo in particolare alle proprietà che vengono studiate in reti complesse, perché danno informazioni maggiormente su scala globale, invece che locale.
-
-+ *Distribuzione del Grado*: Nei paragrafi precedenti, abbiamo visto cosa significa il grado di un nodo in un grafo. Se accumuliamo tutti i gradi dei nodi in una rete, possiamo calcolare la probabilità, dato un nodo in un grafo, che questo abbia grado $y$: $P(deg(x) = y) = z$. La distribuzione del grado non è altro che la distribuzione delle probabilità rispetto ai gradi dei nodi nella rete. Data una rete di $n$ nodi, la probabilità che un nodo abbia grado $k$ equivale a: $ P(k) = (n_k)/n $
+=== Altre proprietà
 
 + *Omofilia ed Eterofilia*: L'omofilia è una proprietà qualitativa che esprime quanto dei nodi in una rete sono vicini tra di loro se esprimono features simili. È uno dei metodi di community discovery, perché si parte dall'assunzione sociologica in cui le persone tendono a relazionarsi con persone simili tra di loro (stesso genere, età simile, stesse passioni o interessi) e si riusa nello studio delle reti perché si assume che nodi con features simili, tendano ad essere connessi. Questo accade sia per motivi comportamentali (l'utente in un social network ricerca solo persone/pagine che rispettano i propri interessi), sia per motivi ambientali (l'algoritmo di un social network mostra all'utente maggiormente post che potrebbero interessargli). L'eterofilia, invece, è l'esatto opposto.
 
@@ -394,63 +420,54 @@ Concretamente, esistono quattro classi di soluzione per poter calcolare la NVD:
 + *Adaptions of NVD-Algorithms*:
 
 == Python
-Python è un linguaggio di programmazione interpretato, orientato agli oggetti, di alto livello con semantica dinamica. Le sue strutture dati integrate di alto livello, combinate con la tipizzazione dinamica e il binding dinamico, lo rendono molto interessante per lo sviluppo rapido di applicazioni, nonché per l'uso come linguaggio di scripting o di collegamento per connettere tra loro componenti esistenti. La sintassi semplice e facile da imparare di Python enfatizza la leggibilità e quindi riduce i costi di manutenzione dei programmi.
+Python @van1995python è un linguaggio di programmazione interpretato, orientato agli oggetti, di alto livello con semantica dinamica. Le sue strutture dati integrate di alto livello, combinate con la tipizzazione dinamica e il binding dinamico, lo rendono molto interessante per lo sviluppo rapido di applicazioni, nonché per l'uso come linguaggio di scripting o di collegamento per connettere tra loro componenti esistenti. La sintassi semplice e facile da imparare di Python enfatizza la leggibilità e quindi riduce i costi di manutenzione dei programmi.
 
 Python supporta moduli e pacchetti, che incoraggiano la modularità dei programmi e il riutilizzo del codice. L'interprete Python e l'ampia libreria standard sono disponibili in formato sorgente o binario gratuitamente per tutte le principali piattaforme e possono essere distribuiti liberamente.
 
 Python, grazie alla sua estesa fornitura di librerie e alla sua rapida curva di apprendimento, è il linguaggio più usato nel contesto di Data Science ed è stato usato per la scrittura del codice il cui prodotto si trova più avanti in questa tesi.
 
 === NetworkX
-NetworkX è una libreria Python per la creazione, la manipolazione e lo studio della struttura, delle dinamiche e delle funzioni delle reti complesse. Fornisce:
+NetworkX @SciPyProceedings_11 è una libreria Python per la creazione, la manipolazione e lo studio della struttura, delle dinamiche e delle funzioni di reti e grafi. Fornisce strumenti per lo studio della struttura e delle dinamiche delle reti sociali, biologiche e infrastrutturali, un'interfaccia di programmazione standard e un'implementazione grafica adatta a molte applicazioni, un ambiente di sviluppo rapido per progetti collaborativi e multidisciplinari.
 
-- strumenti per lo studio della struttura e delle dinamiche delle reti sociali, biologiche e infrastrutturali;
-- un'interfaccia di programmazione standard e un'implementazione grafica adatta a molte applicazioni;
-- un ambiente di sviluppo rapido per progetti collaborativi e multidisciplinari;
-- supporto per l'accelerazione degli algoritmi e funzionalità aggiuntive tramite backend di terze parti;
-- un'interfaccia per algoritmi numerici esistenti e codice scritto in C, C++ e FORTRAN;
-
-Con NetworkX è possibile caricare e memorizzare reti in formati di dati standard e non standard, generare molti tipi di reti casuali e classiche, analizzare la struttura delle reti, costruire modelli di rete, progettare nuovi algoritmi di rete, disegnare reti e molto altro ancora.
+Supporta l'accelerazione degli algoritmi e funzionalità aggiuntive tramite backend di terze parti e offre un'interfaccia per algoritmi numerici esistenti e codice scritto in C, C++ e FORTRAN. Con NetworkX è possibile caricare e memorizzare reti in formati di dati standard e non standard, generare molti tipi di reti casuali e classiche, analizzare la struttura delle reti, costruire modelli di rete, progettare nuovi algoritmi di rete e visualizzare reti. È rilasciato con licenza BSD ed è ampiamente utilizzato nella comunità scientifica per la Network Science.
 
 === NumPy
-NumPy è una libreria Python nata per supportare operazioni e funzioni non banali su matrici ed array multidimensionali. Ha una licenza BSD modificata.
+NumPy @harris2020array è una libreria Python fondamentale per il calcolo scientifico, nata per supportare operazioni e funzioni complesse su matrici ed array multidimensionali. Rilasciata con licenza BSD modificata, fornisce API di alto livello per strutture dati complesse e moltissime funzioni matematiche eseguibili in modo efficiente.
 
-Fornisce API di alto livello per strutture dati complesse e moltissime funzioni matematiche eseguibili ad alto livello.
+Il tipo di dato principale è l'array N-dimensionale (`ndarray`), che permette di eseguire operazioni vettorizzate ad alte prestazioni. NumPy include funzioni per l'algebra lineare, la trasformata di Fourier, la generazione di numeri casuali e molte altre operazioni matematiche. Grazie alla sua implementazione in C, offre prestazioni elevate rispetto al Python puro. È alla base di molte altre librerie scientifiche Python, come SciPy, Pandas e Matplotlib, costituendo un elemento fondamentale dell'ecosistema di Data Science. La sua sintassi intuitiva e le prestazioni elevate lo rendono indispensabile per l'analisi numerica e il calcolo matriciale.
 
 === PyTorch
-PyTorch è una libreria Python per il Machine Learning, che fornisce API ad alto livello, tramite implementazioni a basso livello, algoritmi e architetture per il deep learning, come i tensori o le discese dei gradienti stocastiche. Creato originariamente da Meta, adesso appartiene alla Linux Foundation, è open source ed è rilasciato con una licenza BSD modificata.
+PyTorch @Ansel_PyTorch_2_Faster_2024 è una libreria Python per il Machine Learning e il Deep Learning, che fornisce API ad alto livello per costruire e addestrare reti neurali. Creato originariamente da Meta e ora parte della Linux Foundation, è open source e rilasciato con licenza BSD modificata.
 
-Il tipo di dato alla base, in _pytorch_ è un tensore, ovvero un array multidimensionale omogeneo. Si differenzia rispetto a _NumPy_ grazie al suo supporto ai CUDA, rendendoli disponibili out-of-the-box per lavorare in modo distribuito sulle GPU NVIDIA.
+Il tipo di dato fondamentale è il tensore, un array multidimensionale omogeneo simile agli array NumPy ma con funzionalità avanzate. PyTorch si distingue per il supporto nativo ai CUDA, permettendo l'accelerazione tramite GPU NVIDIA in modo trasparente. Offre un approccio di definizione dinamica dei grafi computazionali (_eager execution_), che rende il debugging più intuitivo rispetto ad altri framework. Include moduli per la costruzione di reti neurali (`torch.nn`), ottimizzatori (`torch.optim`), gestione dei dati (`torch.utils.data`) e operazioni di autograd per il calcolo automatico dei gradienti. È ampiamente utilizzato nella ricerca e nell'industria per applicazioni di computer vision, natural language processing e reinforcement learning.
 
 === Pandas
-È una libreria Python open source. Anch'essa offre strutture dati ad alto livello, più orientate all'analisi dei dati, alla manipolazione e alla visualizzazione.
+Pandas @The_pandas_development_team_pandas-dev_pandas_Pandas è una libreria Python open source per l'analisi e la manipolazione dei dati. Offre strutture dati ad alto livello orientate all'analisi, alla trasformazione e alla visualizzazione di dataset strutturati.
 
-Le sue strutture principali sono le _Series_ e i _DataFrame_, i primi sono array monodimensionali con un indice associato; gli ultimi, sono degli array multidimensionali con un array associato.
-
-Alla base, hanno dei NumPy arrays, ma supportano anche dati non numerici (date, stringhe).
-
+Le sue strutture dati principali sono le Series, array monodimensionali con indice associato, e i DataFrame, strutture bidimensionali simili a tabelle con righe e colonne etichettate. Sebbene internamente si basino su array NumPy, supportano anche dati non numerici come date, stringhe e categorie. Pandas fornisce funzionalità potenti per il caricamento di dati da vari formati (CSV, Excel, SQL, JSON), la pulizia dei dati (gestione valori mancanti, duplicati), operazioni di raggruppamento e aggregazione (`groupby`), join e merge tra dataset, e conversioni di tipo. La sua API intuitiva e le prestazioni elevate lo rendono uno strumento fondamentale per il data wrangling e l'analisi esplorativa dei dati nel campo della Data Science.
 
 == Reddit
-Reddit è un social network, dove gli utenti possono pubblicare post sotto forma di link, testo, immagini o video e a cui gli utenti possono commentare. Reddit è suddiviso in comunità, chiamate subreddits, infatti viene anche definito un aggregatore di comunità. Ogni subreddit viene preceduto dalla radice `r/`. Possono essere generalisti (`r/all`, `r/news`, `r/italy`, ...) oppure monotematici (`r/python`, `r/universitaly`, ...). Esistono più di 100.000 subreddits.
+Reddit è un social network dove gli utenti possono pubblicare contenuti sotto forma di link, testo, immagini o video, e dove altri utenti possono commentare. È suddiviso in comunità chiamate subreddit, precedute dalla radice `r/` (come `r/politics` o `r/python`), che possono essere generaliste o monotematiche. Con oltre 100.000 subreddit attivi, viene definito un aggregatore di comunità.
 
-Il sistema di raccomandazione in Reddit è gestito tramite gli upvotes e downvotes, un giudizio che gli utenti registrati possono dare ai post e ai commenti, e che significa rispettivamente "penso che questo post (o commento) debba essere mostrato di più" e "penso che questo post (o commento) debba essere mostrato di meno".
+Il sistema di raccomandazione funziona tramite upvotes e downvotes, giudizi che gli utenti registrati possono dare ai post e commenti per influenzarne la visibilità. Gli upvotes aumentano la probabilità che un contenuto sia mostrato, mentre i downvotes la riducono. Questo meccanismo determina l'ordinamento dei contenuti nelle homepage e nelle singole community.
 
-In data Dicembre 2025, è nella top 10 dei siti più visitati al mondo, ed è il quarto social media più usato @ViewWeb.
+A dicembre 2025, Reddit si posiziona nella top 10 dei siti più visitati al mondo ed è il quarto social media più usato @ViewWeb.
 
 == Procedura di costruzione della rete
 Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
 
-E' possibile suddividere questa sezione in 6 fasi:
+è possibile suddividere questa sezione in 6 fasi:
 
-+ *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, perché l'analisi e' solo sui commmenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti di Reddit che scrivono risposte automatiche in base a determinati triggers.
++ *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, perché l'analisi è solo sui commmenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti di Reddit che scrivono risposte automatiche in base a determinati triggers.
 
-+ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato solamente una quantità di messaggi nella media; (i self loop, quindi utenti che rispondono a se stessi, non vengono contati): $ |M_u| > (sum_(u in U) |M|)/(|U|) $Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due  utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore e' il numero di archi che li collega, maggiore e' il peso (la significativita' statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
++ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato solamente una quantità di messaggi nella media; (i self loop, quindi utenti che rispondono a se stessi, non vengono contati): $ |M_u| > (sum_(u in U) |M|)/(|U|) $Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due  utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore è il numero di archi che li collega, maggiore è il peso (la significativitè statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
 
   Inoltre, al fine di anonimizzare i dati, e rendersi conforme al GDPR, viene assegnato un nuovo id all'utente. Si mantiene una tabella di mapping globale per rendere coerente l'`id` dell'utente tra le settimane e i mesi.
 
 + *Topic Detection*: Per ogni rete e per ogni messaggio di ogni rete, si utilizza il modello BERTopic @grootendorst2022bertopic per classificare automaticamente ogni messaggio con l'argomento più adatto. Ogni rete preliminare, viene divisa in due sottoinsiemi rispettivamente di allenamento (training) e di classificazione. Inizialmente, il modello viene addestrato con $4096$ messaggi per ogni settimana. Dopo il training, si iniziano ad etichettare tutti i messaggi di ogni rete. I topic vengono aggregati e, manualmente, vengono esaminati, raggruppati in macrotopic e scartati quelli non rilevanti. Infine, ad ogni messaggio viene assegnato uno dei seguenti topic:
   - _abortion_: Raggruppa temi come l'aborto, i metodi contraccettivi e i diritti riproduttivi in generale;
   - _climate_: Contiene commenti riguardo il riscaldamento globale, la deforestazione, i veicoli elettrici, lobby fossili, energie rinnovabili, etc.;
-  - _gender_: Commenti riguardo il femminismo, il divario retributivo di genere, l'identita' di genere, LGBTQ+, pronomi, etc.;
+  - _gender_: Commenti riguardo il femminismo, il divario retributivo di genere, l'identitè di genere, LGBTQ+, pronomi, etc.;
   - _guns_: Raggruppa temi come regole sulle armi, associazioni lobbistiche sulle armi, sparatorie di massa, suicidi, milizie, etc.;
   - _health_: Contiene commenti riguardo assistenza sanitaria, assistenza sanitaria per bambini, assicurazioni, sviluppo di farmaci, etc.;
   - _racial_justice_: Riguarda la giustizia razziale e le forze dell'ordine, in senso lato. Gli argomenti trattati includono Black Lives Matter, la polizia in generale, le richieste di defunding e gli arresti.
@@ -458,7 +475,7 @@ E' possibile suddividere questa sezione in 6 fasi:
 
 + *Toxicity*: Viene calcolata la tossicità di ogni messaggio, con un punteggio che varia da 0 (messaggio educato e che rispetta l'interlocutore) ad 1 (messaggio volgare, con insulti o minacce verso l'interlocutore). Viene usato il modello _Detoxify_ @Detoxify con le impostazioni di default.
 
-+ *Stance*: Tramite un modello LLM open source, Llama 3 @llama3modelcard, viene effettuato il rilevamento dell'opinione politica che ha un messaggio. L'opinione può essere etichettata come democratica o repubblicana. Essendo una scelta binaria diventa piu' semplice effettuare una classificazione. Si inizializza un'istanza di Llama con il seguente messaggio (o prompt):```txt
++ *Stance*: Tramite un modello LLM open source, Llama 3 @llama3modelcard, viene effettuato il rilevamento dell'opinione politica che ha un messaggio. L'opinione può essere etichettata come democratica o repubblicana. Essendo una scelta binaria diventa più semplice effettuare una classificazione. Si inizializza un'istanza di Llama con il seguente messaggio (o prompt):```txt
     You are an expert political scientist. The following message is part of the debate on {topic} in the United States. In this debate there are two sides. Side D thinks {democratic_opinion}. Side R thinks {republican_opinion}. If the message is ambiguous, it belongs to side U. Classify the following message as belonging to side D, R, or U. You can only reply with one letter between D, R, or U, no other answer is acceptable."
   ``` Ogni topic avrà un prompt con una struttura uguale, ma con il contenuto adattato ad esso. Data la natura probabilistica degli LLM, verranno restituiti i token `R` e `D`, con le rispettive probabilità. Viene assegnato il valore $-1$ per un'opinione democratica, e $+1$ per un'opinione repubblicana. Il valore finale della posizione politica del messaggio, sarà: $p(R) - p(D)$.
 
@@ -466,7 +483,7 @@ E' possibile suddividere questa sezione in 6 fasi:
   - _rolling opinion_: assumiamo che la sua opinione durante la settimana $x$ sia simile alla sua opinione alle settimane precedenti ($x-1$, $x-2$, ..., $x-n$) e vengono quindi recuperati tutti i suoi messaggi nel dataset;
   - _zombie mode_: se un utente non ha, invece, espresso opinioni su un determinato argomento, si assume che la sua posizione politica (democratica o repubblicana) su un argomento, sia analoga anche sugli altri, determinandola con una media delle sue opinioni.
 
-  Viene restituito il componente connesso maggiore (LCC), poiché c'e' bisogno di una rete connessa con il maggior numero di nodi.
+  Viene restituito il componente connesso maggiore (LCC), poiché c'è bisogno di una rete connessa con il maggior numero di nodi.
 
   In conclusione, viene eseguita una riduzione dei parametri tramite la Principal Component Analysis (PCA), con il fine di restituire un valore generale circa la posizione politica di un utente. In @final-network-example, un esempio di una rete finale.
 
@@ -503,7 +520,7 @@ E' possibile suddividere questa sezione in 6 fasi:
 
 = Presentazione dei risultati
 #quote[La presentazione dei risultati dovrebbe consistere in una descrizione tecnica dei risultati raggiunti, unitamente ad un commento critico e ad un’analisi della rispondenza agli obiettivi iniziali (si consiglia per tanto di motivare la rilevanza dei risultati e l’eventuale scostamento dagli obiettivi iniziali). La sezione relativa ai risultati dovrebbe infine contenere una sintesi critica e un giudizio sull’esperienza effettuata, che renda conto di aspetti positivi e negativi per il tirocinante e per l’ente ospitante, del valore formativo, professionale e umano, e cosı via.]\
-Parlare dei risultati (+ robe che mi mandera' Michele)
+Parlare dei risultati (+ robe che mi manderè Michele)
 
 #pagebreak()
 
