@@ -311,11 +311,13 @@ Esistono vari algoritmi di backboning, in base ai fenomeni che si vogliono evide
 
 L'algoritmo Noise-Correction (NC) si basa sull'assunzione che ogni arco sia un'interazione tra i nodi. Se un arco vuole essere mantenuto, deve raggiungere o superare una certa soglia di significatività statistica.
 
-L'algoritmo di NC, infine, favorisce il mantenimento di connessioni tra nodi non centrali, ma sullo stesso livello di gerarchia.
+L'algoritmo di Noise-Correction definisce una misura chiamata _lift_ $L_(i j)$ che rappresenta quanto il peso di un arco devia dal valore atteso di un null model randomico: $ L_(i j) = hat(N_i) / (E[N_(i j)]) $ con $E[N_(i j)]$ il peso atteso per una coppia di nodi $(i, j)$: $ E[N_(i j)] = hat(N_(i \.)) (hat(N_(\. j)))/(hat(N_(. .))) $
 
-Formally speaking, the p-value of NC is calculated by looking at the CDF of a binomial distribution. The observed value (number of successes) is the weight of the edge wu,v, the number of trials is the total sum of edge weights in the network ∑ u,v wu,v, and the probability of success is given by: pu,v = ∑ v′ ∈Nu wu,v′ × ∑ u′ ∈Nv wu′,v ∑ u′,v′ wu′,v′ !2 .
+aggiungere che il lift viene centrato tra -1 e +1
 
-So, in practice, we’re looking at the probability of having a weight higher than wu,v in a binomial distribution with ∑ u,v wu,v trials and a probability of success pu,v. Given that we use a binomial as a null model, you can see that NC works only for discrete counts as edge weights, because the binomial is a discrete distribution (Section 3.2). Moreover, all the elements here (wu,v, ∑ u,v wu,v, and pu,v) are the same in the perspective of u and v, thus this measure is u, v specific, differently from the disparity filter. Of course, if your network is directed, wu,v̸ = wv,u and you’ll get a different null expectation for either direction of the edge, because the u, v edge is different from the v, u edge.
+Successivamente, Second, we calculate a standard deviation for these transformed edge weights. Third, we use these standard deviations to construct p-values that are then used to prune edges.
+
+L'algoritmo di NC, favorisce il mantenimento di connessioni tra nodi non centrali, ma sullo stesso livello di gerarchia.
 
 === Spectral Analysis
 La Spectral Analysis è lo studio degli autovalori ed autovettori della matrice Laplaciana di un grafo. Data una Laplacian $L$, definiamo gli autovalori $lambda$: $ lambda in sigma(L) quad sigma(L) = {lambda | det(L - lambda I) = 0} $ e gli autovettori $v$: $ v in ker(L - lambda I), quad v eq.not 0 $
