@@ -256,9 +256,7 @@ Moltissime situazioni complesse possono essere modellate come reti:
 
 La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-Albert "Emergence of Scaling in Random Networks" [Baraba_si_1999]: le reti reali complesse di grandi dimensioni non si sviluppano in modo casuale (la probabilità che un nodo $a$ abbia un arco verso un nodo $è$ non è approssimabile casualmente, come veniva assunto nel modello _Erdős-Rényi_ [Erdos2022OnRG]), ma seguono una _power-law degree distribution_: è più probabile che nuovi nodi che entrano nella rete cerchino collegamenti con nodi che hanno già molti collegamenti. Questo fenomeno si chiama _preferential attachment_ (ad esempio, nel WWW, un nuovo sito avrà link verso siti più grandi e conosciuti). Di conseguenza, in una rete pochi nodi (detti anche _hub_) avranno un grado elevato [scale-free] e la maggior parte dei nodi avrà un grado basso.
 
----
-
-La teoria dei grafi e la network science sono altamente interconnesse. Quest'ultima usa la teoria dei grafi per rappresentare le informazioni ed eseguire algoritmi sulle sue strutture dati. Però, per facilità di comprensione, qui ci riferiremo in particolare alle proprietà che vengono studiate in reti complesse, perché danno informazioni maggiormente su scala globale, invece che locale.
+La teoria dei grafi e la network science sono altamente interconnesse. Quest'ultima usa la teoria dei grafi per rappresentare le informazioni ed eseguire algoritmi sulle sue strutture dati. Però, per facilità di comprensione, nei prossimi paragrafi ci riferiremo in particolare alle proprietà che vengono studiate in network science.
 
 === Distribuzione di grado
 Nei paragrafi precedenti, abbiamo visto cos'è il grado di un nodo in un grafo. Se accumuliamo tutti i gradi dei nodi in una rete, possiamo calcolare la probabilità, dato un nodo in un grafo, che questo abbia grado $y$: $P(deg(x) = y) = z$. La distribuzione del grado non è altro che la distribuzione delle probabilità rispetto ai gradi dei nodi nella rete. Data una rete di $n$ nodi, la probabilità che un nodo abbia grado $k$ equivale a: $ P(k) = (n_k)/n $
@@ -305,7 +303,20 @@ Un null model può essere randomico o generativo @Váša2022. Il modello randomi
 ) <rewiring-null-model>
 
 === Backboning
-aaaa
+Le reti reali sono piene di rumore, ovvero di archi e nodi che non hanno significanza statistica e che possono avvelenare i risultati. Occorre, quindi, usare un metodo per rimuovere il rumore dalla rete e lasciare solamente gli elementi significativi. Questa tecnica si chiama _backboning_. Esso nasce con la necessità di mantenere solamente le strutture e le gerarchie rilevanti in una rete, così che sia più facile analizzarle e anche più computazionalmente economico.
+
+Con il backboning, si mantiene un focus globale, per evidenziare le _highways_ di una rete, ovvero quei cammini che sono importanti per far circolare l'informazione. Analogamente, il backboning ha la stessa funzione della _Principal Component Analysis_ in statistica.
+
+Esistono vari algoritmi di backboning, in base ai fenomeni che si vogliono evidenziare e successivamente analizzare. Alcuni algoritmi consistono in: trovare il _minimum spanning tree_ @backbone-tree-filter, usare un _disparity filter_ @backbone-tree-filter, ricavare il _salience skeleton_ @Grady2012 o il metodo di _noise correction_ @noise-corrected-backboning. In questa tesi approfondiremo solamente l'ultimo metodo, poiché utilizzato in questo progetto.
+
+L'algoritmo Noise-Correction (NC) si basa sull'assunzione che ogni arco sia un'interazione tra i nodi. Se un arco vuole essere mantenuto, deve raggiungere o superare una certa soglia di significatività statistica.
+
+L'algoritmo di NC, infine, favorisce il mantenimento di connessioni tra nodi non centrali, ma sullo stesso livello di gerarchia.
+
+Formally speaking, the p-value of NC is calculated by looking at the CDF of a binomial distribution. The observed value (number of successes) is the weight of the edge wu,v, the number of trials is the total sum of edge weights in the network ∑ u,v wu,v, and the probability of success is given by: pu,v = ∑ v′ ∈Nu wu,v′ × ∑ u′ ∈Nv wu′,v ∑ u′,v′ wu′,v′ !2 .
+
+So, in practice, we’re looking at the probability of having a weight higher than wu,v in a binomial distribution with ∑ u,v wu,v trials and a probability of success pu,v. Given that we use a binomial as a null model, you can see that NC works only for discrete counts as edge weights, because the binomial is a discrete distribution (Section 3.2). Moreover, all the elements here (wu,v, ∑ u,v wu,v, and pu,v) are the same in the perspective of u and v, thus this measure is u, v specific, differently from the disparity filter. Of course, if your network is directed, wu,v̸ = wv,u and you’ll get a different null expectation for either direction of the edge, because the u, v edge is different from the v, u edge.
+
 === Spectral Analysis
 La Spectral Analysis è lo studio degli autovalori ed autovettori della matrice Laplaciana di un grafo. Data una Laplacian $L$, definiamo gli autovalori $lambda$: $ lambda in sigma(L) quad sigma(L) = {lambda | det(L - lambda I) = 0} $ e gli autovettori $v$: $ v in ker(L - lambda I), quad v eq.not 0 $
 Come definito sopra, il primo autovalore $lambda_0$ in una Laplacian è sempre uguale a $0$. Gli altri autovalori, invece, sono monotoni crescenti: $ 0 = lambda_1 <= lambda_2 <= ... <= lambda_n $
@@ -364,7 +375,7 @@ Con l'evolutionary clustering, si cerca di bilanciare due obiettivi: massimizzar
 
 L'algoritmo usa un indice di similarità o una matrice delle distanze dei vari timestamps $T$, costruiti nel tempo, definita come $M_t$. Ad ogni timestamp, l'algoritmo cerca di ottimizzare la qualità dello snapshot: $ s q(C_t, M_t) - alpha dot h c (C_(t-1), C_t) $ dove $C_t$ è il clustering calcolato al tempo $t$. $s q$ è una funzione che valuta la qualità dello snapshot, $h c$ è la funzione di history cost e $alpha$ è un parametro di trade-off che stabilisce quanta importanza dare alle configurazioni passate degli snapshot.
 
-=== Modularity
+=== Modularità
 La modularità è una misura che valuta la qualità di una _community evaluation_ in una rete. Un alto grado di modularità significa che ci sarà un'alta densità tra i nodi nella stessa community e una densità minore tra un nodo in una community e uno all'infuori della comunità. Rappresenta la densità interna delle community. Ha anche lo scopo di ottimizzare la funzione di suddivisione in community, con l'obiettivo di massimizzare la modularità. Data $A$ la matrice delle adiacenze e $delta$ la funzione delta di Kronecker, la modularità è definita da: $ M = 1/(2|E|) sum_(i,j in V) \[A_(i j) - (deg(i) deg(j))/(2|E|) \] delta (c_i, c_j) $
 
 Il dominio di esistenza della modularità è definito in $[-0.5, +1]$: più è basso, più c'è disassortatività nella rete. Al contrario, se tende a $+1$, la divisione delle community è ottimale. Se la modularità è uguale a 0, allora il grafo non ha alcuna struttura.
@@ -460,7 +471,7 @@ Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblic
 
 + *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, perché l'analisi è solo sui commmenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti di Reddit che scrivono risposte automatiche in base a determinati triggers.
 
-+ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato solamente una quantità di messaggi nella media; (i self loop, quindi utenti che rispondono a se stessi, non vengono contati): $ |M_u| > (sum_(u in U) |M|)/(|U|) $Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due  utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore è il numero di archi che li collega, maggiore è il peso (la significativitè statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
++ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato solamente una quantità di messaggi nella media; (i self loop, quindi utenti che rispondono a se stessi, non vengono contati): $ |M_u| > (sum_(u in U) |M|)/(|U|) $Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due  utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore è il numero di archi che li collega, maggiore è il peso (la significatività statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
 
   Inoltre, al fine di anonimizzare i dati, e rendersi conforme al GDPR, viene assegnato un nuovo id all'utente. Si mantiene una tabella di mapping globale per rendere coerente l'`id` dell'utente tra le settimane e i mesi.
 
@@ -520,7 +531,7 @@ Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblic
 
 = Presentazione dei risultati
 #quote[La presentazione dei risultati dovrebbe consistere in una descrizione tecnica dei risultati raggiunti, unitamente ad un commento critico e ad un’analisi della rispondenza agli obiettivi iniziali (si consiglia per tanto di motivare la rilevanza dei risultati e l’eventuale scostamento dagli obiettivi iniziali). La sezione relativa ai risultati dovrebbe infine contenere una sintesi critica e un giudizio sull’esperienza effettuata, che renda conto di aspetti positivi e negativi per il tirocinante e per l’ente ospitante, del valore formativo, professionale e umano, e cosı via.]\
-Parlare dei risultati (+ robe che mi manderè Michele)
+Parlare dei risultati (+ robe che mi manderà Michele)
 
 #pagebreak()
 
