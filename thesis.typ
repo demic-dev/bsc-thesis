@@ -309,15 +309,23 @@ Con il backboning, si mantiene un focus globale, per evidenziare le _highways_ d
 
 Esistono vari algoritmi di backboning, in base ai fenomeni che si vogliono evidenziare e successivamente analizzare. Alcuni algoritmi consistono in: trovare il _minimum spanning tree_ @backbone-tree-filter, usare un _disparity filter_ @backbone-tree-filter, ricavare il _salience skeleton_ @Grady2012 o il metodo di _noise correction_ @noise-corrected-backboning. In questa tesi approfondiremo solamente l'ultimo metodo, poiché utilizzato in questo progetto.
 
-L'algoritmo Noise-Correction (NC) si basa sull'assunzione che ogni arco sia un'interazione tra i nodi. Se un arco vuole essere mantenuto, deve raggiungere o superare una certa soglia di significatività statistica.
+L'algoritmo Noise-Correction (NC) @noise-corrected-backboning si basa sull'assunzione che ogni arco sia un'interazione tra i nodi. Se un arco vuole essere mantenuto, deve raggiungere o superare una certa soglia di significatività statistica.
 
-L'algoritmo di Noise-Correction definisce una misura chiamata _lift_ $L_(i j)$ che rappresenta quanto il peso di un arco devia dal valore atteso di un null model randomico: $ L_(i j) = hat(N_i) / (E[N_(i j)]) $ con $E[N_(i j)]$ il peso atteso per una coppia di nodi $(i, j)$: $ E[N_(i j)] = hat(N_(i \.)) (hat(N_(\. j)))/(hat(N_(. .))) $
+L'algoritmo di Noise-Correction definisce una misura chiamata _lift_, $L_(i j)$, che rappresenta quanto il peso di un arco devia dal valore atteso di un null model randomico: $ L_(i j) = hat(N)_i / (E[N]_(i j)) $con $E[N_(i j)]$ il peso atteso per una coppia di nodi $(i, j)$: $ E[N_(i j)] = hat(N)_(i \.) (hat(N)_(\. j))/(hat(N)_(. .)) $
+$L_(i j)$ misura quanto il peso di un arco, tra i nodi $i$ e $j$ sia alto rispetto al valore atteso: $ L_(i j) = cases(
+  = 1 arrow.double.r "expected weight",
+  > 1 arrow.double.r "stronger connection than expected",
+  > 0 and < 1 arrow.double.r "weaker connection than expected"
+) $
+quindi, viene successivamente centrato in $0$, che chiameremo $tilde(L)_(i j)$.
 
-aggiungere che il lift viene centrato tra -1 e +1
+Successivamente, viene calcolata la varianza con il metodo delta, dei valori ottenuti in precedenza: $ V[tilde(L)_(i j)] = V[hat(N)_(i j)] ((2(kappa + hat(N)_(i j) (d kappa)/(d hat(N)_(i j))))/(k hat(N)_(i j) + 1 )^2) $dove $V[hat(N)_(i j)]$ è la varianza di una distribuzione Binomiale: $ V[N_(i j)] = N_(. .)hat(P)_(i j) (1 - hat(P)_(i j)) $
+dato che le reti reali sono sparse ed è difficile stimare con precisione $hat(P)_(i j)$, si assume che $hat(P)_(i j)$ usi un framework bayesiano che segue una distribuzione Beta: $[n_(i j) + alpha, n_(. .) - n_(i j) + beta]$. Dato che anche $alpha$ e $beta$ sono sconosciuti, si assume che la generazione dei pesi degli archi assuma una distribuzione ipergeometrica, in cui ogni volta che il peso di un arco incrementa di $1$ per il nodo $n$, allora si estrae e rimuove un nodo $j$ dall'insieme dei nodi (distribuiti secondo il peso $N_(i .)$ e $N_(. j)$ di ogni nodo). Così, la media $mu$ e la varianza $sigma^2$ sono definite, rispettivamente: $ E[p_(i j)] = E[N_(i j)/N_(. .)] = 1/(N_(. .))(N_(i .)N_(. j))/(N_(. .)) = mu = alpha/(alpha + beta) $ e $ V[p_(i j)] = 1/(N^2_(. .))(N_(i .)N_(. j)(N_(. .) - N_(i .))(N_(. .) - N_(. j)))/(N^2_(. .)(N_(. .) - 1)) = sigma^2 = (alpha beta)/((alpha + beta)^2)(alpha + beta + 1) $
+che così possono essere risolte in $alpha$ e $beta$. Che permette di ricavare $V[hat(N)_(i j)]$ e, quindi, la varianza $V[tilde(L)_(i j)]$.
 
-Successivamente, Second, we calculate a standard deviation for these transformed edge weights. Third, we use these standard deviations to construct p-values that are then used to prune edges.
+Infine, un arco sarà mantenuto solo se il peso è maggiore di $delta sqrt(V[tilde(L)_(i j)])$, ovvero se supera $delta$-volte la deviazione standard. Dove $delta$ è un parametro di threshold che viene passato all'algoritmo. Per maggiori informazioni, rimando al paper originale @noise-corrected-backboning.
 
-L'algoritmo di NC, favorisce il mantenimento di connessioni tra nodi non centrali, ma sullo stesso livello di gerarchia.
+L'algoritmo di NC, favorisce il mantenimento di connessioni tra nodi non centrali, ma sullo stesso livello di gerarchia @coscia2021atlas.
 
 === Spectral Analysis
 La Spectral Analysis è lo studio degli autovalori ed autovettori della matrice Laplaciana di un grafo. Data una Laplacian $L$, definiamo gli autovalori $lambda$: $ lambda in sigma(L) quad sigma(L) = {lambda | det(L - lambda I) = 0} $ e gli autovettori $v$: $ v in ker(L - lambda I), quad v eq.not 0 $
