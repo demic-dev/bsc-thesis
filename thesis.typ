@@ -1,4 +1,5 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
+#import "@preview/subpar:0.2.2" as subpar: grid
 
 // Page setup
 #set page(
@@ -399,46 +400,53 @@ Il dominio di esistenza della modularità è definito in $[-0.5, +1]$: più è b
 + *Coefficiente di Clustering*: È una proprietà che misura quanto, in una rete, i nodi tendono a essere connessi tra di loro. Soprattutto nelle reti sociali, i nodi tendono ad avere un'alta densità di collegamenti. È una misura locale o globale. A livello locale, misura quanto è probabile che i vicini di un nodo tendono a formare una cricca. Dato $N$ l'insieme dei vicini di $i$ e $k_i = |N|$: $ C C_i = (|{ e_(j k) : v_j, v_k in N, e_(k j) in E }|)/(k_v\(k_v-1\)) $\ A livello globale, invece, ci si basa su triple di nodi (triangoli o triadi). Il coefficiente globale di clustering rappresenta quanti triangoli chiusi ci sono, rispetto a tutte le triadi in una rete: $ C C = (\# "triangles")/(\# "triads") $
 
 === Node Vector Distance
-Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi.
+Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato #footnote[aggiungere citazioni a paper su djikstra, bellman-ford, etc]. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi.
 
-Le misure comuni di distanza, però, tengono conto solamente di un aspetto, ovvero di portare un dato in un nodo $i$ ad un nodo $j$. In modo binario, un dato può essere in un nodo oppure nell'altro, oppure in un qualsiasi nodo intermedio, non può diffondersi in modo "continuo", dove una parte di informazione si trova sia in un nodo, che nell'altro.\
-Però, molte situazioni del mondo reale possono essere modellizzate in questo modo:
+però, tengono conto solamente di un aspetto, ovvero di portare un dato in un nodo $i$ ad un nodo $j$. In modo binario, un dato può essere in un nodo oppure nell'altro, oppure in un qualsiasi nodo intermedio, non può diffondersi in modo "continuo", dove una parte di informazione si trova sia in un nodo, che nell'altro.\
+Però, molte situazioni del mondo reale possono essere modellizzate in questo modo, come la _diffusione di un virus_, _qualità di una campagna di marketing virale_ o _polarizzazione in un social network_.
 
-- *Diffusione di un virus*:
-- *Qualità di una campagna di marketing virale*:
-- *Polarizzazione in un social network*:
+L'intuizione dietro la _Node Vector Distance_ (NVD) deriva dal misurare, data una rete e due tempi $t_1$ e $t_2$, la diffusione di una proprietà di un nodo nel tempo.
 
-L'intuizione dietro la Node Distance deriva dal misurare, data una rete e due tempi $t_1$ e $t_2$, la diffusione di una proprietà di un nodo nel tempo.
+Formalmente @coscia2020node, data una rete non diretta $G = (V, E)$, dove $V$ è l'insieme dei nodi ed $E$ è l'insieme degli archi, definiamo la proprietà $A$ in ogni nodo della rete, con un vettore $A$ di lunghezza $|V|$ e dominio in $[0, 1]$. Assumendo per semplicità che tra $t_1$ e $t_2$ la rete non cambi, la NVD misura la distanza percorsa e la diffusione della proprietà $A$ nel tempo. In @nvd-diffusion-a e in @nvd-diffusion-b un toy example della diffusione della proprietà A nel tempo.
 
-Formalmente, data una rete non diretta $G = (V, E)$, dove $V$ è l'insieme dei nodi ed $E$ è l'insieme degli archi, assumiamo che la proprietà $A$ sia diffusa tra i nodi della rete, in modo tale che $sum_(i=0)^(|V|) A_i = 1$. Assumiamo anche che la rete non cambi, tra $t_1$ e $t_2$.
-
-Tramite la NVD, misuriamo la diffusione della proprietà $A$ tra i nodi:
-
-#figure(
-  diagram(
-    node-stroke: .1em,
-    spacing: 3em,
-    node((0, 0), `1`, radius: 1em, fill: red),
-    edge(``, "-"),
-    node((1, 0), `2`, radius: 1em),
-    edge(``, "-"),
-    node((2, 0), `3`, radius: 1em),
-    // ---------------------------------------
-    node((3, 0), `1`, radius: 1em, fill: red.lighten(90%)),
-    edge(``, "-"),
-    node((4, 0), `2`, radius: 1em, fill: red.lighten(75%)),
-    edge(``, "-"),
-    node((5, 0), `3`, radius: 1em, fill: red.lighten(35%)),
+#grid(
+  figure(
+    diagram(
+      node-stroke: .1em,
+      spacing: 3em,
+      node((0, 0), `1`, radius: 1em, fill: red),
+      edge(``, "-"),
+      node((1, 0), `2`, radius: 1em),
+      edge(``, "-"),
+      node((2, 0), `3`, radius: 1em),
+    ),
+    caption: [ $A_(t 1) = [1, 0, 0]$ ],
   ),
-  caption: [$A = [1, 0, 0]$ (sx). $A = [0.1, 0.25, 0.65]$ (dx)],
+  <nvd-diffusion-a>,
+
+  figure(
+    diagram(
+      node-stroke: .1em,
+      spacing: 3em,
+      node((0, 0), `1`, radius: 1em, fill: red.lighten(90%)),
+      edge(``, "-"),
+      node((1, 0), `2`, radius: 1em, fill: red.lighten(75%)),
+      edge(``, "-"),
+      node((2, 0), `3`, radius: 1em, fill: red.lighten(35%)),
+    ),
+    caption: [ $A_(t 2) = [0.1, 0.25, 0.65]$ ],
+  ),
+  <nvd-diffusion-b>,
+
+  columns: (1fr, 1fr),
 )
 
-Concretamente, esistono quattro classi di soluzione per poter calcolare la NVD:
+Ci sono tre classi di soluzione per la NVD @coscia2020node, ovvero: _generalized euclidean_, _shortest path_, _spectral_. Ci concentreremo solo sulla prima _generalized euclidean_, in quanto quella usata durante il tirocinio.
 
-+ *Generalized Euclidean*:
-+ *Shortest-Path*:
-+ *Spectral*:
-+ *Adaptions of NVD-Algorithms*:
+La _Generalized Euclidean_ (GE) misura le distanze in una rete nello stesso modo in cui misurerebbe le distanze in un piano Euclideo multidimensionale. È data da: $ delta_(A_(t 1), A_(t 2)) = sqrt((A_(t 1) - A_(t 2))^T L^+(A_(t 1) - A_(t 2))) $
+dove $L^+$ è la matrice Laplaciana pseudo-inversa di Moore-Penrose (non è invertibile perché è una matrice singolare), e $(A_(t 1) - A_(t 2))^T$ è la matrice trasposta della differenza della  proprietà $A$ nei tempi in considerazione.
+
+#pagebreak()
 
 == Python
 Python @van1995python è un linguaggio di programmazione interpretato, orientato agli oggetti, di alto livello con semantica dinamica. Le sue strutture dati integrate di alto livello, combinate con la tipizzazione dinamica e il binding dinamico, lo rendono molto interessante per lo sviluppo rapido di applicazioni, nonché per l'uso come linguaggio di scripting o di collegamento per connettere tra loro componenti esistenti. La sintassi semplice e facile da imparare di Python enfatizza la leggibilità e quindi riduce i costi di manutenzione dei programmi.
@@ -508,10 +516,10 @@ Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblic
 
   In conclusione, viene eseguita una riduzione dei parametri tramite la Principal Component Analysis (PCA), con il fine di restituire un valore generale circa la posizione politica di un utente. In @final-network-example, un esempio di una rete finale.
 
-#figure(
-  [ciao],
-  caption: "qui metto un'immagine di cytoscape con una rete di marzo 19, con i nodi che vanno da dems a reps con un gradiente",
-) <final-network-example>
+  #figure(
+    [ciao],
+    caption: "qui metto un'immagine di cytoscape con una rete di marzo 19, con i nodi che vanno da dems a reps con un gradiente",
+  ) <final-network-example>
 
 #pagebreak()
 
