@@ -125,7 +125,7 @@
   dept: [Corso di Laurea in Informatica],
   anno: [2024-2025],
   matricola: [24260A],
-  relatore: [Prof. Elena CASIRAGHI],
+  relatore: [Prof.ssa Elena CASIRAGHI],
   correlatore: [Prof. Michele COSCIA],
 )
 
@@ -150,62 +150,64 @@
 Qualcosa del tipo: in questa tesi vedremo etc... Nel primo capitolo ... etc.
 
 == NERDS: Network, Data and Society
-NERDS è il gruppo di ricerca presso il quale ho svolto il mio tirocinio. È un gruppo di ricerca interdisciplinare, che studia Network Science, Intelligenza Artificiale (AI) e Computational Social Science (CSS). L'ambiente, anch'esso, è interdisciplinare: ha studenti, PhD, PostDoc e professori con background in fisica, informatica, matematica e sociologia. Si trova a Copenhagen, all'interno della IT-Universitetet i København (ITU). Gli interessi di ricerca, includono, tra i vari, anche: science of science, reti sociali, reti complesse, sostenibilità urbana, mobilità urbana ed umana, visualizzazione di dati e aspetti fondamentali dei sistemi complessi.
+NERDS è il gruppo di ricerca presso il quale ho svolto il mio tirocinio. È un gruppo di ricerca interdisciplinare, che studia Network Science, Intelligenza Artificiale (AI) e Computational Social Science (CSS). Anche l'ambiente è interdisciplinare: ha studenti, PhD, PostDoc e professori con background in fisica, informatica, matematica e sociologia. Si trova a Copenhagen, all'interno della IT-Universitetet i København (ITU). Gli interessi di ricerca includono, tra gli altri: science of science, reti sociali, reti complesse, sostenibilità urbana, mobilità urbana e umana, visualizzazione di dati e aspetti fondamentali dei sistemi complessi.
 
 == Computational Social Science
-Le Scienze Sociali Computazionali (o Computational Social Science, CSS), è una scienza che studia le scienze sociali classiche (sociologia, antropologia, economia e scienze politiche) mediante l'uso di strumenti odierni per studiarle con approcci innovativi e su larga scala.\
-La CSS, utilizza due approcci principali: uno _empirico_, che fa leva su big data per generalizzare problemi e restituire analisi ed inferenze utili per affrontare la ricerca, e uno _scientifico_, che permette di creare modelli e simulazioni di certi fenomeni. Inoltre, negli ultimi anni, grazie all'esplosione dell'intelligenza artificiale, strumenti come il Natural Language Processing (NLP) o i più recenti Large Language Model (LLM) hanno accelerato la ricerca, grazie alla loro capacità di annotare dati con accuratezza più alta rispetto ad un umano non esperto; di conseguenza, è diventato possibile automatizzare tali task che altrimenti avrebbero richiesto una elevata quantità di tempo #footnote[Annotare manualmente milioni di dati può compromettere la fattibilità di un progetto @Sylolypavan2023-ov.] o di denaro #footnote[Servizi come Amazon Mechanical Turk (https://www.mturk.com/) possono essere costosi per laboratori con fondi limitati.]. Nei capitoli successivi, porteremo un esempio concreto di annotazioni automatiche tramite modelli NLP prima e LLM dopo, che hanno avuto un'utilità enorme nel progetto, per classificare la tossicità e l'opinione politica dei messaggi inviati dagli utenti. Mostreremo anche un test per misurare l'attendibilità dei modelli utilizzati.
+Le Scienze Sociali Computazionali (o Computational Social Science, CSS), sono una scienza che studia le scienze sociali classiche (sociologia, antropologia, economia e scienze politiche) mediante l'uso di strumenti odierni per esplorarle con approcci innovativi e su larga scala.\
+La CSS utilizza due approcci principali: uno _empirico_, che fa leva su big data per generalizzare problemi e restituire analisi e inferenze utili per affrontare la ricerca, e uno _scientifico_, che permette di creare modelli e simulazioni di certi fenomeni. Inoltre, negli ultimi anni, grazie all'esplosione dell'intelligenza artificiale, strumenti come il Natural Language Processing (NLP) o i più recenti Large Language Model (LLM) hanno accelerato la ricerca, grazie alla loro capacità di annotare dati con accuratezza più alta rispetto a un umano non esperto; di conseguenza, è diventato possibile automatizzare tali task che altrimenti avrebbero richiesto un'elevata quantità di tempo #footnote[Annotare manualmente milioni di dati può compromettere la fattibilità di un progetto @Sylolypavan2023-ov.] o di denaro #footnote[Servizi come Amazon Mechanical Turk (https://www.mturk.com/) possono essere costosi per laboratori con fondi limitati.]. Nei capitoli successivi, porteremo un esempio concreto di annotazioni automatiche tramite modelli NLP prima e LLM dopo, che hanno avuto una grande utilità nel progetto per classificare la tossicità e l'opinione politica dei messaggi inviati dagli utenti. Mostreremo anche un test per misurare l'attendibilità dei modelli utilizzati.
 
-In questa tesi useremo un approccio empirico della CSS; analizzeremo i dati di una rete sociale (Reddit) per stabilirne la polarizzazione politica. Nei capitoli successivi, introdurremmo quindi il concetto di polarizzazione (a livello sociologico) e la Network Science, una scienza che studia le reti complesse.
+In questa tesi useremo un approccio empirico della CSS; analizzeremo i dati di una rete sociale (Reddit) per stabilirne la polarizzazione politica. Nei capitoli successivi, introdurremo quindi il concetto di polarizzazione (a livello sociologico) e la Network Science, una scienza che studia le reti complesse.
 
 == Obiettivi della tesi
 
-Il lavoro iniziale fa un'analisi estesa sui subreddit (ovvero comunità, ne parleremo in dettaglio nel capitolo successivo) politici di Reddit, mostrando come sono cambiati negli anni, la distribuzione di democratici e repubblicani e di come è cambiata l'opinione degli utenti nel tempo su sette argomenti (_aborto_, _cambiamenti climatici_, _identità di genere_, _controllo delle armi_, _sanità_, _razzismo_ e _immigrazione_), che sono diventati sempre più divisivi nel dibattito pubblico. Analizza anche le polarizzazioni ideologiche e affettive di questa rete sociale, fenomeni che hanno portato gli utenti di Reddit ad interagire solamente con utenti con idee affine alle loro.
+Il lavoro iniziale fa un'analisi estesa sui subreddit (ovvero comunità, ne parleremo in dettaglio nel capitolo successivo) politici di Reddit, mostrando come sono cambiati negli anni, la distribuzione di democratici e repubblicani e come è cambiata l'opinione degli utenti nel tempo su sette argomenti (_aborto_, _cambiamenti climatici_, _identità di genere_, _controllo delle armi_, _sanità_, _razzismo_ e _immigrazione_), che sono diventati sempre più divisivi nel dibattito pubblico statunitense. Analizza anche le polarizzazioni ideologiche e affettive di questa rete sociale, fenomeni che hanno portato gli utenti di Reddit a interagire solamente con utenti con idee affini alle loro.
 \ Questo studio è incentrato sul contesto statunitense, poiché più del 50% degli utenti che visita il sito ogni giorno è statunitense e abbiamo a disposizione una grande quantità di dati da analizzare.
 
-Una rete è formata da un insieme di nodi, che rappresenta l'insieme degli utenti, e un insieme di archi, che dimostra che due utenti hanno avuto un'interazione significativa tra di loro.
+Una rete è formata da un insieme di nodi, che rappresentano gli utenti, e un insieme di archi, che indicano che due utenti hanno avuto un'interazione significativa tra di loro.
 
-Il limite del progetto, era quello di rappresentare le reti come reti non dirette, perdendo quindi la direzionalità dell'informazione. Quindi, il mio lavoro si inserisce in un'espansione del progetto iniziale, ovvero il supporto delle reti dirette e, successivamente, analizzare se i nuovi risultati sono, per primo, attendibili e congruenti a quanto dovrebbero; secondo, se ci possono essere utili per conoscere meglio la rete iniziale, dandoci informazioni che prima non avevamo.
-\ Il mio lavoro si concentra maggiormente nel calcolo della polarizzazione, usando un nuovo metodo che consente di calcolare la matrice Laplaciana su reti dirette. In più, proveremo ad estendere il calcolo anche su reti con segno. L'euristica è che, se un messaggio supera una certa tossicità, allora l'interazione tra due utenti è considerata negativa, e quindi ha un punteggio diverso. Intuitivamente, ci aspettiamo che la polarizzazione ideologica aumenti.
+Il limite del progetto iniziale era quello di rappresentare le reti come reti non dirette, perdendo quindi la direzionalità dell'informazione. Il mio lavoro si inserisce quindi in un'espansione del progetto iniziale, ovvero il supporto delle reti dirette e, successivamente, l'analisi dei nuovi risultati per verificare se sono, in primo luogo, attendibili e congruenti con quanto ci si aspetterebbe e, in secondo luogo, se possono essere utili per conoscere meglio la rete iniziale, dandoci informazioni che prima non avevamo.
+\ Il mio lavoro si concentra maggiormente nel calcolo della polarizzazione, usando un nuovo metodo che consente di calcolare la matrice Laplaciana su reti dirette. In più, proveremo ad estendere il calcolo anche su reti con segno: l'euristica è che, se un messaggio supera una certa tossicità, allora l'interazione tra due utenti è considerata negativa, e quindi ha un punteggio diverso. Intuitivamente, ci aspettiamo che la polarizzazione ideologica aumenti.
 
 In sintesi, vogliamo capire se ha senso aggiungere complessità supportando le reti dirette, oppure se con le reti non dirette riusciamo ad avere un'approssimazione che ci soddisfa.
 
-Solitamente, nella Network Science, vengono preferite reti semplici, quindi non dirette, poiché è complicato adattare tutte le misure su reti dirette, e in alcuni casi non è proprio possibile. L'obiettivo finale è quello di aggiungere un tassello in più nel grande puzzle della generalizzazione e comprensione dei sistemi complessi.
+Solitamente, nella Network Science, vengono preferite reti semplici, quindi non dirette, poiché è complicato adattare tutte le misure a reti dirette e, in alcuni casi, non è proprio possibile. L'obiettivo finale è aggiungere un tassello in più nel grande puzzle della generalizzazione e comprensione dei sistemi complessi.
 
 #pagebreak()
 
-= Descrizione delle attivita preliminari
-#quote[Descrivere brevemente le attivita preliminari svolte, quali studio e analisi di soluzioni esistenti, studio delle tecnologie utilizzate nel seguito del lavoro.]\
+= Descrizione delle attività preliminari
+#quote[Descrivere brevemente le attività preliminari svolte, quali studio e analisi di soluzioni esistenti, studio delle tecnologie utilizzate nel seguito del lavoro.]\
 In questo capitolo ...
 
 == Social Network Analysis
-La Social Network Analysis - analisi delle reti sociali - non è una vera e propria teoria, ma più una strategia generale da usare per analizzare le strutture sociali. Nasce da ben prima dell'informatica, con la sociologia. È nata con l'intento di studiare i comportamenti delle persone, in base al contesto in cui si trovano. Le relazioni tra gli "attori" di una rete sono la priorità. Nonostante questo, le proprietà singole di un attore sono necessarie per analizzare fenomeni sociali.
+La Social Network Analysis - analisi delle reti sociali - non è una vera e propria teoria, ma più una strategia generale per analizzare le strutture sociali. Nasce ben prima dell'informatica, nell'ambito della sociologia, con l'intento di studiare i comportamenti delle persone in base al contesto in cui si trovano. Le relazioni tra gli "attori" di una rete sono la priorità; nonostante ciò, le proprietà singole di un attore sono necessarie per analizzare fenomeni sociali.
 
-Grazie alla diffusione su larga scala della tecnologia e grazie alle crescenti prestazioni dei computer, la SNA ha trovato una sinergia con l'informatica. Attualmente, la SNA si concentra nello studio delle reti sociali, quali Facebook, Twitter (X) o Reddit tra i principali, data la grande mole di dati presenti.\
+Grazie alla diffusione su larga scala della tecnologia e alle crescenti prestazioni dei computer, la SNA ha trovato una sinergia con l'informatica. Attualmente, la SNA si concentra sullo studio delle reti sociali, quali Facebook, Twitter (X) e Reddit, tra i principali, data la grande mole di dati presenti.\
 Le crescenti prestazioni dei computer hanno aiutato la SNA fornendo uno strumento matematico e pratico su cui effettuare le proprie analisi. Modellizzando le reti tramite la teoria dei grafi (presa dall'algebra), l'informatica ha fornito la possibilità di eseguire algoritmi complessi su reti grandi con migliaia o milioni di nodi, in relativamente poco tempo.
 
-Un altro aspetto della SNA è lo studio di come le strutture sociali influenzano il comportamento di una persona. Vengono distinte due tipi di SNA: la ego network analysis, in cui da una rete vai ad identificare un "_ego node_" e studi tutte le proprietà di quella rete, ma ristrette ai nodi confinant, fino ad un certo grado @coscia2021atlas; e la global network analysis, dove invece non prendi in considerazione un singolo nodo ma si cercano di studiare tutte le relazioni tra i partecipanti nella rete.
+Un altro aspetto della SNA è lo studio di come le strutture sociali influenzano il comportamento di una persona. Vengono distinti due tipi di SNA: la ego network analysis, in cui si identifica un "_ego node_" in una rete e si studiano tutte le proprietà di quella rete ristrette ai nodi adiacenti, fino a un certo grado @coscia2021atlas; e la global network analysis, dove invece non si prende in considerazione un singolo nodo ma si cercano di studiare tutte le relazioni tra i partecipanti nella rete.
 
 === Polarizzazione
 
-Per polarizzazione, si intende la tendenza di un gruppo di prendere decisioni più divisive ed estreme rispetto alle singole opinioni iniziali dei membri. Si riferisce anche al fenomeno per il quale i membri di un gruppo rafforzano le loro opinioni dopo aver avuto una discussione su un determinato argomento.
+Per polarizzazione si intende la tendenza di un gruppo a prendere decisioni più divisive ed estreme rispetto alle singole opinioni iniziali dei membri. Si riferisce anche al fenomeno per il quale i membri di un gruppo rafforzano le loro opinioni dopo aver avuto una discussione su un determinato argomento.
 
 È un fenomeno importante in psicologia sociale e viene ritrovato in molti contesti. Si inizia a parlare di polarizzazione negli anni '60, quando viene studiato il "risky-shift" @myers1976group, ovvero la tendenza di un gruppo a prendere decisioni più rischiose, rispetto alle stesse singole decisioni prese da ogni individuo di quel gruppo.\
 Negli anni più recenti, invece, internet e i social media hanno portato un nuovo contesto dentro il quale studiare la polarizzazione. Ricercatori hanno dimostrato come, grazie alle reti sociali, possono esserci episodi di polarizzazione anche quando le persone non sono fisicamente vicine.
 
-Ai fini della tesi e del tirocinio, andremo nello specifico a parlare di polarizzazione politica, un fenomeno più specifico nel quale le opinioni politiche di una persona -o di un partito- divergono dal centro, fino ad atterrare verso opinioni estreme. Possiamo quindi dire che non vi è alcuna, o quasi, intersezione tra le posizioni dei partiti presi in considerazione. Gli accademici la distinguono in _ideological polarization_, ovvero le differenze tra le posizioni politiche e _affective polarization_.
+Ai fini della tesi e del tirocinio, andremo a parlare nello specifico di polarizzazione politica, un fenomeno nel quale le opinioni politiche di una persona - o di un partito - divergono dal centro, fino ad assumere posizioni estreme. Possiamo quindi dire che non vi è alcuna, o quasi, intersezione tra le posizioni dei partiti presi in considerazione. Gli accademici la distinguono in _ideological polarization_, ovvero le differenze tra le posizioni politiche, e _affective polarization_.
 
-*Ideological Polarization*: si intende la differenza tra le posizioni politiche e l'esitazione nell'avere a che fare con chi ha opinioni politche diverse.
+*Ideological Polarization*: si intende la differenza tra le posizioni politiche.
 
-*Affective Polarization*: misura l'avversione di una persona nell'avere a che fare con persone di idee politiche differenti. Inizialmente veniva misurata con delle surveys @measure-affective-pol, dove le persone rispondevano a domande circa quanto attitudini verso i partiti opposti, ma anche rispetto ai comportamenti che metterebbero in atto rispetto a persone di un partito opposto (sarebbero amici? sarebbero felici di averli come vicini di casa?). Al giorno d'oggi, è possibile anche misurare la _affective polarization_ anche analizzando le reti sociali @hohmann2025estimating che, a differenza dei sondaggi, misurano comportamenti compiuti, su larga scala.
+*Affective Polarization*: misura l'avversione di una persona nell'avere a che fare con persone di idee politiche differenti.
 
-Più avanti nel capitolo, vedremo come quantificarle entrambe, grazie alla della Node Vector Distance e della Generalized Euclidean.
+Inizialmente veniva misurata con delle survey @measure-affective-pol, dove le persone rispondevano a domande circa le attitudini verso i partiti opposti, ma anche riguardo ai comportamenti che metterebbero in atto nei confronti di persone di un partito opposto (sarebbero amici? sarebbero felici di averli come vicini di casa?). Al giorno d'oggi, è possibile misurare la _affective polarization_ anche analizzando le reti sociali @hohmann2025estimating che, a differenza dei sondaggi, misurano comportamenti compiuti su larga scala.
+
+Più avanti nel capitolo, vedremo come quantificarle entrambe, grazie alla Node Vector Distance e alla Generalized Euclidean.
 
 == Teoria dei Grafi
 
 La teoria dei grafi è una branca della matematica e dell'informatica che modella situazioni o processi sotto forma di nodi (attori dell'evento) e di archi (interazioni tra i nodi).
 
-Un grafo viene distinto in diretto o indiretto. Un grafo si dice diretto (anche chiamato _digraph_) quando gli archi che collegano i nodi hanno una direzione. Altrimenti, viene detto indiretto.
+Un grafo si dice diretto (anche chiamato _digraph_) quando gli archi che collegano i nodi hanno una direzione; altrimenti, viene detto indiretto.
 
 Formalmente, definiamo un grafo: $ G = (V, E) $
 dove:
@@ -213,17 +215,22 @@ dove:
 - $E subset.eq {{x, y} | x, y in V and x eq.not y}$ è un insieme di archi non diretto, *oppure*
 - $E subset.eq {{x, y} | (x, y) in V^2 and x eq.not y}$ è un insieme di archi diretto
 
-Questi possono essere rappresentati, come struttura dati, con una lista delle adiacenze o una matrice delle adiacenze. La prima, contiene una lista dei nodi dove l'indice $i$ della lista contiene il nodo $i$ e a cui corrispondono tutti gli archi che partono dal nodo $i$ e arrivano al nodo $i'$. Richiede $Theta(V + E)$ spazio di memoria.
+Questi possono essere rappresentati, come struttura dati, con una lista delle adiacenze o una matrice delle adiacenze. La lista delle adiacenze associa a ogni nodo $i$ l'elenco di tutti i nodi $i'$ verso i quali esiste un arco. Richiede $Theta(V + E)$ spazio di memoria.
 
-La matrice delle adiacenze $M$, invece, si usa una matrice $N times N$, dove $N$ è il numero dei nodi e, $M_(i j) = 0$ se non vi è alcun arco tra $i$ e $j$, $M_(i j) = w$ se vi è un arco che collega $i$ e $j$ di peso $w$. Richiede $Theta (V^2)$ spazio di memoria.
+La matrice delle adiacenze $M$, invece, usa una matrice $N times N$, dove $N$ è il numero dei nodi: $ M = cases(
+  M_(i j) = 0 arrow.double.r exists.not (i, j) in E,
+  M_(i j) = w arrow.double.r exists (i, j) in E
+) $
 
-I grafi vengono usati per modellizzare moltissime relazioni e processi in numerosi campi. Nell'informatica stessa, i grafi sono stati fondamentali per permetterci di sviluppare sistemi operativi multiutente e multiprocesso (nell'ambito della gestione delle risorse) e per poter espandere internet globalmente e senza sosta (routing dei pacchetti).
+dove $w$ è il peso dell'arco $(i, j)$. Richiede $Theta (V^2)$ spazio di memoria.
+
+I grafi vengono usati per modellare moltissime relazioni e processi in numerosi campi. Nell'informatica stessa, i grafi sono stati fondamentali per permetterci di sviluppare sistemi operativi multiutente e multiprocesso (nell'ambito della gestione delle risorse) e per espandere internet globalmente e senza sosta (routing dei pacchetti) #footnote[aggiungere citazioni].
 
 === Proprietà principali
 
-Di seguito riportiamo alcune proprietà principali dei grafi, che vengono usati sia nella SMA, ma anche in tutti i campi di applicazione descritti sopra.
+Dati un grafo indiretto $G = (V, E)$ e un grafo diretto $G_1 = (V, E_1)$, essi riportano le seguenti proprietà:
 
-+ *Grado*: Il grado di un nodo è il numero di archi di un nodo. Definita come: $ deg(x) $ Nel caso dei digraph, si distingue il $deg_(i n) (x)$ e $deg_(o u t) (x)$, rispettivamente il numero di archi entranti e il numero di archi uscenti.
++ *Grado*: Il grado di un nodo è il numero di archi incidenti a esso. Dato un nodo $x in V$, è definito come: $ deg(x) $ Nel caso dei digraph, si distinguono il $deg_(i n) (x)$ e il $deg_(o u t) (x)$, rispettivamente il numero di archi entranti e il numero di archi uscenti.
 
 + *Cammino*: Un cammino è una sequenza di nodi $v_1, v_2, ..., v_n$ tale che due nodi consecutivi nella sequenza, siano adiacenti: $ w = {v_1, v_2, ..., v_n } $
 
@@ -233,54 +240,55 @@ Di seguito riportiamo alcune proprietà principali dei grafi, che vengono usati 
 
 + *Cricca*: Una cricca è una partizione di un grafo $G$ tale che, per ogni coppia di nodi della partizione, esiste un arco che li collega. $ c = { i,j in V | (e_i, e_j) exists in E or (e_j, e_i) exists in E } $
 
-+ *Componenti Connesse*: Abbiamo una componente connessa di un grafo $G$ se qualsiasi coppia di nodi è connessa da cammini e se non è parte di un sottografo connesso più grande.
++ *Componenti Connesse*: Una componente connessa di un grafo $G$ è un sottografo in cui qualunque coppia di nodi è connessa da un cammino e che non è parte di un sottografo connesso più grande.
 
 + *Distanza*: La distanza tra due nodi equivale al numero di archi in un cammino minimo che li connette.
 
 + *Diametro*: Il diametro di un grafo è anche detto _longest shortest path_, ovvero la massima distanza tra due nodi di un grafo.
 
-+ *Alberi*: Un albero è un grafo indiretto dove ogni vertice è connesso esattamente da un percorso.
++ *Alberi*: Un albero è un grafo indiretto dove ogni coppia di vertici è connessa da esattamente un percorso.
 
 + *Grafi Bipartiti*: Un grafo si dice bipartito se può essere diviso in due sottoinsiemi disgiunti $G'$ e $G''$, dove ogni arco di $G'$ connette i nodi di $G''$.
 
-+ *Densità*: La densità in un grafo indica quanto questo è connesso. Se ogni nodo è connesso ad un altro, avremo un grafo completo. Al contrario, un grafo con pochi archi rispetto ai nodi, è detto sparso. Per un grafo indiretto, la densità viene definita: $ d = (2 * |E|)/(|V|(|V|-1)) $
++ *Densità*: La densità in un grafo indica quanto questo è connesso. Se ogni nodo è connesso a tutti gli altri, avremo un grafo completo. Al contrario, un grafo con pochi archi rispetto ai nodi è detto sparso. Per un grafo indiretto, la densità viene definita: $ d = (2 * |E|)/(|V|(|V|-1)) $
 
 == Network Science
 
-La Network Science è una scienza che studia le reti complesse. È un campo multidisciplinare, poiché affonda le sue radici in: _matematica_ (teoria dei grafi), _fisica_ (meccanica statistica), _statistica_ (inferenza statistica), _sociologia_ (strutture sociali) e _informatica_ (data mining). Viene definita come #quote()[lo studio delle rappresentazioni di rete dei fenomeni fisici, biologici e sociali che portano alla creazione di modelli predittivi di tali fenomeni.] [nap11516]
+La Network Science è una scienza che studia le reti complesse. È un campo multidisciplinare poiché affonda le sue radici nella _matematica_ (teoria dei grafi), nella _fisica_ (meccanica statistica), nella _statistica_ (inferenza statistica), nella _sociologia_ (strutture sociali) e nell'_informatica_ (data mining). Viene definita come #quote()[lo studio delle rappresentazioni di rete dei fenomeni fisici, biologici e sociali che portano alla creazione di modelli predittivi di tali fenomeni.] @nap11516
 
 Moltissime situazioni complesse possono essere modellate come reti:
 
-- *Social Networks*: nell'informatica, è uno degli esempi più ricorrenti. I social network sono letteralmente delle reti sociali, che modellano relazioni e interazioni tra persone. È immediato pensare alle persone come nodi di una rete e alle relazioni come archi. Instagram o Twitter sono esempi di rete diretta, poiché una persona $a$ può seguire un'altra persona $è$, ma non è detto che $a'$ ricambi. Esiste quindi un arco diretto che parte da $a$ e arriva ad $a'$, ma non viceversa;
+- *Social Networks*: nell'informatica, è uno degli esempi più ricorrenti. I social network sono letteralmente delle reti sociali, che modellano relazioni e interazioni tra persone. È immediato pensare alle persone come nodi di una rete e alle relazioni come archi. Instagram o Twitter sono esempi di rete diretta, poiché una persona $a$ può seguire un'altra persona $a'$, ma non è detto che $a'$ ricambi. Esiste quindi un arco diretto che parte da $a$ e arriva ad $a'$, ma non viceversa;
 - *Citazioni negli articoli scientifici*: ogni volta che un articolo viene pubblicato, questo contiene $n$ citazioni verso altri articoli e si aggiunge alla rete di articoli già esistenti. Ogni articolo è quindi un nodo e una citazione è un arco che collega due nodi. Anche in questo caso, la rete è diretta;
 - *Interazione Proteina-Proteina*: nella biologia, si parla di _interazione proteina-proteina_ quando due o più proteine interagiscono tra di loro per mezzo di reazioni biochimiche. Queste interazioni avvengono all'interno delle cellule di un organismo vivente. In questo contesto, i nodi sono le proteine e il risultato di una reazione porta alla creazione di un arco tra le proteine.
 
-La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-Albert "Emergence of Scaling in Random Networks" [Baraba_si_1999]: le reti reali complesse di grandi dimensioni non si sviluppano in modo casuale (la probabilità che un nodo $a$ abbia un arco verso un nodo $è$ non è approssimabile casualmente, come veniva assunto nel modello _Erdős-Rényi_ [Erdos2022OnRG]), ma seguono una _power-law degree distribution_: è più probabile che nuovi nodi che entrano nella rete cerchino collegamenti con nodi che hanno già molti collegamenti. Questo fenomeno si chiama _preferential attachment_ (ad esempio, nel WWW, un nuovo sito avrà link verso siti più grandi e conosciuti). Di conseguenza, in una rete pochi nodi (detti anche _hub_) avranno un grado elevato [scale-free] e la maggior parte dei nodi avrà un grado basso.
+La Network Science è esplosa dopo la pubblicazione dell'articolo di Barabási-Albert "Emergence of Scaling in Random Networks" @Barabasi1999Emergence: le reti reali complesse di grandi dimensioni non si sviluppano in modo casuale (la probabilità che un nodo $a$ abbia un arco verso un nodo $a'$ non è approssimabile come casuale, come veniva ipotizzato nel modello _Erdős-Rényi_ @ErdosRenyi2022OnRandomGraphs), ma seguono una _power-law degree distribution_: è più probabile che nuovi nodi che entrano nella rete cerchino collegamenti con nodi che hanno già molti collegamenti. Questo fenomeno si chiama _preferential attachment_ (ad esempio, nel WWW, un nuovo sito avrà link verso siti più grandi e conosciuti). Di conseguenza, in una rete pochi nodi (detti anche _hub_) avranno un grado elevato e la maggior parte dei nodi avrà un grado basso.
 
-La teoria dei grafi e la network science sono altamente interconnesse. Quest'ultima usa la teoria dei grafi per rappresentare le informazioni ed eseguire algoritmi sulle sue strutture dati. Però, per facilità di comprensione, nei prossimi paragrafi ci riferiremo in particolare alle proprietà che vengono studiate in network science.
+La teoria dei grafi e la Network Science sono altamente interconnesse. Quest'ultima usa la teoria dei grafi per rappresentare le informazioni ed eseguire algoritmi sulle sue strutture dati. Tuttavia, per facilità di comprensione, nei prossimi paragrafi ci riferiremo in particolare a proprietà che tornano utili in Network Science.
 
 === Distribuzione di grado
-Nei paragrafi precedenti, abbiamo visto cos'è il grado di un nodo in un grafo. Se accumuliamo tutti i gradi dei nodi in una rete, possiamo calcolare la probabilità, dato un nodo in un grafo, che questo abbia grado $y$: $P(deg(x) = y) = z$. La distribuzione del grado non è altro che la distribuzione delle probabilità rispetto ai gradi dei nodi nella rete. Data una rete di $n$ nodi, la probabilità che un nodo abbia grado $k$ equivale a: $ P(k) = (n_k)/n $
+La distribuzione del grado è la distribuzione delle probabilità dei gradi dei nodi nella rete. Data una rete di $n$ nodi, la probabilità che un nodo abbia grado $k$ equivale a: $ P(k) = (n_k)/n $
 
 === Matrice Laplaciana
 La matrice Laplaciana $L$, anche detta Laplacian, è una matrice che rappresenta le informazioni topologiche di un grafo o di una rete. Dato un grafo indiretto $G = (V, E)$, da cui si ricava la matrice delle adiacenze $A_G$ e la matrice di grado $D_G$, la matrice Laplaciana $L_G$ si ottiene sottraendo la matrice di grado dalla matrice delle adiacenze: $ L_G = D_G - A_G $
-$L_G$, di dimensioni $|V|times|V|$, è simmetrica e la somma di tutte le righe e colonne è uguale a $0$: $ sum_(i = 0 in |V|) L_(i j) = 0 sum_(j = 0 in |V|) L_(j i) = 0 $
-In un grafo diretto, invece, la matrice Laplacian utilizza l'indegree matrix oppure l'outdegree matrix, rispettivamente $D_(G_(i n))$ e $D_(G_(o u t))$. Pertanto, non è simmetrica e, di conseguenza, invalida le proprietà della Laplacian che vedremo nei prossimi paragrafi. Quindi, solitamente, questa viene simmetrizzata oppure si tratta il grafo come un grafo indiretto.
+$L_G$, di dimensioni $|V|times|V|$, è simmetrica e la somma di tutte le righe e colonne è uguale a $0$: $ sum_(i = 0 in |V|) L_(i j) = 0 $ e $ sum_(j = 0 in |V|) L_(j i) = 0 $
+In un grafo diretto, invece, la matrice Laplacian utilizza l'indegree matrix oppure l'outdegree matrix, rispettivamente $D_(G_(i n))$ e $D_(G_(o u t))$. Pertanto, non è simmetrica e, di conseguenza, invalida le proprietà della Laplacian che vedremo nei prossimi paragrafi e che danno uno scopo alla misura. Quindi, solitamente, questa viene simmetrizzata oppure si tratta il grafo come un grafo indiretto.
 
 Una matrice Laplaciana rispetta sempre le seguenti proprietà:
 - È simmetrica: $L_(i j) = L_(j i)$;
 - È positiva semidefinita, ovvero tutti gli autovalori $lambda_1, lambda_2, ... lambda_n >=0$;
-- $lambda_0 = 0$
-- $sum_(i = 0 in |V|) L_(i j) = 0$; $sum_(j = 0 in |V|) L_(j i) = 0$
+- $lambda_0 = 0$;
+- La somma di tutte le righe è $0$: $sum_(i = 0 in |V|) L_(i j) = 0$;
+- La somma di tutte le colonne è $0$: $sum_(j = 0 in |V|) L_(j i) = 0$
 
-La matrice Laplacian ha numerose applicazioni nella teoria dei grafi e nella network science. Lo studio dei suoi autovalori ed autovettori permette di svolgere la _spectral analysis_, che fornisce informazioni importanti sulla struttura della rete, o per la community evaluation. Permette di calcolare la node distance vector, ovvero la diffusione di una proprietà di un nodo all'interno della rete @node-distance-vector. Inoltre, trova moltissime applicazioni nella fisica, campo da cui è nata, per modellizzare matematicamente reti elettriche @doyle2000randomwalkselectricnetworks. Viene anche usata per trovare il numero di Spanning Tree in un grafo, in tempo polinomiale @kirchoff-theory.
+La matrice Laplacian ha numerose applicazioni nella teoria dei grafi e nella network science. Lo studio dei suoi autovalori ed autovettori permette di svolgere la _spectral analysis_, che fornisce informazioni importanti sulla struttura della rete, o per la _community evaluation_. Permette di calcolare la _node distance vector_, ovvero la diffusione di una proprietà di un nodo all'interno della rete @node-distance-vector. Inoltre, trova moltissime applicazioni nella fisica, campo da cui è nata, per modellizzare matematicamente reti elettriche @doyle2000randomwalkselectricnetworks. Viene anche usata per trovare il numero di Spanning Tree in un grafo, in tempo polinomiale @kirchoff-theory.
 
-Esitono diverse declinazioni della Laplacian, ognuna adattata a diversi usi. Ad esempio, c'è la laplaciana normalizzata, una matrice che normalizza il grado dei nodi, in cui ci siano alcuni nodi con un grado alto e la maggior parte con un grado basso, come nel caso delle scale-free network. Esiste la matrice Laplacian costruita tramite la matrice delle incidenze (una matrice che codifica le relazioni tra i nodi e gli archi), usata per reti con gli archi pesati. Infine, abbiamo la _magnetic laplacian_, una matrice che rappresenta un grafo diretto, trattando le direzioni degli archi come una fase in un piano complesso. La approfondiremo nei capitoli successivi, poiché parte centrale del progetto di tesi.
+Esistono diverse declinazioni della Laplacian, ognuna adattata a diversi usi. Ad esempio, c'è la laplaciana normalizzata, una matrice che normalizza il grado dei nodi, utile quando c'è una disuguaglianza marcata nel grado dei nodi, come nel caso delle scale-free network. Esiste poi la matrice Laplacian costruita tramite la matrice delle incidenze (una matrice che codifica le relazioni tra i nodi e gli archi), usata per reti con archi pesati. Infine, abbiamo la _magnetic laplacian_, una matrice che rappresenta un grafo diretto, trattando le direzioni degli archi come una fase in un piano complesso. La approfondiremo nei capitoli successivi, poiché parte centrale del progetto di tesi.
 
 === Null Model
-Il _null model_ è un modello di rete che viene usato come benchmark rispetto ad una rete reale. Viene generato randomicamente partendo da delle proprietà di una rete reale (ad es. la densità, la distribuzione di grado, l'assortatività, ...). Viene usato per isolare uno specifico comportamento di una rete ad un ristretto gruppo di proprietà, generando casualmente delle reti che hanno quelle singole proprietà. Inoltre, può essere usato per trovare correlazioni tra proprietà su reti particolari: se data una rete reale con proprietà $X$ (es. average degree = 4), accade $Y$ (es. l'omofilia cresce), allora verranno generate delle reti randomiche con proprietà $X$ (average degree = 4) per verificare la presenza di $Y$.
+Il _null model_ è un modello di rete che viene usato come benchmark rispetto a una rete reale. Viene generato casualmente partendo da alcune proprietà di una rete reale (ad es. la densità, la distribuzione di grado, l'assortatività, ...). Viene usato per attribuire uno specifico comportamento di una rete a un ristretto gruppo di proprietà, generando casualmente delle reti che hanno quelle singole proprietà. Inoltre, può essere usato per trovare correlazioni tra proprietà su reti particolari: se data una rete reale con proprietà $X$ (es. average degree = 4), accade $Y$ (es. l'omofilia cresce), allora verranno generate delle reti randomiche con proprietà $X$ (average degree = 4) per verificare la presenza di $Y$.
 
-Un null model può essere randomico o generativo @Váša2022. Il modello randomico è il più comune, solitamente si ottiene tramite il metodo di rewiring, dove, dato un insieme di archi, questi vengono casualmente riscritti, per preservare il grado di ogni nodo. In @rewiring-null-model un esempio. Invece, con l'approccio generativo, date delle ipotesi nulle che devono essere raggiunte, si preleva una partizione della rete iniziale e si aggiungono nuovi nodi e archi finché non si raggiungono le ipotesi nulle definite inizialmente e che si vogliono mantenere.
+Un null model può essere randomico o generativo @Váša2022. Il modello randomico è il più comune: solitamente si ottiene tramite il metodo di rewiring, dove, dato un insieme di archi, questi vengono riscritti casualmente preservando il grado di ogni nodo. In @rewiring-null-model è riportato un esempio. Invece, con l'approccio generativo, date delle ipotesi nulle che devono essere raggiunte, si preleva una partizione della rete iniziale e si aggiungono nuovi nodi e archi finché non si raggiungono le ipotesi nulle definite inizialmente.
 
 #figure(
   diagram(
@@ -304,9 +312,9 @@ Un null model può essere randomico o generativo @Váša2022. Il modello randomi
 ) <rewiring-null-model>
 
 === Backboning
-Le reti reali sono piene di rumore, ovvero di archi e nodi che non hanno significanza statistica e che possono avvelenare i risultati. Occorre, quindi, usare un metodo per rimuovere il rumore dalla rete e lasciare solamente gli elementi significativi. Questa tecnica si chiama _backboning_. Esso nasce con la necessità di mantenere solamente le strutture e le gerarchie rilevanti in una rete, così che sia più facile analizzarle e anche più computazionalmente economico.
+Le reti reali sono piene di rumore, ovvero di archi e nodi che non hanno significatività statistica e che possono inquinare i risultati. Occorre, quindi, usare un metodo per rimuovere il rumore dalla rete e lasciare solamente gli elementi significativi. Questa tecnica si chiama _backboning_. Esso nasce con la necessità di mantenere solamente le strutture e le gerarchie rilevanti in una rete, così che sia più facile analizzarle e anche più computazionalmente economico.
 
-Con il backboning, si mantiene un focus globale, per evidenziare le _highways_ di una rete, ovvero quei cammini che sono importanti per far circolare l'informazione. Analogamente, il backboning ha la stessa funzione della _Principal Component Analysis_ in statistica.
+Con il backboning si mantiene un focus globale, per evidenziare le _highways_ di una rete, ovvero quei cammini che sono importanti per far circolare l'informazione. Il backboning ha una funzione analoga alla _Principal Component Analysis_ in statistica.
 
 Esistono vari algoritmi di backboning, in base ai fenomeni che si vogliono evidenziare e successivamente analizzare. Alcuni algoritmi consistono in: trovare il _minimum spanning tree_ @backbone-tree-filter, usare un _disparity filter_ @backbone-tree-filter, ricavare il _salience skeleton_ @Grady2012 o il metodo di _noise correction_ @noise-corrected-backboning. In questa tesi approfondiremo solamente l'ultimo metodo, poiché utilizzato in questo progetto.
 
@@ -314,9 +322,9 @@ L'algoritmo Noise-Correction (NC) @noise-corrected-backboning si basa sull'assun
 
 L'algoritmo di Noise-Correction definisce una misura chiamata _lift_, $L_(i j)$, che rappresenta quanto il peso di un arco devia dal valore atteso di un null model randomico: $ L_(i j) = hat(N)_i / (E[N]_(i j)) $con $E[N_(i j)]$ il peso atteso per una coppia di nodi $(i, j)$: $ E[N_(i j)] = hat(N)_(i \.) (hat(N)_(\. j))/(hat(N)_(. .)) $
 $L_(i j)$ misura quanto il peso di un arco, tra i nodi $i$ e $j$ sia alto rispetto al valore atteso: $ L_(i j) = cases(
-  = 1 arrow.double.r "expected weight",
-  > 1 arrow.double.r "stronger connection than expected",
-  > 0 and < 1 arrow.double.r "weaker connection than expected"
+  = 1 arrow.double.r "peso equivalente a quanto atteso",
+  > 1 arrow.double.r "peso maggiore a quanto atteso",
+  > 0 and < 1 arrow.double.r "peso minore a quanto atteso"
 ) $
 quindi, viene successivamente centrato in $0$, che chiameremo $tilde(L)_(i j)$.
 
@@ -330,84 +338,82 @@ L'algoritmo di NC, favorisce il mantenimento di connessioni tra nodi non central
 
 === Spectral Analysis
 La Spectral Analysis è lo studio degli autovalori ed autovettori della matrice Laplaciana di un grafo. Data una Laplacian $L$, definiamo gli autovalori $lambda$: $ lambda in sigma(L) quad sigma(L) = {lambda | det(L - lambda I) = 0} $ e gli autovettori $v$: $ v in ker(L - lambda I), quad v eq.not 0 $
-Come definito sopra, il primo autovalore $lambda_0$ in una Laplacian è sempre uguale a $0$. Gli altri autovalori, invece, sono monotoni crescenti: $ 0 = lambda_1 <= lambda_2 <= ... <= lambda_n $
+Come definito sopra, il primo autovalore $lambda_0$ in una Laplacian è sempre uguale a $0$. Gli altri autovalori, invece, sono monotoni crescenti: $ 0 = lambda_0 <= lambda_1 <= ... <= lambda_n $
 
-La spectral analysis è importante perché fornice informazioni importanti sulla struttura del grafo. Può essere utilizzata per la risoluzione del graph coloring problem #footnote[fonte] o per effettuare una low-rank approximation (approssimazione della matrice delle adiacenze ad una matrice di rango inferiore) #footnote[fonte]. Inoltre, l'uso del secondo e terzo autovettore $v_2$ e $v_3$, vengono usati per la visualizzazione di grafi con un layout semplificato e più piacevole all'occhio umano (anche $v_4$ per visualizzarlo in tre dimensioni), come dimostrato da Hall @hall-quadratic-placement.
+La spectral analysis è importante perché fornisce informazioni rilevanti sulla struttura del grafo. Può essere utilizzata per la risoluzione del graph coloring problem #footnote[aggiungere fonte ] o per effettuare una low-rank approximation (approssimazione della matrice delle adiacenze ad una matrice di rango inferiore) #footnote[aggiungere fonte ]. Inoltre, il secondo e il terzo autovettore, $v_2$ e $v_3$, vengono usati per la visualizzazione di grafi con un layout semplificato e più piacevole all'occhio umano (anche $v_4$ per la visualizzazione in tre dimensioni), come dimostrato da Hall @hall-quadratic-placement.
 
-Uno dei suoi usi più comuni invece risiede nello studio del secondo autovalore $lambda_2$, ovvero il Fiedler Value, chiamato anche _connettività algebrica_.\
-lambda_2 ha anche molte altre utilità (pag 16 del paper)
+Uno dei suoi usi più comuni risiede nello studio del secondo autovalore $lambda_2$, ovvero il Fiedler Value, chiamato anche _connettività algebrica_.\
+$lambda_2$ ha anche molte altre utilità (pag 16 del paper)
 
 Gli autovalori e autovettori, hanno le seguenti proprietà:
 
-+ Il vettore di tutti 1 è sempre un autovettore del primo autovalore $lambda_1$ di $L$, di valore 0;
-+ L'autovalore più grande della matrice delle adiacenze, è sempre compreso tra il grado medio e il grado massimo di un nodo in un grafo $G$; #footnote[see [9] or [10, Section 3.2]].
-+ Se $G$ è connesso, allora $lambda_1$ > $lambda_2$ e l'autovettori $v_1$ sarà positivo; #footnote[see [11]].
-+ The multiplicity of 0 as an eigenvalue of $L_G$ is equal to the number of connected components of $L_G$.
++ Il vettore di tutti 1 è sempre un autovettore del primo autovalore $lambda_0$ di $L$, di valore 0;
++ L'autovalore più grande della matrice delle adiacenze è sempre compreso tra il grado medio e il grado massimo di un nodo in un grafo $G$; #footnote[aggiungere fonte /* see [9] or [10, Section 3.2] */].
++ Se $G$ è connesso, allora $lambda_1$ > $lambda_2$ e l'autovettore $v_1$ sarà positivo; #footnote[aggiungere fonte /* see [11] */].
++ La molteplicità di 0 come autovalore di $L_G$ è uguale al numero di componenti connesse di $L_G$.
 + L'autovalore maggiore di $L$ è al massimo il doppio del grado massimo in $G$;
-+ $lambda_n$ = -$lambda_1$ se e solo se $G$ è un grafo bipartito #footnote[see [12], or [10, Theorem 3.4]].
++ $lambda_n$ = $-lambda_1$ se e solo se $G$ è un grafo bipartito #footnote[aggiungere fonte /* see [12], or [10, Theorem 3.4] */].
 
 === Community Discovery
-Studiando una rete, è frequente che si voglia analizzare se un gruppo di nodi forma una community. Ovvero, se questi possono essere raggruppati e suddivisi in base ad una proprietà in comune. Nella nostra societè, le community sono ovunque: persone che appartengono alla stessa citta, allo stesso gruppo di amici o che hanno lo stesso attore preferito. Chi vive in una determinata città, sicuramente avrà molte interazioni con persone che vivono nella sua stessa città. Al contrario, ne avrà poche o nulle con chi vive in città differenti, per forza di cose. Il ragionamento è il medesimo per le reti e la Network Science. Formalmente, una community si dice tale quando c'è una densità molto alta tra i nodi della community ed interazioni sparse con i nodi al di fuori di essa.
+Studiando una rete, è frequente che si voglia analizzare se un gruppo di nodi forma una community. Ovvero, se questi possono essere raggruppati e suddivisi in base ad una proprietà in comune. Nella nostra società, le community sono ovunque: persone che appartengono alla stessa città, allo stesso gruppo di amici o che hanno lo stesso attore preferito. Chi vive in una determinata città, sicuramente avrà molte interazioni con persone che vivono nella sua stessa città. Al contrario, ne avrà poche o nulle con chi vive in città differenti. Il ragionamento è il medesimo per le reti e la Network Science. Formalmente, una community si dice tale quando c'è una densità molto alta tra i nodi della community ed interazioni sparse con i nodi al di fuori di essa.
 
-Lo studio e la valutazione delle community in una rete, viene detto _community discovery_. Questa pratica ha svariati casi d'uso. Ad esempio, per il _backboning_, dove si possono individuare i nodi simili tra loro e rimuoverli, lasciando solo un nodo "rappresentante", al fine di semplificare la rete, oppure per raggruppare e classificare i nodi in cluster specifici, per testare il loro comportamento al cambio di determinate condizioni della rete (ad esempio nel campo dell'advertising e del marketing).
+Lo studio e la valutazione delle community in una rete vengono detti _community discovery_. Questa pratica ha svariati casi d'uso. Ad esempio, per il _backboning_, dove si possono individuare i nodi simili tra loro e rimuoverli, lasciando solo un nodo "rappresentante", al fine di semplificare la rete, oppure per raggruppare e classificare i nodi in cluster specifici, per testare il loro comportamento al cambio di determinate condizioni della rete (ad esempio nel campo dell'advertising e del marketing).
 
-La Community Discovery è un campo molto vasto, ed esistono svariati modi per raggruppare i nodi in comunità, e nuovi metodi vengono continuamente studiati. Infatti, non esiste il metodo definitivo, ma anzi tutto dipende dall'obiettivo che si vuole raggiungere. Generalmente, si da importanza alle performance del metodo di community detection e alla sua attendibilità, misurata con la somiglianza rispetto agli altri algoritmi.
+La community discovery è un campo molto vasto: esistono svariati modi per raggruppare i nodi in comunità e nuovi metodi vengono continuamente studiati. Infatti, non esiste il metodo definitivo; tutto dipende dall'obiettivo che si vuole raggiungere. Generalmente, si dà importanza alle performance del metodo di community detection e alla sua attendibilità, misurata con la somiglianza rispetto agli altri algoritmi.
 
-Il primo metodo trovato per effettuare Community Discovery è chiamato Stochastic Block Model (SBM), con la massimizzazione della _likelihood function_. Dato un SBM, ovvero un modello di generazione di grafi randomici che contiene comunità, generato con due parametri $p_(i n)$ e $p_(o u t)$, che rispettivamente sono la probabilità che un nodo interagisca con un nodo all'interno della comunità e che un nodo si connetta con un nodo all'esterno della comunità (generalmente, $p_(i n) > p_(o u t)$), si inizializzano i due parametri agli stessi valori della rete iniziale. Successivamente, si definisce la _likelihood function_: $ L_(Theta, A) = sum_(u, v in A) l_theta, A, u, v $ dove
+Il primo metodo trovato per effettuare community discovery è chiamato Stochastic Block Model (SBM), con la massimizzazione della _likelihood function_. Dato un SBM, ovvero un modello di generazione di grafi randomici che contiene comunità, generato con due parametri $p_(i n)$ e $p_(o u t)$, che rispettivamente sono la probabilità che un nodo interagisca con un nodo all'interno della comunità e che un nodo si connetta con un nodo all'esterno della comunità (generalmente, $p_(i n) > p_(o u t)$), si inizializzano i due parametri agli stessi valori della rete iniziale. Successivamente, si definisce la _likelihood function_: $ L_(Theta, A) = sum_(u, v in A) l_theta, A, u, v $ dove
 $
   l_(theta,A, u, v) = cases(
-    θ_1 - 1 "if" A_(u v) = 1 & (u, v) ∈ theta_3,
-    θ_2 - 1 "if" A_(u v) = 1 & (u, v) ∉ theta_3,
-    -θ_1 "if" A_(u v) = 0 & (u, v) ∈ theta_3,
-    -θ_2 "if" A_(u v) = 0 & (u, v) ∉ theta_3,
+    θ_1 - 1 arrow.double.r A_(u v) = 1 & (u, v) ∈ theta_3,
+    θ_2 - 1 arrow.double.r A_(u v) = 1 & (u, v) ∉ theta_3,
+    -θ_1 arrow.double.r A_(u v) = 0 & (u, v) ∈ theta_3,
+    -θ_2 arrow.double.r A_(u v) = 0 & (u, v) ∉ theta_3,
   )
 $
 Si cerca di massimizzare la funzione, in modo tale che: $ hat(theta) = arg_(theta in Theta)max L_(theta, A) $
 
 Infine, se, dato un SBM, $p_(o u t) > p_(i n)$, allora si possono trovare tutte le community disassortative, ovvero di nodi che legano solo con nodi che _non_ sono nella loro comunità.
 
-Questo metodo è l'equivalente del metodo di modularity optimization @Newman_2016, che definiremo più avanti.
+Questo metodo è l'equivalente del metodo di modularity optimization @Newman_2016, di cui parleremo più avanti.
 
-Un altro dei metodi più comuni per trovare le comunità in una rete, è quello di usare la _random walk_, ovvero partendo da un nodo casuale, esplorare casualmente uno dei suoi vicini, e così via, iterando $n$ volte. L'idea alla base è che quando con una random walk si entra in una community, allora vi rimarrà per molto tempo, dato l'elevato numero di archi all'interno della community. Al contrario, la probabilità che arrivi ad un nodo di confine e che questo poi entri in un'altra comunità, è molto bassa. Per tanto, utilizzare la tecnica delle random walk non è la più efficiente. Ci riesce bene, però, il metodo delle Infomap, che ha l'obiettivo di minimizzare la map equation @Rosvall2009, ovvero una codifica di una _random walk_.
+Un altro dei metodi più comuni per trovare le comunità in una rete, è quello di usare la _random walk_, ovvero partendo da un nodo casuale, esplorare casualmente uno dei suoi vicini, e così via, iterando $n$ volte. L'idea alla base è che quando con una random walk si entra in una community, allora vi rimarrà per molto tempo, dato l'elevato numero di archi all'interno della community. Al contrario, la probabilità che arrivi ad un nodo di confine e che questo poi entri in un'altra comunità, è molto bassa. Pertanto, utilizzare la tecnica delle random walk non è il metodo più efficiente. Ci riesce meglio, però, il metodo Infomap, che ha l'obiettivo di minimizzare la map equation @Rosvall2009, ovvero una codifica di una _random walk_.
 
-Inizialmente, l'algoritmo simula una normale random walk, per calcolare le frequenze di visita dei nodi. Ogni volta che esplora un nodo, gli assegnerà una sequenza di bit codificata con la codifica di Huffman @itwiki:147328281. Al fine di risparmiare memoria e riutilizzare gli id, in modo analogo alle vie, che si ripetono in varie città, inizierà a raggruppare i nodi vicini tra loro sotto una stessa community, al quale assegnerà un numero di bit crescente. In questo modo, nella codifica, quando entrerà in una nuova community, lo segnalerà scrivendo inizialmente il numero della community, e successivamente il numero di ogni nodo. Quando arriva ad un nodo di confine e si sposta in una nuova community, allora userà la codifica `1111`, che segnala il salto in una nuova community. Aggiunge un po' di overhead, perché in ogni community ci saranno almeno 5 bit in più, ma il breakeven point si raggiunge velocemente. Questo processo viene iterato molteplici volte, finché non si ottiene la lunghezza minima della codifica del random walker. Data la natura randomica delle random walk, è un algoritmo non deterministico.
+Inizialmente, l'algoritmo simula una normale random walk per calcolare le frequenze di visita dei nodi. Ogni volta che esplora un nodo, gli assegna una sequenza di bit codificata con la codifica di Huffman @itwiki:147328281. Al fine di risparmiare memoria e riutilizzare gli id, in modo analogo alle vie che si ripetono in diverse città, inizia a raggruppare i nodi vicini tra loro sotto una stessa community, alla quale assegna un codice di un numero crescente di bit. In questo modo, nella codifica, quando la random walk entra in una nuova community, lo segnala scrivendo inizialmente il numero della community e successivamente il numero di ogni nodo. Quando arriva a un nodo di confine e si sposta in una nuova community, usa la codifica `1111`, che segnala il salto in una nuova community. Questo aggiunge un po' di overhead, perché in ogni community ci sono almeno 5 bit in più, ma il breakeven point si raggiunge velocemente. Il processo viene iterato molteplici volte, finché non si ottiene la lunghezza minima della codifica della random walk. Data la natura casuale delle random walk, è un algoritmo non deterministico.
 
-Un ulteriore metodo di community detection è ottenuto tramite il metodo di _label percolation_, oppure _label convergence_, che, partendo da un subset di nodi a cui sono assegnate randomicamente delle label, queste vengono propagate a tutto il resto dei nodi, fino ad avere tutti i nodi etichettati. Anch'esso è un algoritmo non deterministico.
+Un ulteriore metodo di community detection è la _label percolation_ (o _label convergence_): partendo da un sottoinsieme di nodi a cui sono assegnate casualmente delle label, queste vengono propagate a tutti i nodi rimanenti, fino a ottenere tutti i nodi etichettati. Anche questo è un algoritmo non deterministico.
 
-Inizialmente, ad ogni nodo viene assegnata una label casuale. Successivamente, in modo iterativo, inizierà ad esplorare le label dei suoi nodi vicini. Questo, si autoassegnerà la label più frequente tra i suoi vicini e, in caso di pareggio, ne sceglierà una casualmente, pescando dai più frequenti. Si continua finché non si arriva ad una convergenza in cui ogni nodo ha la stessa label della maggioranza dei suoi vicini.\ L'aspetto positivo di questo algoritmo è che è molto semplice da implementare e converge velocemente.
+Inizialmente, a ogni nodo viene assegnata una label casuale. Successivamente, in modo iterativo, ogni nodo esplora le label dei suoi vicini e si autoassegna la label più frequente; in caso di pareggio, ne sceglie una casualmente tra le più frequenti. Si continua finché non si arriva a una convergenza in cui ogni nodo ha la stessa label della maggioranza dei suoi vicini.\ L'aspetto positivo di questo algoritmo è che è molto semplice da implementare e converge velocemente.
 
 In più, data la natura non deterministica, multiple iterazioni dello stesso algoritmo, evidenziano diverse community structures, che possono essere aggregate tramite l'indice di similarità di Jaccard @Raghavan_2007.
 
 Infine, la community detection può avvenire sia su reti statiche (_snapshots_ ad un determinato punto nel tempo), sia su reti dinamiche, in cui assumiamo che la rete si modifichi, si aggiungano nodi, si rimuovano archi e, di conseguenza, si modifichino le community.
 
-Un metodo naif di valutazione delle community nelle reti dinamiche, è quello di assumere che ogni snapshot sia indipendente nel tempo, e cercare indipendentemente su ogni snapshot, le community. La letteratura scientifica però, ci dice che i risultati possono essere molto diversi. Si può, quindi, ricorrere ad una tecnica chiamata _evolutionary clustering_ @evolutionary-clustering.
+Un metodo naïf di valutazione delle community nelle reti dinamiche è quello di assumere che ogni snapshot sia indipendente nel tempo e cercare indipendentemente su ogni snapshot le community. La letteratura scientifica, però, ci dice che i risultati possono essere molto diversi. Si può quindi ricorrere a una tecnica chiamata _evolutionary clustering_ @evolutionary-clustering.
 
 Con l'evolutionary clustering, si cerca di bilanciare due obiettivi: massimizzare la qualità dello snapshot al tempo $t$, che riflette i cambiamenti più recenti, e minimizzare l'_history cost_, ovvero la distanza tra il clustering al tempo $t$ e quello al tempo $t-1$.
 
 L'algoritmo usa un indice di similarità o una matrice delle distanze dei vari timestamps $T$, costruiti nel tempo, definita come $M_t$. Ad ogni timestamp, l'algoritmo cerca di ottimizzare la qualità dello snapshot: $ s q(C_t, M_t) - alpha dot h c (C_(t-1), C_t) $ dove $C_t$ è il clustering calcolato al tempo $t$. $s q$ è una funzione che valuta la qualità dello snapshot, $h c$ è la funzione di history cost e $alpha$ è un parametro di trade-off che stabilisce quanta importanza dare alle configurazioni passate degli snapshot.
 
 === Modularità
-La modularità è una misura che valuta la qualità di una _community evaluation_ in una rete. Un alto grado di modularità significa che ci sarà un'alta densità tra i nodi nella stessa community e una densità minore tra un nodo in una community e uno all'infuori della comunità. Rappresenta la densità interna delle community. Ha anche lo scopo di ottimizzare la funzione di suddivisione in community, con l'obiettivo di massimizzare la modularità. Data $A$ la matrice delle adiacenze e $delta$ la funzione delta di Kronecker, la modularità è definita da: $ M = 1/(2|E|) sum_(i,j in V) \[A_(i j) - (deg(i) deg(j))/(2|E|) \] delta (c_i, c_j) $
+La modularità è una misura che valuta la qualità di una _community evaluation_ in una rete. Un alto grado di modularità significa che ci sarà un'alta densità tra i nodi nella stessa community e una densità minore tra un nodo in una community e uno al di fuori della comunità. Rappresenta la densità interna delle community. Ha anche lo scopo di ottimizzare la funzione di suddivisione in community, con l'obiettivo di massimizzare la modularità. Data $A$ la matrice delle adiacenze e $delta$ la funzione delta di Kronecker, che restituisce $1$ se i nodi sono nella stessa community e 0 altrimenti, la modularità è definita da: $ M = 1/(2|E|) sum_(i,j in V) \[A_(i j) - (deg(i) deg(j))/(2|E|) \] delta (c_i, c_j) $
 
-Il dominio di esistenza della modularità è definito in $[-0.5, +1]$: più è basso, più c'è disassortatività nella rete. Al contrario, se tende a $+1$, la divisione delle community è ottimale. Se la modularità è uguale a 0, allora il grafo non ha alcuna struttura.
+Il dominio della modularità è definito in $[-0.5, +1]$: più il valore è basso, più c'è disassortatività nella rete. Al contrario, se tende a $+1$, la divisione delle community è ottimale. Se la modularità è uguale a 0, allora il grafo non ha alcuna struttura di community.
 
 === Altre proprietà
 
-+ *Omofilia ed Eterofilia*: L'omofilia è una proprietà qualitativa che esprime quanto dei nodi in una rete sono vicini tra di loro se esprimono features simili. È uno dei metodi di community discovery, perché si parte dall'assunzione sociologica in cui le persone tendono a relazionarsi con persone simili tra di loro (stesso genere, età simile, stesse passioni o interessi) e si riusa nello studio delle reti perché si assume che nodi con features simili, tendano ad essere connessi. Questo accade sia per motivi comportamentali (l'utente in un social network ricerca solo persone/pagine che rispettano i propri interessi), sia per motivi ambientali (l'algoritmo di un social network mostra all'utente maggiormente post che potrebbero interessargli). L'eterofilia, invece, è l'esatto opposto.
++ *Omofilia ed Eterofilia*: L'omofilia è una proprietà qualitativa che esprime quanto i nodi in una rete tendono a essere vicini tra loro quando esprimono feature simili. È uno dei fondamenti della community discovery, perché si parte dall'assunzione sociologica per cui le persone tendono a relazionarsi con persone simili (stesso genere, età simile, stesse passioni o interessi) e viene riutilizzata nello studio delle reti perché si assume che nodi con feature simili tendano a essere connessi. Questo accade sia per motivi comportamentali (l'utente in un social network ricerca solo persone o pagine che rispettano i propri interessi), sia per motivi ambientali (l'algoritmo di un social network mostra maggiormente all'utente post che potrebbero interessargli). L'eterofilia, invece, è l'esatto opposto.
 
-+ *Assortatività e Disassortatività*: L'assortatività è una misura quantitativa per rappresentare l'omofilia. Al contrario, la disassortatività rappresenta l'eterofilia. L'intuizione dell'assortatività è quella di prendere features numeriche e, data una connessione tra due nodi, stimarne la similarità (es. due nodi con valore 1 e 5 sono più vicini rispetto a due nodi con valore 1 e 5000). La proprietà più comune è il grado di due nodi, in cui si assume che due nodi con grado molto alto, si leghino tra loro. Ad esempio, nei social networks, è più probabile che una celebrità si connetta ad un'altra.
++ *Assortatività e Disassortatività*: L'assortatività è una misura quantitativa per rappresentare l'omofilia. Al contrario, la disassortatività rappresenta quantitativamente l'eterofilia. L'intuizione dell'assortatività è quella di prendere feature numeriche e, data una connessione tra due nodi, stimarne la similarità (es. due nodi con valori 1 e 5 sono più simili rispetto a due nodi con valori 1 e 5000). La proprietà più comune è il grado di due nodi, in cui si assume che due nodi con grado molto alto si leghino tra loro. Ad esempio, nei social network, è più probabile che una celebrità si connetta a un'altra.
 
 + *Coefficiente di Clustering*: È una proprietà che misura quanto, in una rete, i nodi tendono a essere connessi tra di loro. Soprattutto nelle reti sociali, i nodi tendono ad avere un'alta densità di collegamenti. È una misura locale o globale. A livello locale, misura quanto è probabile che i vicini di un nodo tendono a formare una cricca. Dato $N$ l'insieme dei vicini di $i$ e $k_i = |N|$: $ C C_i = (|{ e_(j k) : v_j, v_k in N, e_(k j) in E }|)/(k_v\(k_v-1\)) $\ A livello globale, invece, ci si basa su triple di nodi (triangoli o triadi). Il coefficiente globale di clustering rappresenta quanti triangoli chiusi ci sono, rispetto a tutte le triadi in una rete: $ C C = (\# "triangles")/(\# "triads") $
 
 === Node Vector Distance
-Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato #footnote[aggiungere citazioni a paper su djikstra, bellman-ford, etc]. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi.
-
-però, tengono conto solamente di un aspetto, ovvero di portare un dato in un nodo $i$ ad un nodo $j$. In modo binario, un dato può essere in un nodo oppure nell'altro, oppure in un qualsiasi nodo intermedio, non può diffondersi in modo "continuo", dove una parte di informazione si trova sia in un nodo, che nell'altro.\
-Però, molte situazioni del mondo reale possono essere modellizzate in questo modo, come la _diffusione di un virus_, _qualità di una campagna di marketing virale_ o _polarizzazione in un social network_.
+Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato #footnote[aggiungere citazioni a paper su djikstra, bellman-ford, etc]. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi. Però, tengono conto solamente di un aspetto, ovvero di portare un dato in un nodo $i$ ad un nodo $j$. In modo binario, un dato può trovarsi in un nodo oppure in un altro, o in un qualsiasi nodo intermedio, ma non può diffondersi in modo "continuo", con una parte di informazione presente simultaneamente in più nodi, né partire da più nodi contemporaneamente.\
+Tuttavia, molte situazioni del mondo reale possono essere modellate in questo modo, come la _diffusione di un virus_, la _qualità di una campagna di marketing virale_ o la _polarizzazione in un social network_, fenomeni che in ogni caso partono da uno o più nodi e si diffondono verso i nodi vicini.
 
 L'intuizione dietro la _Node Vector Distance_ (NVD) deriva dal misurare, data una rete e due tempi $t_1$ e $t_2$, la diffusione di una proprietà di un nodo nel tempo.
 
-Formalmente @coscia2020node, data una rete non diretta $G = (V, E)$, dove $V$ è l'insieme dei nodi ed $E$ è l'insieme degli archi, definiamo la proprietà $A$ in ogni nodo della rete, con un vettore $A$ di lunghezza $|V|$ e dominio in $[0, 1]$. Assumendo per semplicità che tra $t_1$ e $t_2$ la rete non cambi, la NVD misura la distanza percorsa e la diffusione della proprietà $A$ nel tempo. In @nvd-diffusion-a e in @nvd-diffusion-b un toy example della diffusione della proprietà A nel tempo.
+Formalmente @coscia2020node, data una rete non diretta $G = (V, E)$, dove $V$ è l'insieme dei nodi ed $E$ è l'insieme degli archi, definiamo la proprietà $A$ in ogni nodo della rete, con un vettore $A$ di lunghezza $|V|$ e dominio in $[0, 1]$. Assumendo per semplicità che tra $t_1$ e $t_2$ la rete non cambi, la NVD misura la distanza percorsa e la diffusione della proprietà $A$ nel tempo, come in @nvd-diffusion-a e in @nvd-diffusion-b.
 
 #grid(
   figure(
@@ -441,10 +447,10 @@ Formalmente @coscia2020node, data una rete non diretta $G = (V, E)$, dove $V$ è
   columns: (1fr, 1fr),
 )
 
-Ci sono tre classi di soluzione per la NVD @coscia2020node, ovvero: _generalized euclidean_, _shortest path_, _spectral_. Ci concentreremo solo sulla prima _generalized euclidean_, in quanto quella usata durante il tirocinio.
+Esistono tre classi di soluzioni per la NVD @coscia2020node: _Generalized Euclidean_, _Shortest Path_ e _Spectral_. Ci concentreremo solo sulla prima, la _Generalized Euclidean_, in quanto quella usata durante il tirocinio.
 
 La _Generalized Euclidean_ (GE) misura le distanze in una rete nello stesso modo in cui misurerebbe le distanze in un piano Euclideo multidimensionale. È data da: $ delta_(A_(t 1), A_(t 2)) = sqrt((A_(t 1) - A_(t 2))^T L^+(A_(t 1) - A_(t 2))) $
-dove $L^+$ è la matrice Laplaciana pseudo-inversa di Moore-Penrose (non è invertibile perché è una matrice singolare), e $(A_(t 1) - A_(t 2))^T$ è la matrice trasposta della differenza della  proprietà $A$ nei tempi in considerazione.
+dove $L^+$ è la matrice Laplaciana pseudo-inversa di Moore-Penrose (non è invertibile perché è una matrice singolare), e $(A_(t 1) - A_(t 2))^T$ è la matrice trasposta della differenza della  proprietà $A$ nei tempi presi in considerazione.
 
 #pagebreak()
 
@@ -485,18 +491,18 @@ A dicembre 2025, Reddit si posiziona nella top 10 dei siti più visitati al mond
 == Procedura di costruzione della rete
 Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
 
-è possibile suddividere questa sezione in 6 fasi:
+È possibile suddividere questa sezione in 6 fasi:
 
-+ *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, perché l'analisi è solo sui commmenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti di Reddit che scrivono risposte automatiche in base a determinati triggers.
++ *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, poiché l'analisi è solo sui commenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti di Reddit che scrivono risposte automatiche in base a determinati triggers.
 
-+ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato solamente una quantità di messaggi nella media; (i self loop, quindi utenti che rispondono a se stessi, non vengono contati): $ |M_u| > (sum_(u in U) |M|)/(|U|) $Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due  utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore è il numero di archi che li collega, maggiore è il peso (la significatività statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
++ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato una quantità di messaggi pari o superiore alla media (i self-loop, quindi utenti che rispondono a se stessi, non vengono contati): $ |M_u| >= (sum_(u in U) |M|)/(|U|) $Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore è il numero di archi che li collegano, maggiore è il peso (la significatività statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
 
-  Inoltre, al fine di anonimizzare i dati, e rendersi conforme al GDPR, viene assegnato un nuovo id all'utente. Si mantiene una tabella di mapping globale per rendere coerente l'`id` dell'utente tra le settimane e i mesi.
+  Inoltre, al fine di anonimizzare i dati e rispettare il GDPR, viene assegnato un nuovo id a ogni utente. Si mantiene una tabella di mapping globale per rendere coerente l'`id` dell'utente tra le settimane e i mesi.
 
 + *Topic Detection*: Per ogni rete e per ogni messaggio di ogni rete, si utilizza il modello BERTopic @grootendorst2022bertopic per classificare automaticamente ogni messaggio con l'argomento più adatto. Ogni rete preliminare, viene divisa in due sottoinsiemi rispettivamente di allenamento (training) e di classificazione. Inizialmente, il modello viene addestrato con $4096$ messaggi per ogni settimana. Dopo il training, si iniziano ad etichettare tutti i messaggi di ogni rete. I topic vengono aggregati e, manualmente, vengono esaminati, raggruppati in macrotopic e scartati quelli non rilevanti. Infine, ad ogni messaggio viene assegnato uno dei seguenti topic:
   - _abortion_: Raggruppa temi come l'aborto, i metodi contraccettivi e i diritti riproduttivi in generale;
   - _climate_: Contiene commenti riguardo il riscaldamento globale, la deforestazione, i veicoli elettrici, lobby fossili, energie rinnovabili, etc.;
-  - _gender_: Commenti riguardo il femminismo, il divario retributivo di genere, l'identitè di genere, LGBTQ+, pronomi, etc.;
+  - _gender_: Commenti riguardo il femminismo, il divario retributivo di genere, l'identità di genere, LGBTQ+, pronomi, etc.;
   - _guns_: Raggruppa temi come regole sulle armi, associazioni lobbistiche sulle armi, sparatorie di massa, suicidi, milizie, etc.;
   - _health_: Contiene commenti riguardo assistenza sanitaria, assistenza sanitaria per bambini, assicurazioni, sviluppo di farmaci, etc.;
   - _racial_justice_: Riguarda la giustizia razziale e le forze dell'ordine, in senso lato. Gli argomenti trattati includono Black Lives Matter, la polizia in generale, le richieste di defunding e gli arresti.
@@ -504,20 +510,20 @@ Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblic
 
 + *Toxicity*: Viene calcolata la tossicità di ogni messaggio, con un punteggio che varia da 0 (messaggio educato e che rispetta l'interlocutore) ad 1 (messaggio volgare, con insulti o minacce verso l'interlocutore). Viene usato il modello _Detoxify_ @Detoxify con le impostazioni di default.
 
-+ *Stance*: Tramite un modello LLM open source, Llama 3 @llama3modelcard, viene effettuato il rilevamento dell'opinione politica che ha un messaggio. L'opinione può essere etichettata come democratica o repubblicana. Essendo una scelta binaria diventa più semplice effettuare una classificazione. Si inizializza un'istanza di Llama con il seguente messaggio (o prompt):```txt
++ *Stance*: Tramite un modello LLM open source, Llama 3 @llama3modelcard, viene effettuato il rilevamento dell'opinione politica che ha un messaggio. L'opinione può essere etichettata come democratica o repubblicana. Essendo una scelta binaria, diventa più semplice effettuare una classificazione. Si inizializza un'istanza di Llama con il seguente messaggio (o prompt):```txt
     You are an expert political scientist. The following message is part of the debate on {topic} in the United States. In this debate there are two sides. Side D thinks {democratic_opinion}. Side R thinks {republican_opinion}. If the message is ambiguous, it belongs to side U. Classify the following message as belonging to side D, R, or U. You can only reply with one letter between D, R, or U, no other answer is acceptable."
   ``` Ogni topic avrà un prompt con una struttura uguale, ma con il contenuto adattato ad esso. Data la natura probabilistica degli LLM, verranno restituiti i token `R` e `D`, con le rispettive probabilità. Viene assegnato il valore $-1$ per un'opinione democratica, e $+1$ per un'opinione repubblicana. Il valore finale della posizione politica del messaggio, sarà: $p(R) - p(D)$.
 
-+ *Final Network*: Come ultimo step, vengono create le reti finali. Le reti possono essere sia per topic, sia complete. Durante la costruzione della rete, vengono raccolti gli utenti e i relativi messaggi di una settimana; i messaggi vengono raggruppati per topic e, infine, si fa una media generale rispetto alle opinioni rilevate in base ai suoi messaggi. Nel caso in cui un utente, in una settimana, non abbia scritto abbastanza commenti significativi, tali da riuscire a calcolare un punteggio rispetto alle sue opinioni per ogni topic, si risolve il problema tramite due parametri:
++ *Final Network*: Come ultimo step, vengono create le reti finali. Le reti possono essere sia per topic, sia complete. Durante la costruzione della rete, vengono raccolti gli utenti e i relativi messaggi di una settimana; i messaggi vengono raggruppati per topic e, infine, si fa una media generale rispetto alle opinioni rilevate in base ai suoi messaggi. Nel caso in cui un utente, in una settimana, non abbia scritto abbastanza commenti significativi da permettere il calcolo di un punteggio per ogni topic, il problema viene risolto tramite due strategie:
   - _rolling opinion_: assumiamo che la sua opinione durante la settimana $x$ sia simile alla sua opinione alle settimane precedenti ($x-1$, $x-2$, ..., $x-n$) e vengono quindi recuperati tutti i suoi messaggi nel dataset;
   - _zombie mode_: se un utente non ha, invece, espresso opinioni su un determinato argomento, si assume che la sua posizione politica (democratica o repubblicana) su un argomento, sia analoga anche sugli altri, determinandola con una media delle sue opinioni.
 
-  Viene restituito il componente connesso maggiore (LCC), poiché c'è bisogno di una rete connessa con il maggior numero di nodi.
+  Viene restituita la componente connessa maggiore (LCC), poiché c'è bisogno di una rete connessa con il maggior numero di nodi.
 
   In conclusione, viene eseguita una riduzione dei parametri tramite la Principal Component Analysis (PCA), con il fine di restituire un valore generale circa la posizione politica di un utente. In @final-network-example, un esempio di una rete finale.
 
   #figure(
-    [ciao],
+    [immagine...],
     caption: "qui metto un'immagine di cytoscape con una rete di marzo 19, con i nodi che vanno da dems a reps con un gradiente",
   ) <final-network-example>
 
@@ -549,7 +555,7 @@ Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblic
 
 = Presentazione dei risultati
 #quote[La presentazione dei risultati dovrebbe consistere in una descrizione tecnica dei risultati raggiunti, unitamente ad un commento critico e ad un’analisi della rispondenza agli obiettivi iniziali (si consiglia per tanto di motivare la rilevanza dei risultati e l’eventuale scostamento dagli obiettivi iniziali). La sezione relativa ai risultati dovrebbe infine contenere una sintesi critica e un giudizio sull’esperienza effettuata, che renda conto di aspetti positivi e negativi per il tirocinante e per l’ente ospitante, del valore formativo, professionale e umano, e cosı via.]\
-Parlare dei risultati (+ robe che mi manderà Michele)
+// Parlare dei risultati (+ robe che mi manderà Michele)
 
 #pagebreak()
 
