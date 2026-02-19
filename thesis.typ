@@ -174,9 +174,7 @@ Solitamente, nella Network Science, vengono preferite reti semplici, quindi non 
 
 #pagebreak()
 
-= Descrizione delle attività preliminari
-#quote[Descrivere brevemente le attività preliminari svolte, quali studio e analisi di soluzioni esistenti, studio delle tecnologie utilizzate nel seguito del lavoro.]\
-In questo capitolo ...
+= Stato dell'arte
 
 == Social Network Analysis
 La Social Network Analysis - analisi delle reti sociali - non è una vera e propria teoria, ma più una strategia generale per analizzare le strutture sociali. Nasce ben prima dell'informatica, nell'ambito della sociologia, con l'intento di studiare i comportamenti delle persone in base al contesto in cui si trovano. Le relazioni tra gli "attori" di una rete sono la priorità; nonostante ciò, le proprietà singole di un attore sono necessarie per analizzare fenomeni sociali.
@@ -320,7 +318,7 @@ Esistono vari algoritmi di backboning, in base ai fenomeni che si vogliono evide
 
 L'algoritmo Noise-Correction (NC) @noise-corrected-backboning si basa sull'assunzione che ogni arco sia un'interazione tra i nodi. Se un arco vuole essere mantenuto, deve raggiungere o superare una certa soglia di significatività statistica.
 
-L'algoritmo di Noise-Correction definisce una misura chiamata _lift_, $L_(i j)$, che rappresenta quanto il peso di un arco devia dal valore atteso di un null model randomico: $ L_(i j) = hat(N)_i / (E[N]_(i j)) $con $E[N_(i j)]$ il peso atteso per una coppia di nodi $(i, j)$: $ E[N_(i j)] = hat(N)_(i \.) (hat(N)_(\. j))/(hat(N)_(. .)) $
+Dato un grafo $G=(V, E, N)$, dove $V$ è l'insieme dei nodi, $E$ è l'insieme degli archi e $N$ è l'insieme dei pesi e $N subset.eq RR$, con $N_(i .) = sum_(i in E) N_(i j)$ e $N_(. j) = sum_(i in E) N_(i j)$ e quindi $N_(. .) = sum_(i, j in E) N_(i j)$, l'algoritmo di _Noise-Correction_ definisce una misura chiamata _lift_ $L_(i j)$, che rappresenta quanto il peso di un arco devia dal valore atteso di un null model randomico: $ L_(i j) = hat(N)_i / (E[N]_(i j)) $con $E[N_(i j)]$ il peso atteso per una coppia di nodi $(i, j)$: $ E[N_(i j)] = hat(N)_(i \.) (hat(N)_(\. j))/(hat(N)_(. .)) $
 $L_(i j)$ misura quanto il peso di un arco, tra i nodi $i$ e $j$ sia alto rispetto al valore atteso: $ L_(i j) = cases(
   = 1 arrow.double.r "peso equivalente a quanto atteso",
   > 1 arrow.double.r "peso maggiore a quanto atteso",
@@ -328,8 +326,10 @@ $L_(i j)$ misura quanto il peso di un arco, tra i nodi $i$ e $j$ sia alto rispet
 ) $
 quindi, viene successivamente centrato in $0$, che chiameremo $tilde(L)_(i j)$.
 
-Successivamente, viene calcolata la varianza con il metodo delta, dei valori ottenuti in precedenza: $ V[tilde(L)_(i j)] = V[hat(N)_(i j)] ((2(kappa + hat(N)_(i j) (d kappa)/(d hat(N)_(i j))))/(k hat(N)_(i j) + 1 )^2) $dove $V[hat(N)_(i j)]$ è la varianza di una distribuzione Binomiale: $ V[N_(i j)] = N_(. .)hat(P)_(i j) (1 - hat(P)_(i j)) $
-dato che le reti reali sono sparse ed è difficile stimare con precisione $hat(P)_(i j)$, si assume che $hat(P)_(i j)$ usi un framework bayesiano che segue una distribuzione Beta: $[n_(i j) + alpha, n_(. .) - n_(i j) + beta]$. Dato che anche $alpha$ e $beta$ sono sconosciuti, si assume che la generazione dei pesi degli archi assuma una distribuzione ipergeometrica, in cui ogni volta che il peso di un arco incrementa di $1$ per il nodo $n$, allora si estrae e rimuove un nodo $j$ dall'insieme dei nodi (distribuiti secondo il peso $N_(i .)$ e $N_(. j)$ di ogni nodo). Così, la media $mu$ e la varianza $sigma^2$ sono definite, rispettivamente: $ E[p_(i j)] = E[N_(i j)/N_(. .)] = 1/(N_(. .))(N_(i .)N_(. j))/(N_(. .)) = mu = alpha/(alpha + beta) $ e $ V[p_(i j)] = 1/(N^2_(. .))(N_(i .)N_(. j)(N_(. .) - N_(i .))(N_(. .) - N_(. j)))/(N^2_(. .)(N_(. .) - 1)) = sigma^2 = (alpha beta)/((alpha + beta)^2)(alpha + beta + 1) $
+Successivamente, viene calcolata la varianza con il metodo delta, dei valori ottenuti in precedenza: $ v a r[tilde(L)_(i j)] = v a r[hat(N)_(i j)] ((2(kappa + hat(N)_(i j) (d kappa)/(d hat(N)_(i j))))/(k hat(N)_(i j) + 1 )^2) $dove $v a r[hat(N)_(i j)]$ è la varianza di una distribuzione Binomiale: $ v a r [N_(i j)] = N_(. .)hat(P)_(i j) (1 - hat(P)_(i j)) $
+e $kappa$: $ kappa = 1/(E[N_(i j)]) $ e: $ (d kappa)/(d hat(N)_(i j)) = 1/(hat(N)_(i .)hat(N)_(. j)) - hat(N)_(. .) (hat(N)_(i .) + hat(N)_(. j))/((hat(N)_(i .) hat(N)_(. j))^2) $
+
+dato che le reti reali sono sparse ed è difficile stimare con precisione $hat(P)_(i j)$, si assume che $hat(P)_(i j)$ usi un framework bayesiano che segue una distribuzione Beta: $[n_(i j) + alpha, n_(. .) - n_(i j) + beta]$. Dato che anche $alpha$ e $beta$ sono sconosciuti, si assume che la generazione dei pesi degli archi assuma una distribuzione ipergeometrica, in cui ogni volta che il peso di un arco incrementa di $1$ per il nodo $n$, allora si estrae e rimuove un nodo $j$ dall'insieme dei nodi (distribuiti secondo il peso $N_(i .)$ e $N_(. j)$ di ogni nodo). Così, la media $mu$ e la varianza $sigma^2$ sono definite, rispettivamente: $ E[p_(i j)] = E[N_(i j)/N_(. .)] = 1/(N_(. .))(N_(i .)N_(. j))/(N_(. .)) = mu = alpha/(alpha + beta) $ e $ v a r[p_(i j)] = 1/(N^2_(. .))(N_(i .)N_(. j)(N_(. .) - N_(i .))(N_(. .) - N_(. j)))/(N^2_(. .)(N_(. .) - 1)) = sigma^2 = (alpha beta)/((alpha + beta)^2)(alpha + beta + 1) $
 che così possono essere risolte in $alpha$ e $beta$. Che permette di ricavare $V[hat(N)_(i j)]$ e, quindi, la varianza $V[tilde(L)_(i j)]$.
 
 Infine, un arco sarà mantenuto solo se il peso è maggiore di $delta sqrt(V[tilde(L)_(i j)])$, ovvero se supera $delta$-volte la deviazione standard. Dove $delta$ è un parametro di threshold che viene passato all'algoritmo. Per maggiori informazioni, rimando al paper originale @noise-corrected-backboning.
@@ -454,6 +454,8 @@ dove $L^+$ è la matrice Laplaciana pseudo-inversa di Moore-Penrose (non è inve
 
 #pagebreak()
 
+= Dataset e Strumenti di Sviluppo
+
 == Python
 Python @van1995python è un linguaggio di programmazione interpretato, orientato agli oggetti, di alto livello con semantica dinamica. Le sue strutture dati integrate di alto livello, combinate con la tipizzazione dinamica e il binding dinamico, lo rendono molto interessante per lo sviluppo rapido di applicazioni, nonché per l'uso come linguaggio di scripting o di collegamento per connettere tra loro componenti esistenti. La sintassi semplice e facile da imparare di Python enfatizza la leggibilità e quindi riduce i costi di manutenzione dei programmi.
 
@@ -461,6 +463,7 @@ Python supporta moduli e pacchetti, che incoraggiano la modularità dei programm
 
 Python, grazie alla sua estesa fornitura di librerie e alla sua rapida curva di apprendimento, è il linguaggio più usato nel contesto di Data Science ed è stato usato per la scrittura del codice il cui prodotto si trova più avanti in questa tesi.
 
+== Librerie Utilizzate
 === NetworkX
 NetworkX @SciPyProceedings_11 è una libreria Python per la creazione, la manipolazione e lo studio della struttura, delle dinamiche e delle funzioni di reti e grafi. Fornisce strumenti per lo studio della struttura e delle dinamiche delle reti sociali, biologiche e infrastrutturali, un'interfaccia di programmazione standard e un'implementazione grafica adatta a molte applicazioni, un ambiente di sviluppo rapido per progetti collaborativi e multidisciplinari.
 
@@ -488,7 +491,18 @@ Il sistema di raccomandazione funziona tramite upvotes e downvotes, giudizi che 
 
 A dicembre 2025, Reddit si posiziona nella top 10 dei siti più visitati al mondo ed è il quarto social media più usato @ViewWeb.
 
-== Procedura di costruzione della rete
+#pagebreak()
+
+= Panoramica del Progetto
+In questo capitolo spiegheremo il punto di partenza del progetto, descrivendone le caratteristiche e le fasi per la creazione della rete.
+== Punto di Partenza
+Spiegare brevemente che il progetto fa uno studio su reddit nel tempo, misurando la tossicità, la differenza di opinioni e tutte le altre cose. per fare questo si parte dai dump di reddit, poi si costruisce una rete (andrò nel dettaglio nei paragrafi successivi), da cui cominciano tutte le analisi.
+
+dire che si crea una rete diversa per ogni settimana, appunto per testarne l'evoluzione nel tmepo. viene creata con l'assunzione che due nodi sono collegati da un arco se vi è almeno una interazione significativa in una determinata settimana.
+
+spiegare che attualmente la rete non è direzionata, quindi non distingue se un'interazione proviene solo da una persona o da entrambe.
+
+== Procedura di Costruzione della Rete
 Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
 
 È possibile suddividere questa sezione in 6 fasi:
