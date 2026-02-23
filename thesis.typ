@@ -140,7 +140,7 @@
 
 #outline(
   title: [Indice],
-  depth: 2,
+  // depth: 2,
 )
 #pagebreak()
 
@@ -452,9 +452,35 @@ Esistono tre classi di soluzioni per la NVD @coscia2020node: _Generalized Euclid
 La _Generalized Euclidean_ (GE) misura le distanze in una rete nello stesso modo in cui misurerebbe le distanze in un piano Euclideo multidimensionale. È data da: $ delta_(A_(t 1), A_(t 2)) = sqrt((A_(t 1) - A_(t 2))^T L^+(A_(t 1) - A_(t 2))) $
 dove $L^+$ è la matrice Laplaciana pseudo-inversa di Moore-Penrose (non è invertibile perché è una matrice singolare), e $(A_(t 1) - A_(t 2))^T$ è la matrice trasposta della differenza della  proprietà $A$ nei tempi presi in considerazione.
 
+== Magnetic Laplacian
+
+https://www.perplexity.ai/search/help-me-in-understanding-this-xt4PbK9lTy2jKX66DQ5ZBw
+```py
+  def magnetic_laplacian(tensor, theta = np.pi / 2):
+      num_nodes = tensor.edge_index.max() + 1 if tensor.edge_index.min() == 0 else tensor.edge_index.max()
+      phase = torch.exp(1j * torch.as_tensor(theta, dtype = torch.cfloat)).to(device)
+
+      H = torch.zeros(num_nodes, num_nodes, dtype = torch.cfloat).to(device)
+      H[tensor.edge_index[0], tensor.edge_index[1]] = tensor.edge_attr[:,0] * phase
+
+      H = H + H.conj().T
+      H = H / 2
+
+      D = torch.diag(torch.abs(H).sum(dim = 1))
+
+      return D - H
+```
+vecchia (magari in pseudocodice, una implementazione che però abbia lo stesso stile di quella di sopra. quindi, che non chiami semplicemnete una libreria esterna):
+```py
+  def laplacian(tensor):
+      L_ei, Lew = torch_geometric.utils.get_laplacian(tensor.edge_index, edge_weight = tensor.edge_attr[:,0])
+      L = torch_geometric.utils.to_dense_adj(edge_index = L_ei, edge_attr = Lew)[0]
+      return L
+```
+
 #pagebreak()
 
-= Dataset e Strumenti di Sviluppo
+= Strumenti di Sviluppo e Dataset
 
 == Python
 Python @van1995python è un linguaggio di programmazione interpretato, orientato agli oggetti, di alto livello con semantica dinamica. Le sue strutture dati integrate di alto livello, combinate con la tipizzazione dinamica e il binding dinamico, lo rendono molto interessante per lo sviluppo rapido di applicazioni, nonché per l'uso come linguaggio di scripting o di collegamento per connettere tra loro componenti esistenti. La sintassi semplice e facile da imparare di Python enfatizza la leggibilità e quindi riduce i costi di manutenzione dei programmi.
@@ -463,7 +489,7 @@ Python supporta moduli e pacchetti, che incoraggiano la modularità dei programm
 
 Python, grazie alla sua estesa fornitura di librerie e alla sua rapida curva di apprendimento, è il linguaggio più usato nel contesto di Data Science ed è stato usato per la scrittura del codice il cui prodotto si trova più avanti in questa tesi.
 
-== Librerie Utilizzate
+== Librerie
 === NetworkX
 NetworkX @SciPyProceedings_11 è una libreria Python per la creazione, la manipolazione e lo studio della struttura, delle dinamiche e delle funzioni di reti e grafi. Fornisce strumenti per lo studio della struttura e delle dinamiche delle reti sociali, biologiche e infrastrutturali, un'interfaccia di programmazione standard e un'implementazione grafica adatta a molte applicazioni, un ambiente di sviluppo rapido per progetti collaborativi e multidisciplinari.
 
@@ -491,20 +517,28 @@ Il sistema di raccomandazione funziona tramite upvotes e downvotes, giudizi che 
 
 A dicembre 2025, Reddit si posiziona nella top 10 dei siti più visitati al mondo ed è il quarto social media più usato @ViewWeb.
 
+Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
+
 #pagebreak()
 
 = Panoramica del Progetto
-In questo capitolo spiegheremo il punto di partenza del progetto, descrivendone le caratteristiche e le fasi per la creazione della rete.
+In questo capitolo spiegheremo il punto di partenza del progetto, descrivendone le caratteristiche, le librerie usate, le fasi per la creazione della rete e i limiti.
+
 == Punto di Partenza
-Spiegare brevemente che il progetto fa uno studio su reddit nel tempo, misurando la tossicità, la differenza di opinioni e tutte le altre cose. per fare questo si parte dai dump di reddit, poi si costruisce una rete (andrò nel dettaglio nei paragrafi successivi), da cui cominciano tutte le analisi.
+Il progetto analizza i subreddit politici nel tempo, dalla sua fondazione fino ad oggi. Analizza come le interazioni tra gli utenti siano cambiate, in quantità e qualità, come tossicità, differenza di opinioni e omofilia della rete. Si parte scaricando un dump di tutti i post di Reddit negli anni, costruendo una rete che catturi quante più interazioni possibili (i paragrafi successivi approfondiranno queste fasi nel dettaglio), per poi iniziare con le analisi vere e proprie.
 
-dire che si crea una rete diversa per ogni settimana, appunto per testarne l'evoluzione nel tmepo. viene creata con l'assunzione che due nodi sono collegati da un arco se vi è almeno una interazione significativa in una determinata settimana.
+Viene creata una rete diversa per ogni settimana, per visualizzarne ed analizzarne l'evoluzione nel tempo. L'assunzione alla base è che, se due nodi sono collegati da un arco, allora c'è stata un'interazione significativa tra i due utenti, nella settimana di riferimento.
 
-spiegare che attualmente la rete non è direzionata, quindi non distingue se un'interazione proviene solo da una persona o da entrambe.
-
+== Strumenti Utilizzati
+=== NetworkX
+per la generazione di toy examples e per eseguire alcune operazioni sui grafi, come trovare gli lcc. nonostante non sia velocissima come libreria, è utile perché fornisce utility già pronte all'uso per maneggiare con le reti. inoltre, ha implementazioni già fatte di modelli di reti reali, che utilizzeremo nei toy examples.
+=== PyTorch
+usato per via dei tensori. prima di salvarli in csv, tutti i dati sono salvati come tensori. (spiegarne i vantaggi) also durante la pseudoinversione della laplacian.
+=== NumPy
+usati di meno, in situazioni in cui serviva usare array e operazioni con gli array
+=== Pandas
+usato solamente in fase finale, quando si volevano rappresentare dati per il debugging. date le sue utility già pronte e le sue API pratiche, è molto semplice eseguire operazioni di statistica di base e aggregazione dei risultati. infatti, dopo aver calcolato la polarizzazione, la mettevamo su un dataframe
 == Procedura di Costruzione della Rete
-Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblici di Reddit, dalla sua creazione fino al 2025 @redditSubmissions.
-
 È possibile suddividere questa sezione in 6 fasi:
 
 + *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, poiché l'analisi è solo sui commenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti di Reddit che scrivono risposte automatiche in base a determinati triggers.
@@ -541,26 +575,31 @@ Per la realizzazione delle reti, viene scaricato un dump di tutti i dati pubblic
     caption: "qui metto un'immagine di cytoscape con una rete di marzo 19, con i nodi che vanno da dems a reps con un gradiente",
   ) <final-network-example>
 
+== Limite
+parlare del fatto che il limite da cui è partito tutto è stata la questione di poter usare reti dirette invece che indirette. spiegare come mai è importante e magari anche in letteratura scientifica, mostrare i limiti delle reti non dirette. in più, spiegare che si voleva capire se la misura funzionasse e, nel caso in cui funzionasse, se da risultati diversi rispetto alla misura iniziale. quindi, se aggiungere complessità al progetto può essere utile perché ci da informazioni che prima non avevamo.
+
 #pagebreak()
 
 = Modifiche apportate
-
 #quote[Descrivere le attivita svolte, riportando attivita, tempi, strumenti utilizzati, risultati conseguiti, problemi affrontati e modalita di risoluzione. Potranno essere qui descritte le attivita anche dal punto di vista strettamente tecnico, approfondendo le scelte effettuate, le motivazioni, le alternative prese in considerazione, l’uso o il possibile uso dei risultati del lavoro.]\
 
 // Finora, il lavoro presentava un limite strutturale: le interazioni che venivano catturate, non rappresentavano la direzionalità delle interazioni. Questo vuol dire che, se utente $a$ parlava con utente $b$, per il modello, $b$ parlava anche con utente $a$. Questo però, specie nelle interazioni online, non è sempre vero, perché un utente può commentare il post/commento di un altro utente ma senza ricevere risposte a sua volta.
 
+- Attività:
+  - prima di implementare la magnetic laplacian nel codice, l'abbiamo testata con dei toy examples, per verificare (1)che fosse in grado di catturare la misura di polarizzazione (aka la diffusione di una certa stance nella rete) come la laplacian classica. quindi, che la magnetic laplacian fosse utilizzabile nella nvd e (2) che catturasse la struttura del grafo, come rappresentato nel paper.
+    - i toy examples erano prima dei semplici grafi, poi siamo cresciuti con la complessità, fino a simulare delle reti più complesse (con i modelli er, scale free, etc.)
+  - successivamente, abbiamo testato la magnetic laplacian anche nella sua versione signed, per capire se invece potessimo includere la tossicità, con l'assunzione che tossicità alta => interazione negativa e tossicità bassa => interazione positiva/neutra
+  - dopo aver contatato e affinato il funzionamento, siamo passati alle reti reali, quindi alle reti che son state costruite e spiegate nel capitolo precedente. prima però, abbiamo adattato il codice per supportare le reti dirette. successivamente, abbiamo aggiunto il codice della funzione della magnetic laplacian:
+  - e abbiamo testato la nuova funzione su tutte le reti
+  - correlazione con alcuni parametri come omofilia e social balance (aka triangoli)
+
 - Tempi: ?
-- Strumenti utilizzati:
-  - NetworkX
-  - pytorch
-  - numpy
-  - pandas(?)
-  - magnetic Laplacian
-    - `playground.ipynb`
 - Risultati conseguiti
   - Mostrare toy examples
   - Mostrare polarization results
 - Problemi affrontati
+  - uno dei problemi affrontati, era dovuto alla conversione della rete da indiretta a diretta. inizialmente, con un porting naive, la rete raggiungeva una soglia di thresholding elevata e quindi, in specifiche settimane dove c'erano meno dati del solito, le reti finali venivano molto piccole. fixato sistemando la soglia di thresholding su reti dirette
+    - https://github.com/demic-dev/reddit-polarization/blob/main/magnetic_laplacian.md
   - Prende più in considerazione la topologia rispetto all'opinione in sé
 - Modalità di risoluzione
   - Parlare di come son stati risolti bla bla
