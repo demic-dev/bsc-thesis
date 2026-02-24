@@ -507,35 +507,47 @@ La Laplaciana Magnetica è in grado di evidenziare community che si formano per 
 ) <direct-triangle>
 
 Codificando con dello pseudocodice le espressioni scritte prima, si passa dalla Laplaciana classica: ```py
-def get_laplacian(edge_index, edge_weight):
-  # edge_index is a matrix 2xN ((source, target) x NODES)
-  N_NODES = len(edge_index)[1]
+FUNCTION get_laplacian(edge_index, edge_weight):
+  # edge_index is a 2xN matrix (source, target) x NODES
+  N_NODES = length(edge_index[1])
 
-  A = Math.matrix(N_NODES, N_NODES)
-  A[edge_index[0, :], edge_index[1, :]] = 1 * edge_weight
+  A = CREATE_ZERO_MATRIX(N_NODES, N_NODES)
 
-  # Degree Matrix of A
-  D = Math.matrix(N_NODES, N_NODES).diagonal(Math.abs(A).sum(dim = 1))
+  FOR i FROM 0 TO NODES - 1:
+      source = edge_index[0, i]
+      target = edge_index[1, i]
+      A[source, target] = edge_weight[i]
+      A[target, source] = edge_weight[i]
 
-  return D - A
+  D = CREATE_ZERO_MATRIX(N_NODES, N_NODES)
+  # Degree Matrix of G
+  FOR i FROM 0 TO N_NODES - 1:
+      D[i, i] = SUM(ABS(A[i, :]))
+
+  RETURN D - A
 ```
 
 Alla Laplaciana Magnetica: ```py
-def get_magnetic_laplacian(edge_index, edge_weight, theta):
-  # edge_index is a matrix 2xN ((source, target) x NODES)
-  N_NODES = len(edge_index)[1]
-  PHASE = Math.exp(1j * theta)
+FUNCTION get_magnetic_laplacian(edge_index, edge_weight, theta):
+  # edge_index is a 2xN matrix (source, target) x NODES
+  N_NODES = length(edge_index[1])
+  PHASE = EXP(1j * theta)
 
-  H = Math.matrix(N_NODES, N_NODES)
-  H[edge_index[0, :], edge_index[1, :]] = edge_weight * PHASE
+  H = CREATE_ZERO_MATRIX(N_NODES, N_NODES)
 
-  H += H.conjucate().T
-  H /= 2
+  FOR i FROM 0 TO NODES - 1:
+      source = edge_index[0, i]
+      target = edge_index[1, i]
+      H[source, target] = edge_weight[i] * PHASE
 
+  H = (H + CONJUGATE_TRANSPOSE(H)) / 2
+
+  D = CREATE_ZERO_MATRIX(N_NODES, N_NODES)
   # Degree Matrix of H
-  D = Math.matrix(N_NODES, N_NODES).diagonal(Math.abs(H).sum(dim = 1))
+  FOR i FROM 0 TO N_NODES - 1:
+      D[i, i] = SUM(ABS(H[i, :]))
 
-  return D - H
+  RETURN D - H
 ```
 
 
@@ -636,13 +648,13 @@ usato solamente in fase finale, quando si volevano rappresentare dati per il deb
     caption: "qui metto un'immagine di cytoscape con una rete di marzo 19, con i nodi che vanno da dems a reps con un gradiente",
   ) <final-network-example>
 
-== Limite
-parlare del fatto che il limite da cui è partito tutto è stata la questione di poter usare reti dirette invece che indirette. spiegare come mai è importante e magari anche in letteratura scientifica, mostrare i limiti delle reti non dirette. in più, spiegare che si voleva capire se la misura funzionasse e, nel caso in cui funzionasse, se da risultati diversi rispetto alla misura iniziale. quindi, se aggiungere complessità al progetto può essere utile perché ci da informazioni che prima non avevamo.
+== Limite e Domanda di Ricerca
+Il limite del progetto allo stato attuale si ritrova nella composizione delle reti, rappresentate come reti non dirette e che quindi non rappresentano la direzione dell'interazione tra due utenti. Questo non rappresenta un limite di per sé, perché l'uso di grafi non diretti nelle analisi delle reti è molto diffuso. Tuttavia, numerosi articoli scientifici @rossi2023edgedirectionalityimproveslearning @sun2024datacentricmachinelearningdirected @Kummerfeld2021-sl @Sporns2018-bc mostrano la limitazione di perdere l'informazione di direzionalità. Di conseguenza, si voleva rilevare se, l'aggiunta di complessità al progetto, derivante prima di tutto dall'incorporare l'informazione di direzionalità, ma anche all'uso di algoritmi che funzionassero anche per grafi diretti, potesse portare risultati interressanti, che svelano informazioni che tramite una rete non diretta, sono nascoste.
 
 #pagebreak()
 
 = Modifiche apportate
-#quote[Descrivere le attivita svolte, riportando attivita, tempi, strumenti utilizzati, risultati conseguiti, problemi affrontati e modalita di risoluzione. Potranno essere qui descritte le attivita anche dal punto di vista strettamente tecnico, approfondendo le scelte effettuate, le motivazioni, le alternative prese in considerazione, l’uso o il possibile uso dei risultati del lavoro.]\
+#quote[Descrivere le attivita svolte, riportando attivita, tempi, strumenti utilizzati, risultati conseguiti, problemi affrontati e modalita di risoluzione. Potranno essere qui descritte le attivita anche dal punto di vista strettamente tecnico, approfondendo le scelte effettuate, le motivazioni, le alternative prese in considerazione, l’uso o il possibile uso dei risultati del lavoro.]
 
 // Finora, il lavoro presentava un limite strutturale: le interazioni che venivano catturate, non rappresentavano la direzionalità delle interazioni. Questo vuol dire che, se utente $a$ parlava con utente $b$, per il modello, $b$ parlava anche con utente $a$. Questo però, specie nelle interazioni online, non è sempre vero, perché un utente può commentare il post/commento di un altro utente ma senza ricevere risposte a sua volta.
 
