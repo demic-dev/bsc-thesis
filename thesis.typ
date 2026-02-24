@@ -281,7 +281,7 @@ Una matrice Laplaciana rispetta sempre le seguenti proprietà:
 
 La matrice Laplacian ha numerose applicazioni nella teoria dei grafi e nella network science. Lo studio dei suoi autovalori ed autovettori permette di svolgere la _spectral analysis_, che fornisce informazioni importanti sulla struttura della rete, o per la _community evaluation_. Permette di calcolare la _node distance vector_, ovvero la diffusione di una proprietà di un nodo all'interno della rete @node-distance-vector. Inoltre, trova moltissime applicazioni nella fisica, campo da cui è nata, per modellizzare matematicamente reti elettriche @doyle2000randomwalkselectricnetworks. Viene anche usata per trovare il numero di Spanning Tree in un grafo, in tempo polinomiale @kirchoff-theory.
 
-Esistono diverse declinazioni della Laplacian, ognuna adattata a diversi usi. Ad esempio, c'è la laplaciana normalizzata, una matrice che normalizza il grado dei nodi, utile quando c'è una disuguaglianza marcata nel grado dei nodi, come nel caso delle scale-free network. Esiste poi la matrice Laplacian costruita tramite la matrice delle incidenze (una matrice che codifica le relazioni tra i nodi e gli archi), usata per reti con archi pesati. Infine, abbiamo la _magnetic laplacian_, una matrice che rappresenta un grafo diretto, trattando le direzioni degli archi come una fase in un piano complesso. La approfondiremo nei capitoli successivi, poiché parte centrale del progetto di tesi.
+Esistono diverse declinazioni della Laplacian, ognuna adattata a diversi usi. Ad esempio, c'è la laplaciana normalizzata, una matrice che normalizza il grado dei nodi, utile quando c'è una disuguaglianza marcata nel grado dei nodi, come nel caso delle scale-free network. Esiste poi la matrice Laplacian costruita tramite la matrice delle incidenze (una matrice che codifica le relazioni tra i nodi e gli archi), usata per reti con archi pesati. Infine, abbiamo la _magnetic laplacian_, una matrice che rappresenta un grafo diretto, trattando le direzioni degli archi come una fase in un piano complesso. La approfondiremo nei paragrafi successivi, poiché parte centrale del progetto di tesi.
 
 === Null Model
 Il _null model_ è un modello di rete che viene usato come benchmark rispetto a una rete reale. Viene generato casualmente partendo da alcune proprietà di una rete reale (ad es. la densità, la distribuzione di grado, l'assortatività, ...). Viene usato per attribuire uno specifico comportamento di una rete a un ristretto gruppo di proprietà, generando casualmente delle reti che hanno quelle singole proprietà. Inoltre, può essere usato per trovare correlazioni tra proprietà su reti particolari: se data una rete reale con proprietà $X$ (es. average degree = 4), accade $Y$ (es. l'omofilia cresce), allora verranno generate delle reti randomiche con proprietà $X$ (average degree = 4) per verificare la presenza di $Y$.
@@ -452,31 +452,92 @@ Esistono tre classi di soluzioni per la NVD @coscia2020node: _Generalized Euclid
 La _Generalized Euclidean_ (GE) misura le distanze in una rete nello stesso modo in cui misurerebbe le distanze in un piano Euclideo multidimensionale. È data da: $ delta_(A_(t 1), A_(t 2)) = sqrt((A_(t 1) - A_(t 2))^T L^+(A_(t 1) - A_(t 2))) $
 dove $L^+$ è la matrice Laplaciana pseudo-inversa di Moore-Penrose (non è invertibile perché è una matrice singolare), e $(A_(t 1) - A_(t 2))^T$ è la matrice trasposta della differenza della  proprietà $A$ nei tempi presi in considerazione.
 
-== Magnetic Laplacian
+== Laplaciana Magnetica
+La Laplaciana Magnetica, o _Magnetic Laplacian_, ha radici nella fisica quantistica. Analogo all'operatore di Schrödinger magnetico @cmp-1104270832, è stato creato per modellare il comportamento delle particelle in un campo elettromagnetico, incorporando però un vettore che ruota la matrice Laplaciana classica @krejcirik2013magneticlaplacianshrinkingtubular.
 
-https://www.perplexity.ai/search/help-me-in-understanding-this-xt4PbK9lTy2jKX66DQ5ZBw
-```py
-  def magnetic_laplacian(tensor, theta = np.pi / 2):
-      num_nodes = tensor.edge_index.max() + 1 if tensor.edge_index.min() == 0 else tensor.edge_index.max()
-      phase = torch.exp(1j * torch.as_tensor(theta, dtype = torch.cfloat)).to(device)
+Analogamente, si può interpretare la fase complessa delle particelle, come la direzione degli archi in un grafo.
 
-      H = torch.zeros(num_nodes, num_nodes, dtype = torch.cfloat).to(device)
-      H[tensor.edge_index[0], tensor.edge_index[1]] = tensor.edge_attr[:,0] * phase
+Dato un grafo diretto $G = (V, E)$, definiamo $w_s (i, j)$ il peso simmetrizzato degli archi dal nodo $i$ al nodo $j$: $ w_s (i, j) = (w(i, j) + w(j, i))/2 $
+La fase è data da $e^(i theta a(i, j))$, dove $theta$ è un parametro e $a(i, j)$ è definita: $ a(i, j) = cases(
+  1 arrow.double.r (i, j) in E,
+  -1 arrow.double.r (j, i) in E,
+  0 arrow.double.r (i, j) and (j, i) in E
+) $
 
-      H = H + H.conj().T
-      H = H / 2
+E, infine, definiamo $psi(i): V -> CC$, una funzione che mappa un numero complesso ad ogni nodo. Quindi, l'operatore $hat(cal(L))_(a, theta)$ è definito @Fanuel_2017: $ hat(cal(L))_(a, theta) psi(i) = sum_j w_s (i, j) (psi(i) - e^(i theta a(i, j)) psi(j)) $
 
-      D = torch.diag(torch.abs(H).sum(dim = 1))
+Il risultato della Laplacian dipende dal parametro $theta$, che rappresenta la carica elettrica della particella. Se $theta = 0$, si ottiene la Laplaciana classica che abbiamo definito nei capitoli precedenti: $L = D - A = hat(cal(L))_(a, 0) = hat(cal(L))_(0, theta)$. Inoltre, si ottengono le stesse dinamiche quando $theta = theta + 2 pi$, quindi si può dire che $theta$ sia un angolo @Fanuel_2017. In base al valore di $theta$, la Laplacian restituisce risultati differenti in base alle strutture che si vogliono evidenziare. In @theta-comparison, una descrizione esaustiva.
 
-      return D - H
+#align(center, [
+  #figure(
+    table(
+      columns: (auto, auto),
+      inset: 8pt,
+      align: horizon,
+      table.header([Theta], [Struttura evidenziata]),
+      [#(2 * calc.pi * 0)], [Analoga a Laplaciana classica],
+      [$pi/2$], [2, 4, 3-cicli],
+      [$2/3 pi$], [2, 3-cicli],
+      [$4/5 pi$], [3-cicli],
+      [$pi$],
+      [Laplaciana con segno\
+        $a(i, j) = 0 arrow.double.r +$\
+        $a(i, j) in {-1, 1} arrow.double.r -$
+      ],
+    ),
+  ) <theta-comparison>
+])
+
+La Laplaciana Magnetica ha trovato utilizzi in community evaluation per grafi diretti @Fanuel_2017, analisi spettrale @Fabila_Carrasco_2022 e, come vedremo nei capitoli successivi, per calcolare la Node Vector Distance su grafi diretti.
+
+La Laplaciana Magnetica è in grado di evidenziare community che si formano per mezzo di triangoli diretti, ovvero _3-cylces_, dei cicli che comprendono tre nodi, come illustrato in @direct-triangle. Nel corso del tirocinio, per verificare che la nuova misura di polarizzazione sia effettivamente valida, studieremo anche i triangoli e la loro distribuzione all'interno nella rete, come approfondito nei capitoli successivi.
+
+#figure(
+  diagram(
+    node-stroke: .1em,
+    spacing: 3em,
+    node((0, 0), `1`, radius: 1em),
+    edge((0, 0), (1, 0), ``, "-|>"),
+    node((1, 0), `2`, radius: 1em),
+    edge((1, 0), (1, 1), ``, "-|>"),
+    node((1, 1), `3`, radius: 1em),
+    edge((1, 1), (0, 0), ``, "-|>"),
+  ),
+  caption: [ Un triangolo diretto. ],
+) <direct-triangle>
+
+Codificando con dello pseudocodice le espressioni scritte prima, si passa dalla Laplaciana classica: ```py
+def get_laplacian(edge_index, edge_weight):
+  # edge_index is a matrix 2xN ((source, target) x NODES)
+  N_NODES = len(edge_index)[1]
+
+  A = Math.matrix(N_NODES, N_NODES)
+  A[edge_index[0, :], edge_index[1, :]] = 1 * edge_weight
+
+  # Degree Matrix of A
+  D = Math.matrix(N_NODES, N_NODES).diagonal(Math.abs(A).sum(dim = 1))
+
+  return D - A
 ```
-vecchia (magari in pseudocodice, una implementazione che però abbia lo stesso stile di quella di sopra. quindi, che non chiami semplicemnete una libreria esterna):
-```py
-  def laplacian(tensor):
-      L_ei, Lew = torch_geometric.utils.get_laplacian(tensor.edge_index, edge_weight = tensor.edge_attr[:,0])
-      L = torch_geometric.utils.to_dense_adj(edge_index = L_ei, edge_attr = Lew)[0]
-      return L
+
+Alla Laplaciana Magnetica: ```py
+def get_magnetic_laplacian(edge_index, edge_weight, theta):
+  # edge_index is a matrix 2xN ((source, target) x NODES)
+  N_NODES = len(edge_index)[1]
+  PHASE = Math.exp(1j * theta)
+
+  H = Math.matrix(N_NODES, N_NODES)
+  H[edge_index[0, :], edge_index[1, :]] = edge_weight * PHASE
+
+  H += H.conjucate().T
+  H /= 2
+
+  # Degree Matrix of H
+  D = Math.matrix(N_NODES, N_NODES).diagonal(Math.abs(H).sum(dim = 1))
+
+  return D - H
 ```
+
 
 #pagebreak()
 
