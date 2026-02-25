@@ -654,28 +654,34 @@ Il limite del progetto allo stato attuale si ritrova nella composizione delle re
 #pagebreak()
 
 = Modifiche apportate
-#quote[Descrivere le attivita svolte, riportando attivita, tempi, strumenti utilizzati, risultati conseguiti, problemi affrontati e modalita di risoluzione. Potranno essere qui descritte le attivita anche dal punto di vista strettamente tecnico, approfondendo le scelte effettuate, le motivazioni, le alternative prese in considerazione, l’uso o il possibile uso dei risultati del lavoro.]
+#quote[Descrivere le attività svolte, riportando attività, tempi, strumenti utilizzati, risultati conseguiti, problemi affrontati e modalità di risoluzione. Potranno essere qui descritte le attività anche dal punto di vista strettamente tecnico, approfondendo le scelte effettuate, le moti vazioni, le alternative prese in considerazione, l’uso o il possibile uso dei risultati del lavoro.]
 
-// Finora, il lavoro presentava un limite strutturale: le interazioni che venivano catturate, non rappresentavano la direzionalità delle interazioni. Questo vuol dire che, se utente $a$ parlava con utente $b$, per il modello, $b$ parlava anche con utente $a$. Questo però, specie nelle interazioni online, non è sempre vero, perché un utente può commentare il post/commento di un altro utente ma senza ricevere risposte a sua volta.
+La Magnetic Laplacian, come visto nei capitoli precedenti, è un operatore che ha trovato molti usi nella _community evaluation_ e nella _spectral analysis_. Però, prima d'ora, non era mai stato testato in altre condizioni, come la _node vector distance_. Per questo, prima di implementare l'operatore sul progetto descritto nel capitolo precedente, è stata testata a fondo su dei toy examples, per verificare quali comportamenti misurasse maggiormente e se avessero senso.
 
-- Attività:
-  - prima di implementare la magnetic laplacian nel codice, l'abbiamo testata con dei toy examples, per verificare (1)che fosse in grado di catturare la misura di polarizzazione (aka la diffusione di una certa stance nella rete) come la laplacian classica. quindi, che la magnetic laplacian fosse utilizzabile nella nvd e (2) che catturasse la struttura del grafo, come rappresentato nel paper.
-    - i toy examples erano prima dei semplici grafi, poi siamo cresciuti con la complessità, fino a simulare delle reti più complesse (con i modelli er, scale free, etc.)
-  - successivamente, abbiamo testato la magnetic laplacian anche nella sua versione signed, per capire se invece potessimo includere la tossicità, con l'assunzione che tossicità alta => interazione negativa e tossicità bassa => interazione positiva/neutra
-  - dopo aver contatato e affinato il funzionamento, siamo passati alle reti reali, quindi alle reti che son state costruite e spiegate nel capitolo precedente. prima però, abbiamo adattato il codice per supportare le reti dirette. successivamente, abbiamo aggiunto il codice della funzione della magnetic laplacian:
-  - e abbiamo testato la nuova funzione su tutte le reti
-  - correlazione con alcuni parametri come omofilia e social balance (aka triangoli)
+Come prima cosa, quindi, sono state create delle reti randomiche secondo questi modelli:
 
-- Tempi: ?
-- Risultati conseguiti
-  - Mostrare toy examples
-  - Mostrare polarization results
-- Problemi affrontati
-  - uno dei problemi affrontati, era dovuto alla conversione della rete da indiretta a diretta. inizialmente, con un porting naive, la rete raggiungeva una soglia di thresholding elevata e quindi, in specifiche settimane dove c'erano meno dati del solito, le reti finali venivano molto piccole. fixato sistemando la soglia di thresholding su reti dirette
-    - https://github.com/demic-dev/reddit-polarization/blob/main/magnetic_laplacian.md
-  - Prende più in considerazione la topologia rispetto all'opinione in sé
-- Modalità di risoluzione
-  - Parlare di come son stati risolti bla bla
+#smallcaps[scrivere una breve descrizione, e citazioni bibliografia, di ogni modello]
++ reti piccole, senza community e con pochi nodi;
++ Stochastic Block Model
++ Barabási-Albert
++ Erdős-Rényi
++ Watts-Strogatz
++ un altro che ora non ricordo
+
+sono stati generati numerosi toy examples randomici per avvicinarci al comportamento standard dell'operatore, rispetto che alla casualità di valori particolari.
+aggiungere che la polarizzazione può essere calcolata con la node vector distance e citare i due papers di michele, perché appunto i toy examples hanno anche i nodi che appartengono a delle stance politiche randomiche
+
+scrivere parametri utilizzati
+
+abbiamo cercato di confrontare i risultati ottenuti sui toy examples, con alcune proprietà come omofilia, triangoli, etc...
+
+i risultati sono stati incoraggianti, perché abbiamo trovato delle correlazioni, ma nel prossimo capitolo li approfondiamo.
+
+siamo passati alle reti reali. prima di tutto il codice è stato adattato per creare delle final networks dirette. qui sono sorti un paio di problemi, sia nel backboning (il valore di treshold divergeva, facendo diventare alcune reti settimanali di soli 20 nodi), che è stato risolto, nel tempo del mio tirocinio, nel modo in cui gpt mi ha consigliato (spiegare nel dettaglio), che però ha portato ad un overlap significativo della fase di backboning tra dirette e non dirette. son dovuto ricorrere a questo perché io sono entrato nel progetto quando la v1 era stata già fatta, con tutte le sue computazioni ecc. per evaluarle, si è usato un hpc e io non avevo possibilità di usarlo (non vero, riscriverlo in un modo veritiero e più adatto) pertanto, ho usato dei messaggi già evaluati e quindi cachati delle reti non dirette. riscrivere la funzione di backboning da 0 avrebbe comportato il non poter andare avanti nel progetto perché molti messaggi sarebbero stati scartati perché "miss" nella cache. il workaround sicuramente ha funzionato. i risultati ottenuti hanno una correlazione molto stretta (quasi sospetta) con la misura di polarizzazione precedente, però hanno una correlazione più alta con il social balance, che invece nella polarizzazione iniziale era quasi inesistente. questo sicuramente ci dice che cattura le interazioni tra nodi simili, in modo migliore rispetto all'operatore iniziale.
+
+indagare (e nel caso aggiugnerlo) il problema che prende più in considerazione la topologia della rete, che la feature del nodo (la magn lapl prende in considerazione solo la topologia ovviamente. questo si riferisce solo alla polarizzazione, quindi lapl+nvd) che potrebbe essere un problema su reti grandi/piccole. l'abbiamo verificato andando a randomizzare le opinioni di tutti i nodi delle reti finali, andando di fatto a creare un "null model" che avesse topologia medesima, ma opinioni distribuite randomicamente. i valori di polarizzazione cambiavano molto poco. https://github.com/demic-dev/reddit-polarization/blob/main/magnetic_laplacian.md
+
+posso aggiungere varie figure dei grafi e anche codice dei toy examples.
 
 #pagebreak()
 
