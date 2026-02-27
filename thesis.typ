@@ -11,7 +11,7 @@
 #set text(
   font: "New Computer Modern",
   size: 12pt,
-  // lang: "it",
+  lang: "it",
 )
 
 // Paragraph setup
@@ -29,17 +29,7 @@
 // Bibliography setup
 #show bibliography: set heading(numbering: "1.1.")
 
-// Theorem environment
-#let theorem(body, number: none) = {
-  block(
-    width: 100%,
-    inset: 8pt,
-    [
-      #text(weight: "bold")[Teorema#if number != none [ #number]:]
-      #text(style: "italic")[#body]
-    ],
-  )
-}
+#set math.equation(numbering: "(1)")
 
 // Title page function
 #let make-title(
@@ -56,12 +46,7 @@
   v(1fr)
 
   // University name
-  text(size: 20pt)[
-    #smallcaps[Università degli Studi di Milano]
-  ]
-
-  v(0.2em)
-  text(size: 18pt)[Facoltà di Scienze e Tecnologie]
+  image("logo.jpg")
   v(0.2em)
 
   // Department
@@ -122,7 +107,8 @@
 #make-title(
   title: [Improving Estimation of Polarization in\ Online Discourse],
   author: [Michele DE CILLIS],
-  dept: [Corso di Laurea in Informatica],
+  // dept: [Corso di Laurea in Informatica],
+  dept: [CORSO DI LAUREA IN INFORMATICA],
   anno: [2024-2025],
   matricola: [24260A],
   relatore: [Prof.ssa Elena CASIRAGHI],
@@ -140,8 +126,19 @@
 
 #outline(
   title: [Indice],
-  // depth: 2,
+  depth: 2,
 )
+
+#outline(
+  title: [Indice delle figure],
+  target: figure.where(kind: image),
+)
+
+#outline(
+  title: [Indice delle tabelle],
+  target: figure.where(kind: table),
+)
+
 #pagebreak()
 
 = Introduzione
@@ -308,6 +305,14 @@ Un null model può essere randomico o generativo @Váša2022. Il modello randomi
   ),
   caption: [Sopra: prima del rewiring. Sotto: dopo il rewiring],
 ) <rewiring-null-model>
+
+=== Modelli Generativi di Reti <H-graph-generative-model>
+I modelli generativi di reti, sono modelli matematici stocastici progettati per simulare la formazione di reti complesse. Ci sono diversi modelli, in base all'obiettivo di ricerca e all'analisi che si vuole fare. Come i _null models_, vengono utilizzati per testare e generalizzare proprietà e meccanismi di una rete reale, su reti randomiche. Tra i modelli più conosciuti, ci sono:
+
++ *Stochastic Block Model*: è un modello di grafo generativo che tende a creare grafi i cui nodi sono raggruppati in community @HOLLAND1983109. Dato $n$ il numero di nodi, $k$ il numero di community, e una matrice $P = k times k$ di probabilità. La matrice $P$ rappresenta la probabilità che due nodi di community diverse siano collegati da un arco;
++ *Barabási-Albert*: è un modello che genera reti scale-free @Barabasi1999Emergence, con proprietà analoghe a reti reali, come il _preferential attachment_. L'algoritmo accetta un parametro $n$, ovvero il numero di nodi, e un parametro $m$, ovvero il numero di archi che si collegano ad un nodo già esistente di grado maggiore;
++ *Erdős-Rényi*: è un modello per la generazione randomica di reti, data una probabilità $p$ e $n$ nodi, ogni nodo si connette ad un altro con una probabilità $p$ @ErdosRenyi2022OnRandomGraphs;
++ *Watts-Strogatz*: è un modello generativo che supera le limitazioni del modello Erdős-Rényi, poiché favorisce la generazione di hubs, come nel modello Barabási-Albert. Ogni nodo ha un percorso minimo medio molto piccolo. Dato un parametro $beta in [0, 1]$ e $k$ il numero di vicini di ogni nodo, situati in una topologia ad anello, ogni arco viene ridirezionato verso un altro nodo, con una probabilità $beta$ @Watts1998;
 
 === Backboning
 Le reti reali sono piene di rumore, ovvero di archi e nodi che non hanno significatività statistica e che possono inquinare i risultati. Occorre, quindi, usare un metodo per rimuovere il rumore dalla rete e lasciare solamente gli elementi significativi. Questa tecnica si chiama _backboning_. Esso nasce con la necessità di mantenere solamente le strutture e le gerarchie rilevanti in una rete, così che sia più facile analizzarle e anche più computazionalmente economico.
@@ -490,7 +495,17 @@ Il risultato della Laplacian dipende dal parametro $theta$, che rappresenta la c
 
 La Laplaciana Magnetica ha trovato utilizzi in community evaluation per grafi diretti @Fanuel_2017, analisi spettrale @Fabila_Carrasco_2022 e, come vedremo nei capitoli successivi, per calcolare la Node Vector Distance su grafi diretti.
 
-La Laplaciana Magnetica è in grado di evidenziare community che si formano per mezzo di triangoli diretti, ovvero _3-cylces_, dei cicli che comprendono tre nodi, come illustrato in @direct-triangle. Nel corso del tirocinio, per verificare che la nuova misura di polarizzazione sia effettivamente valida, studieremo anche i triangoli e la loro distribuzione all'interno nella rete, come approfondito nei capitoli successivi.
+Ad esempio, dato un semplice grafo diretto come in @direct-triangle, calcolare la matrice Laplacian, vuol dire trasformare il grafo in grafo indiretto ed ottenere: $ mat(
+  2, -1, -1;
+  -1, 2, -1;
+  -1, -1, 2;
+) $
+Invece, la matrice Laplaciana magnetica con $theta = pi/2$, equivale a:$ mat(
+  1, -1/2i, +1/2i;
+  1/2i, 1, -1/2i;
+  -1/2i, 1/2i, 1;
+) $
+
 
 #figure(
   diagram(
@@ -505,6 +520,9 @@ La Laplaciana Magnetica è in grado di evidenziare community che si formano per 
   ),
   caption: [ Un triangolo diretto. ],
 ) <direct-triangle>
+
+La Laplaciana Magnetica è in grado di evidenziare community che si formano per mezzo di triangoli diretti, ovvero _3-cylces_, dei cicli che comprendono tre nodi, come illustrato in @direct-triangle. Nel corso del tirocinio, per verificare che la nuova misura di polarizzazione sia effettivamente valida, studieremo anche i triangoli e la loro distribuzione all'interno nella rete, come approfondito nei capitoli successivi.
+
 
 Codificando con dello pseudocodice le espressioni scritte prima, si passa dalla Laplaciana classica: ```py
 FUNCTION get_laplacian(edge_index, edge_weight):
@@ -656,38 +674,151 @@ Il limite del progetto allo stato attuale si ritrova nella composizione delle re
 = Modifiche apportate
 #quote[Descrivere le attività svolte, riportando attività, tempi, strumenti utilizzati, risultati conseguiti, problemi affrontati e modalità di risoluzione. Potranno essere qui descritte le attività anche dal punto di vista strettamente tecnico, approfondendo le scelte effettuate, le moti vazioni, le alternative prese in considerazione, l’uso o il possibile uso dei risultati del lavoro.]
 
-La Magnetic Laplacian, come visto nei capitoli precedenti, è un operatore che ha trovato molti usi nella _community evaluation_ e nella _spectral analysis_. Però, prima d'ora, non era mai stato testato in altre condizioni, come la _node vector distance_. Per questo, prima di implementare l'operatore sul progetto descritto nel capitolo precedente, è stata testata a fondo su dei toy examples, per verificare quali comportamenti misurasse maggiormente e se avessero senso.
+La Magnetic Laplacian, come visto nei capitoli precedenti, è un operatore che ha trovato molti usi nella _community evaluation_ e nella _spectral analysis_. Però, prima d'ora, non era mai stato testato in altre condizioni, come con la _node vector distance_. Per questo, prima di implementare l'operatore sul progetto descritto nel capitolo precedente, è stata testata a fondo su dei toy examples, per verificare quali comportamenti misurasse maggiormente e se avessero senso.
 
-Come prima cosa, quindi, sono state create delle reti randomiche secondo questi modelli:
+== Toy Examples
 
-#smallcaps[scrivere una breve descrizione, e citazioni bibliografia, di ogni modello]
-+ reti piccole, senza community e con pochi nodi;
-+ Stochastic Block Model
-+ Barabási-Albert
-+ Erdős-Rényi
-+ Watts-Strogatz
-+ un altro che ora non ricordo
+In @toy-examples-1, le misurazioni della Node Vector Distance su grafi semplici, con pochi nodi, a confronto con reti dirette ma rese indirette per poter applicare calcolare la matrice Laplacian classica, e reti dirette da cui è stata calcolata la matrice Magnetic Laplacian.
 
-sono stati generati numerosi toy examples randomici per avvicinarci al comportamento standard dell'operatore, rispetto che alla casualità di valori particolari.
+#figure(
+  [ciao],
+  caption: [ciao],
+) <toy-examples-1>
+
+// Della relazione hermitiana - eigenvalues forse ha senso parlarne nel capitolo precedente e usare il paper @hermitian-magnetic-lapl
+// Inizialmente, sono state create delle reti piccole, con pochi nodi e senza la necessità di avere community, per assicurarsi che l'operatore rispettasse le proprietà di una matrice Laplaciana, come si è visto nei capitoli precedenti. Ma soprattutto, che fosse Hermitiana, ovvero una matrice complessa la cui matrice trasposta coniugata sia uguale alla matrice di partenza; così che, durante il calcolo della NVD tramite la _generalized euclidean_, ci si potesse facilmente sbarazzare dei numeri complessi, portando i risultati su valori reali. Nonostante, sia stato già provato che matrici complesse Hermitiane @hermitian-eigenvalues
+
+[ aggiungere un paio di esempi, mostrando la gen. euclidean ]
+
+Poi, sono state generate nuove reti, questa volta più complesse, con un numero di nodi crescente, con i modelli di generazione introdotti in @H-graph-generative-model: Stochastic Block Model, Barabási-Albert, Erdős-Rényi e Watts-Strogatz; rispettivamente, ogni rete, è stata generata con i parametri in @networks-parameters.
+
+[figure con una rete esempio x ogni modello.]
+
+
+// #show figure.where(kind: table): set block(breakable: true)
+#figure(
+  table(
+    columns: (auto, auto),
+    inset: 8pt,
+    align: horizon,
+    table.header([Modello], [Parametri]),
+    [Stochastic Block Model],
+    [
+      $|C| =$ `n // 2`, `n - n // 2`, `max(1, n // 10)`\
+      $p =$ `[0.5, 0.1]`, `[0.1, 0.5]`, `[0.2, 0.2]`
+    ],
+
+    [Barabási-Albert],
+    [
+      $|V| =$ `n`\
+      $m=$ `3`
+    ],
+
+    [Erdős-Rényi],
+    [
+      $|V| =$ `n`\
+      $p =$ `0.15`
+    ],
+
+    [Watts-Strogatz],
+    [
+      $|V| =$ `n`\
+      $k =$ `min(4, n - 1)`\
+      $p =$ `0.3`
+    ],
+  ),
+  caption: [Parametri per la generazione delle reti raffiguranti i toy examples, divisi per modello.],
+) <networks-parameters>
+
 aggiungere che la polarizzazione può essere calcolata con la node vector distance e citare i due papers di michele, perché appunto i toy examples hanno anche i nodi che appartengono a delle stance politiche randomiche
-
-scrivere parametri utilizzati
 
 abbiamo cercato di confrontare i risultati ottenuti sui toy examples, con alcune proprietà come omofilia, triangoli, etc...
 
-i risultati sono stati incoraggianti, perché abbiamo trovato delle correlazioni, ma nel prossimo capitolo li approfondiamo.
+i risultati sono stati incoraggianti, perché abbiamo trovato delle correlazioni, (ma nel prossimo capitolo li approfondiamo? forse no, li mettiamo qui ma facciamo un'analisi più approfondita nel prossimo capitolo. il vero risultato è stato quello della rete di reddit).
 
-siamo passati alle reti reali. prima di tutto il codice è stato adattato per creare delle final networks dirette. qui sono sorti un paio di problemi, sia nel backboning (il valore di treshold divergeva, facendo diventare alcune reti settimanali di soli 20 nodi), che è stato risolto, nel tempo del mio tirocinio, nel modo in cui gpt mi ha consigliato (spiegare nel dettaglio), che però ha portato ad un overlap significativo della fase di backboning tra dirette e non dirette. son dovuto ricorrere a questo perché io sono entrato nel progetto quando la v1 era stata già fatta, con tutte le sue computazioni ecc. per evaluarle, si è usato un hpc e io non avevo possibilità di usarlo (non vero, riscriverlo in un modo veritiero e più adatto) pertanto, ho usato dei messaggi già evaluati e quindi cachati delle reti non dirette. riscrivere la funzione di backboning da 0 avrebbe comportato il non poter andare avanti nel progetto perché molti messaggi sarebbero stati scartati perché "miss" nella cache. il workaround sicuramente ha funzionato. i risultati ottenuti hanno una correlazione molto stretta (quasi sospetta) con la misura di polarizzazione precedente, però hanno una correlazione più alta con il social balance, che invece nella polarizzazione iniziale era quasi inesistente. questo sicuramente ci dice che cattura le interazioni tra nodi simili, in modo migliore rispetto all'operatore iniziale.
+== Implementazione su reti reali
 
-indagare (e nel caso aggiugnerlo) il problema che prende più in considerazione la topologia della rete, che la feature del nodo (la magn lapl prende in considerazione solo la topologia ovviamente. questo si riferisce solo alla polarizzazione, quindi lapl+nvd) che potrebbe essere un problema su reti grandi/piccole. l'abbiamo verificato andando a randomizzare le opinioni di tutti i nodi delle reti finali, andando di fatto a creare un "null model" che avesse topologia medesima, ma opinioni distribuite randomicamente. i valori di polarizzazione cambiavano molto poco. https://github.com/demic-dev/reddit-polarization/blob/main/magnetic_laplacian.md
+Dopo aver testato su dei toy examples, ci si è trasferiti sul progetto principale e si sono implementati i risultati. Prima di poter implementare la nuova misura, si è aggiunto il supporto alle reti dirette, quindi riscrivendo alcune sezioni della pipeline. Oltre che a dei cambiamenti triviali riguardanti le strutture dati ed evitare lo sdoppiamento degli archi per mantenere la rete diretta (@diff-laplacian), è stata ripensata la sezione di backboning.
+\ Poiché, semplicemente utilizzando strutture dati dirette invece che indirette, i valori di _thresholding_, in alcune settimane, divergevano da $2.625$ (valore di default) a valori $>900$. È stato riscontrato specialmente in settimane in cui c'erano meno dati del solito. Di conseguenza, le reti finali, in tali settimane, erano presenti pochissimi nodi (sull'ordine delle decine, rispetto a reti sull'ordine delle migliaia), andando ad invalidare i risultati.
 
-posso aggiungere varie figure dei grafi e anche codice dei toy examples.
+Le soluzioni proposte sono due, ma ne è stata implementata solamente una. La prima, che è quella che è stata infine utilizzata, è quella di trattare _solamente durante la fase di backboning_, la rete diretta come una proiezione di quella indiretta, quindi duplicando gli archi tra due nodi e, infine, adeguare i risultati del backboning indiretto a quello diretto, per ottenere valori di threshold compatibili:
+
+```py
+if is_directed:
+  # Compute backbone on the undirected projection
+  # To get comparable edge scores, then filter original directed edges
+  edges_undirected = edges.copy()
+  edges_undirected["src_norm"] = edges_undirected[["src", "trg"]].min(axis=1)
+  edges_undirected["trg_norm"] = edges_undirected[["src", "trg"]].max(axis=1)
+  edges_undirected_agg = edges_undirected.groupby(["src_norm", "trg_norm"])["nij"].sum().reset_index()
+  edges_undirected_agg = edges_undirected_agg.rename(columns={"src_norm": "src", "trg_norm": "trg"})
+  # Double for undirected backbone calculation
+  edges_undirected_agg = pd.concat([edges_undirected_agg, edges_undirected_agg.rename(columns={"src": "trg", "trg": "src"})])
+
+  # Using undirected logic
+  edges_nc = bb.noise_corrected(edges_undirected_agg, undirected=True)
+  threshold = find_bb_threshold(edges_nc, is_directed=False)
+  edges_nc_bb = bb.thresholding(edges_nc, threshold)
+
+  # From normalized pairs to scores
+  pair_scores = edges_nc_bb.set_index(["src", "trg"])["score"].to_dict()
+
+  # Filter original directed edges to only those whose node pairs survived
+  edges["src_norm"] = edges[["src", "trg"]].min(axis=1)
+  edges["trg_norm"] = edges[["src", "trg"]].max(axis=1)
+  edges["pair"] = list(zip(edges["src_norm"], edges["trg_norm"]))
+  surviving_pairs = set(zip(edges_nc_bb["src"], edges_nc_bb["trg"]))
+  edges_filtered = edges[edges["pair"].isin(surviving_pairs)].copy()
+
+  # Assign the score from the undirected backbone to each directed edge
+  edges_filtered["score"] = edges_filtered["pair"].map(pair_scores)
+  edges_filtered = edges_filtered.drop(["pair", "src_norm", "trg_norm"], axis=1)
+
+  G = nx.from_pandas_edgelist(
+      edges_filtered,
+      source="src",
+      target="trg",
+      edge_attr=True,
+      create_using=nx.DiGraph())
+```
+
+L'altra soluzione era quella invece di (... trovare altra soluzione che funzioni). Sebbene fosse la soluzione ottimale, questa soluzione avrebbe necessitato di eseugire tutta la pipeline volta per volta, poiché nuovi nodi sarebbero stati mantenuti e, quindi, nuovi messaggi sarebbero dovuti essere classificati, secondo gli step della pipeline introdotta in precedenza #footnote[ Il resto della pipeline richiedeva l'esecuzione di modelli eseguiti su computer performanti (quali l'_HPC_, l'High Performance Computing) che, però, portano ad un incremento sostanziale dei tempi di sviluppo.]. Invece, per tutta la durata del tirocinio, è stato utilizzato un file di cache, creato nella prima versione del progetto, con tutti i messaggi del dataset non diretto (dopo il backboning) e la rispettiva classificazione per argomento, tossicità e opinione politica. Questo ha permesso anche di velocizzare le iterazioni tra sviluppo e test.
+
+La soluzione che effettivamente è stata utilizzata, ha funzionato, nonostante, alla fine, ci fosse una correlazione molto forte, quasi sospetta #footnote[aggiungere reference alla figura che metto nel prox capitolo], tra la polarizzazione calcolata con le reti indirette, e la polarizzazione calcolata con le reti dirette. Ciò nonostante, i risultati verranno approfonditi nel capitolo successivo.
+
+#show figure: set block(breakable: true)
+#figure(
+  [
+    ```diff
+    + is_directed=sys.argv[1] == "directed"
+    + is_signed=sys.argv[2] == "signed"
+
+    [...]
+       tensor = torch_geometric.data.Data(
+    +     edge_index = torch.tensor(np.array([edges["#src"].values, edges["trg"].values]), dtype = torch.long).to(device),
+    -     edge_index = torch.tensor(np.array([pd.concat([edges["#src"], edges["trg"]]).values, pd.concat([edges["trg"], edges["#src"]]).values]), dtype = torch.long).to(device),
+          node_vects = torch.tensor(nodes.sort_values(by = "node").set_index("node").drop("community", axis = 1).values, dtype = torch.float32).to(device),
+    +     edge_attr = torch.tensor(edges[["weight", "signific", "toxic", "disagreement"]].values, dtype = torch.float32).to(device)
+    -     edge_attr = torch.tensor(pd.concat([edges[["weight", "signific", "toxic", "disagreement"]], edges[["weight", "signific", "toxic", "disagreement"]]]).values, dtype = torch.float32).to(device)
+       )
+
+       # Calculate the pseudoinverse of the Laplacian, this is the most computationally intensive part so it's useful to cache it to re-use it for all topics
+    -  Linv = ps._Linv(tensor)
+    +  Linv = ps._Linv(tensor, mode = "magnetic" if is_directed else "classic", edges = "signed" if is_signed else "unsigned")
+    ```
+  ],
+  caption: [Modifiche al file che calcola la matrice Laplacian e la inverte.],
+) <diff-laplacian>
+
+Infine, dopo aver terminato la migrazione del codice sorgente, si è eseguita la pipeline e, tramite i risultati ottenuti, si sono eseguite delle misurazioni sulla rete, per raccogliere correlazioni tra i nuovi risultati e le caratteristiche della rete, comparandole con dei _null models_ di riferimento. Nel prossimo capitolo, analizzeremo nel dettaglio i risultati ottenuti dall'operatore _Magnetic Laplacian_ sia nel caso di reti randomiche, sia nel caso della rete reale di Reddit.
 
 #pagebreak()
 
 = Presentazione dei risultati
 #quote[La presentazione dei risultati dovrebbe consistere in una descrizione tecnica dei risultati raggiunti, unitamente ad un commento critico e ad un’analisi della rispondenza agli obiettivi iniziali (si consiglia per tanto di motivare la rilevanza dei risultati e l’eventuale scostamento dagli obiettivi iniziali). La sezione relativa ai risultati dovrebbe infine contenere una sintesi critica e un giudizio sull’esperienza effettuata, che renda conto di aspetti positivi e negativi per il tirocinante e per l’ente ospitante, del valore formativo, professionale e umano, e cosı via.]\
 // Parlare dei risultati (+ robe che mi manderà Michele)
+
+indagare (e nel caso aggiugnerlo) il problema che prende più in considerazione la topologia della rete, che la feature del nodo (la magn lapl prende in considerazione solo la topologia ovviamente. questo si riferisce solo alla polarizzazione, quindi lapl+nvd) che potrebbe essere un problema su reti grandi/piccole. l'abbiamo verificato andando a randomizzare le opinioni di tutti i nodi delle reti finali, andando di fatto a creare un "null model" che avesse topologia medesima, ma opinioni distribuite randomicamente. i valori di polarizzazione cambiavano molto poco. https://github.com/demic-dev/reddit-polarization/blob/main/magnetic_laplacian.md
 
 #pagebreak()
 
@@ -697,7 +828,7 @@ Conclusioni bla bla...
 #pagebreak()
 
 #bibliography(
-  ("./works.yaml", "./works.bib"),
+  "./works.bib",
   title: "Bibliografia",
   style: "american-physics-society",
 )
