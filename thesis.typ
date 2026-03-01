@@ -30,6 +30,7 @@
 #show bibliography: set heading(numbering: "1.1.")
 
 #set math.equation(numbering: "(1)")
+#show figure.caption: set text(10pt)
 
 // Title page function
 #let make-title(
@@ -46,7 +47,7 @@
   v(1fr)
 
   // University name
-  image("logo.jpg")
+  image("images/logo.jpg")
   v(0.2em)
 
   // Department
@@ -171,7 +172,7 @@ Solitamente, nella Network Science, vengono preferite reti semplici, quindi non 
 
 #pagebreak()
 
-= Stato dell'arte
+= Stato dell'art
 
 == Social Network Analysis
 La Social Network Analysis - analisi delle reti sociali - non è una vera e propria teoria, ma più una strategia generale per analizzare le strutture sociali. Nasce ben prima dell'informatica, nell'ambito della sociologia, con l'intento di studiare i comportamenti delle persone in base al contesto in cui si trovano. Le relazioni tra gli "attori" di una rete sono la priorità; nonostante ciò, le proprietà singole di un attore sono necessarie per analizzare fenomeni sociali.
@@ -186,17 +187,17 @@ Un altro aspetto della SNA è lo studio di come le strutture sociali influenzano
 Per polarizzazione si intende la tendenza di un gruppo a prendere decisioni più divisive ed estreme rispetto alle singole opinioni iniziali dei membri. Si riferisce anche al fenomeno per il quale i membri di un gruppo rafforzano le loro opinioni dopo aver avuto una discussione su un determinato argomento.
 
 È un fenomeno importante in psicologia sociale e viene ritrovato in molti contesti. Si inizia a parlare di polarizzazione negli anni '60, quando viene studiato il "risky-shift" @myers1976group, ovvero la tendenza di un gruppo a prendere decisioni più rischiose, rispetto alle stesse singole decisioni prese da ogni individuo di quel gruppo.\
-Negli anni più recenti, invece, internet e i social media hanno portato un nuovo contesto dentro il quale studiare la polarizzazione. Ricercatori hanno dimostrato come, grazie alle reti sociali, possono esserci episodi di polarizzazione anche quando le persone non sono fisicamente vicine.
+Negli anni più recenti, internet e i social media hanno portato un nuovo contesto dentro il quale studiare la polarizzazione. Ricercatori hanno dimostrato come, grazie alle reti sociali, possono esserci episodi di polarizzazione anche quando le persone non sono fisicamente vicine.
 
 Ai fini della tesi e del tirocinio, andremo a parlare nello specifico di polarizzazione politica, un fenomeno nel quale le opinioni politiche di una persona - o di un partito - divergono dal centro, fino ad assumere posizioni estreme. Possiamo quindi dire che non vi è alcuna, o quasi, intersezione tra le posizioni dei partiti presi in considerazione. Gli accademici la distinguono in _ideological polarization_, ovvero le differenze tra le posizioni politiche, e _affective polarization_.
 
-*Ideological Polarization*: si intende la differenza tra le posizioni politiche.
+*Ideological Polarization*: si intende l'aumento della differenza tra le posizioni politiche degli individui e, di conseguenza, un dialogo ridotto.
 
 *Affective Polarization*: misura l'avversione di una persona nell'avere a che fare con persone di idee politiche differenti.
 
-Inizialmente veniva misurata con delle survey @measure-affective-pol, dove le persone rispondevano a domande circa le attitudini verso i partiti opposti, ma anche riguardo ai comportamenti che metterebbero in atto nei confronti di persone di un partito opposto (sarebbero amici? sarebbero felici di averli come vicini di casa?). Al giorno d'oggi, è possibile misurare la _affective polarization_ anche analizzando le reti sociali @hohmann2025estimating che, a differenza dei sondaggi, misurano comportamenti compiuti su larga scala.
+Inizialmente venivano misurate con delle survey @measure-affective-pol, dove le persone rispondevano a domande circa le attitudini verso i partiti opposti, ma anche riguardo ai comportamenti che metterebbero in atto nei confronti di persone di un partito opposto (sarebbero amici? sarebbero felici di averli come vicini di casa?). Al giorno d'oggi, è possibile misurare la polarizzazione anche analizzando le reti sociali @hohmann2025estimating che, a differenza dei sondaggi, misurano comportamenti effettivamente avvenuti, e su larga scala.
 
-Più avanti nel capitolo, vedremo come quantificarle entrambe, grazie alla Node Vector Distance e alla Generalized Euclidean.
+All'interno della tesi, analizzeremo e quantificheremo solamente la polarizzazione ideologica, grazie alla misura _node vector distance_.
 
 == Teoria dei Grafi
 
@@ -412,7 +413,7 @@ Il dominio della modularità è definito in $[-0.5, +1]$: più il valore è bass
 
 + *Coefficiente di Clustering*: È una proprietà che misura quanto, in una rete, i nodi tendono a essere connessi tra di loro. Soprattutto nelle reti sociali, i nodi tendono ad avere un'alta densità di collegamenti. È una misura locale o globale. A livello locale, misura quanto è probabile che i vicini di un nodo tendono a formare una cricca. Dato $N$ l'insieme dei vicini di $i$ e $k_i = |N|$: $ C C_i = (|{ e_(j k) : v_j, v_k in N, e_(k j) in E }|)/(k_v\(k_v-1\)) $\ A livello globale, invece, ci si basa su triple di nodi (triangoli o triadi). Il coefficiente globale di clustering rappresenta quanti triangoli chiusi ci sono, rispetto a tutte le triadi in una rete: $ C C = (\# "triangles")/(\# "triads") $
 
-=== Node Vector Distance
+=== Node Vector Distance <H-node-vector-distance>
 Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato #footnote[aggiungere citazioni a paper su djikstra, bellman-ford, etc]. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi. Però, tengono conto solamente di un aspetto, ovvero di portare un dato in un nodo $i$ ad un nodo $j$. In modo binario, un dato può trovarsi in un nodo oppure in un altro, o in un qualsiasi nodo intermedio, ma non può diffondersi in modo "continuo", con una parte di informazione presente simultaneamente in più nodi, né partire da più nodi contemporaneamente.\
 Tuttavia, molte situazioni del mondo reale possono essere modellate in questo modo, come la _diffusione di un virus_, la _qualità di una campagna di marketing virale_ o la _polarizzazione in un social network_, fenomeni che in ogni caso partono da uno o più nodi e si diffondono verso i nodi vicini.
 
@@ -621,14 +622,19 @@ Il progetto analizza i subreddit politici nel tempo, dalla sua fondazione fino a
 Viene creata una rete diversa per ogni settimana, per visualizzarne ed analizzarne l'evoluzione nel tempo. L'assunzione alla base è che, se due nodi sono collegati da un arco, allora c'è stata un'interazione significativa tra i due utenti, nella settimana di riferimento.
 
 == Strumenti Utilizzati
+
 === NetworkX
-per la generazione di toy examples e per eseguire alcune operazioni sui grafi, come trovare gli lcc. nonostante non sia velocissima come libreria, è utile perché fornisce utility già pronte all'uso per maneggiare con le reti. inoltre, ha implementazioni già fatte di modelli di reti reali, che utilizzeremo nei toy examples.
+NetworkX è stata utilizzata per la generazione di toy examples e per l'esecuzione di operazioni specifiche sui grafi, come l'individuazione delle componenti connesse maggiori (LCC). Nonostante non sia la libreria più performante in termini di velocità, si rivela particolarmente utile grazie alle numerose utility già implementate per la manipolazione delle reti. Inoltre, fornisce implementazioni predefinite di modelli di reti reali che sono stati utilizzati nella creazione dei toy examples.
+
 === PyTorch
-usato per via dei tensori. prima di salvarli in csv, tutti i dati sono salvati come tensori. (spiegarne i vantaggi) also durante la pseudoinversione della laplacian.
+PyTorch è stato impiegato principalmente per la gestione dei tensori. Tutti i dati vengono salvati come tensori prima della loro conversione in formato CSV, sfruttando i vantaggi di questa struttura dati in termini di efficienza computazionale e compatibilità con operazioni di algebra lineare. La libreria è stata inoltre utilizzata durante il calcolo della pseudo-inversione della matrice Laplaciana.
+
 === NumPy
-usati di meno, in situazioni in cui serviva usare array e operazioni con gli array
+NumPy è stato utilizzato in misura minore, limitatamente alle situazioni che richiedevano l'uso di array e operazioni specifiche su array multidimensionali. La scelta di NumPy è stata motivata dalle sue prestazioni superiori, garantite dall'implementazione in C delle operazioni fondamentali, che risultano essenziali per il calcolo efficiente su grandi volumi di dati.
+
 === Pandas
-usato solamente in fase finale, quando si volevano rappresentare dati per il debugging. date le sue utility già pronte e le sue API pratiche, è molto semplice eseguire operazioni di statistica di base e aggregazione dei risultati. infatti, dopo aver calcolato la polarizzazione, la mettevamo su un dataframe
+Pandas è stato impiegato esclusivamente nelle fasi finali del processo, quando era necessario rappresentare i dati per scopi di debugging. Grazie alle sue utility predefinite e alle sue API, questa libreria semplifica notevolmente l'esecuzione di operazioni di statistica di base e l'aggregazione dei risultati. La sua capacità di gestire facilmente dati strutturati eterogenei e di eseguire operazioni complesse di join e merge lo rende indispensabile per l'analisi esplorativa dei dati e per la prototipazione rapida.
+
 == Procedura di Costruzione della Rete
 È possibile suddividere questa sezione in 6 fasi:
 
@@ -659,12 +665,52 @@ usato solamente in fase finale, quando si volevano rappresentare dati per il deb
 
   Viene restituita la componente connessa maggiore (LCC), poiché c'è bisogno di una rete connessa con il maggior numero di nodi.
 
-  In conclusione, viene eseguita una riduzione dei parametri tramite la Principal Component Analysis (PCA), con il fine di restituire un valore generale circa la posizione politica di un utente. In @final-network-example, un esempio di una rete finale.
+  In conclusione, viene eseguita una riduzione dei parametri tramite la Principal Component Analysis (PCA), con il fine di restituire un valore generale circa la posizione politica di un utente. In @final-undirected-network-example, un esempio di una rete finale.
 
   #figure(
-    [immagine...],
-    caption: "qui metto un'immagine di cytoscape con una rete di marzo 19, con i nodi che vanno da dems a reps con un gradiente",
-  ) <final-network-example>
+    image("images/19-04.png"),
+    caption: "Visualizzazione di una rete non diretta dell'ultima settimana di Gennaio 2019",
+  ) <final-undirected-network-example>
+
+== Misurazione della Polarizzazione
+
+Per misurare la polarizzazine settimanale, viene importata la rete e viene costruito un tensore, che contiene la matrice degli archi, con i relativi attributi e una matrice che contiene gli attributi di ogni nodo, ovvero la posizione politica di un determinato utente rispetto ad ogni topic elencato sopra. Successivamente, viene calcolata la matrice laplacian e vi si calcola la pseudo-inversa, che rappresentera la struttura della rete. Infine, viene calcolata la _generalized euclidean_, fornendo come parametro il vettore che contiene le posizioni politiche per un determinato argomento.
+
+#show figure: set block(breakable: true)
+#figure(
+  ```py
+  for week_path in sorted(glob.glob("../01_preprocess/final_networks/*_edges.tsv")):
+    week = week_path.split('/')[-1][:5]
+
+    edges = pd.read_csv(f"../01_preprocess/final_networks/{week}_edges.tsv", sep = "\t")
+    nodes = pd.read_csv(f"../01_preprocess/final_networks/{week}_nodes.tsv", sep = "\t")
+    tensor = torch_geometric.data.Data(
+    edge_index = torch.tensor(np.array([edges["#src"].values, edges["trg"].values]), dtype = torch.long).to(device),
+    node_vects = torch.tensor(nodes.sort_values(by = "node").set_index("node").drop("community", axis = 1).values, dtype = torch.float32).to(device),
+    edge_attr = torch.tensor(edges[["weight", "signific", "toxic", "disagreement"]].values, dtype = torch.float32).to(device)
+      )
+    # Calculate the pseudoinverse of the Laplacian, this is the most computationally intensive part so it's useful to cache it to re-use it for all topics
+    Linv = ps._Linv(tensor)
+
+  ```,
+  caption: [Pipeline di analisi, importa le reti, costruisce le strutture dati e\ chiama le funzioni contenute in file `polarization_score.py`],
+)
+
+#figure(
+  ```py
+  def Linv(tensor):
+     L_ei, Lew = torch_geometric.utils.get_laplacian(tensor.edge_index, edge_weight = tensor.edge_attr[:,0])
+     L = torch_geometric.utils.to_dense_adj(edge_index = L_ei, edge_attr = Lew)[0]
+     return torch.linalg.pinv(L, hermitian = True)
+
+  # This is the basic GE function. Given a vector from -1 to +1 representing the difference between two vectors from 0 to 1, it will calculate. the Euclidean distance of the two vectors using the graph's topology (represented by the inverse of its Laplacian).
+  def ge(tensor, vector_index, Linv = None):
+     return float(torch.sqrt(tensor.node_vects[:,vector_index].matmul(
+      Linv.matmul(tensor.node_vects[:,vector_index]))).cpu().numpy())
+
+  ```,
+  caption: [File `polarization_score.py`, il quale calcola la matrice laplaciana\ (e la sua pseudo-inversa) e la generalized euclidean],
+)
 
 == Limite e Domanda di Ricerca
 Il limite del progetto allo stato attuale si ritrova nella composizione delle reti, rappresentate come reti non dirette e che quindi non rappresentano la direzione dell'interazione tra due utenti. Questo non rappresenta un limite di per sé, perché l'uso di grafi non diretti nelle analisi delle reti è molto diffuso. Tuttavia, numerosi articoli scientifici @rossi2023edgedirectionalityimproveslearning @sun2024datacentricmachinelearningdirected @Kummerfeld2021-sl @Sporns2018-bc mostrano la limitazione di perdere l'informazione di direzionalità. Di conseguenza, si voleva rilevare se, l'aggiunta di complessità al progetto, derivante prima di tutto dall'incorporare l'informazione di direzionalità, ma anche all'uso di algoritmi che funzionassero anche per grafi diretti, potesse portare risultati interressanti, che svelano informazioni che tramite una rete non diretta, sono nascoste.
@@ -672,28 +718,48 @@ Il limite del progetto allo stato attuale si ritrova nella composizione delle re
 #pagebreak()
 
 = Modifiche apportate
-#quote[Descrivere le attività svolte, riportando attività, tempi, strumenti utilizzati, risultati conseguiti, problemi affrontati e modalità di risoluzione. Potranno essere qui descritte le attività anche dal punto di vista strettamente tecnico, approfondendo le scelte effettuate, le moti vazioni, le alternative prese in considerazione, l’uso o il possibile uso dei risultati del lavoro.]
 
 La Magnetic Laplacian, come visto nei capitoli precedenti, è un operatore che ha trovato molti usi nella _community evaluation_ e nella _spectral analysis_. Però, prima d'ora, non era mai stato testato in altre condizioni, come con la _node vector distance_. Per questo, prima di implementare l'operatore sul progetto descritto nel capitolo precedente, è stata testata a fondo su dei toy examples, per verificare quali comportamenti misurasse maggiormente e se avessero senso.
 
 == Toy Examples
 
-In @toy-examples-1, le misurazioni della Node Vector Distance su grafi semplici, con pochi nodi, a confronto con reti dirette ma rese indirette per poter applicare calcolare la matrice Laplacian classica, e reti dirette da cui è stata calcolata la matrice Magnetic Laplacian.
+Rimuovere tutto quello che ho scritto finora, son un po' cazzate. Riscrivere dicendo che si applica lo stesso metodo del paper sulla ideological polarization di MC. Calcolando le varie robe che ha calcolato anche lui, ma su grafi diretti. Magari, posso calcolare tutto questo però, su diversi modelli di rete, può essere interessante.
 
-#figure(
-  [ciao],
-  caption: [ciao],
-) <toy-examples-1>
+// Riscrivere la Gen. Eucl part usando alcuni esempi del paper di cui sopra, perché è scritta molto bene. spiegare perché funziona, prendendo come esempio il paper di michele che gli è stato recentemente pubblicato. (nel capitolo teorico)
+
+// In @toy-examples-1, le misurazioni della Node Vector Distance su grafi semplici, con pochi nodi, a confronto con reti dirette ma rese indirette per poter applicare calcolare la matrice Laplacian classica, e reti dirette da cui è stata calcolata la matrice Magnetic Laplacian.
 
 // Della relazione hermitiana - eigenvalues forse ha senso parlarne nel capitolo precedente e usare il paper @hermitian-magnetic-lapl
 // Inizialmente, sono state create delle reti piccole, con pochi nodi e senza la necessità di avere community, per assicurarsi che l'operatore rispettasse le proprietà di una matrice Laplaciana, come si è visto nei capitoli precedenti. Ma soprattutto, che fosse Hermitiana, ovvero una matrice complessa la cui matrice trasposta coniugata sia uguale alla matrice di partenza; così che, durante il calcolo della NVD tramite la _generalized euclidean_, ci si potesse facilmente sbarazzare dei numeri complessi, portando i risultati su valori reali. Nonostante, sia stato già provato che matrici complesse Hermitiane @hermitian-eigenvalues
 
-[ aggiungere un paio di esempi, mostrando la gen. euclidean ]
+// [ aggiungere un paio di esempi, mostrando la gen. euclidean ]
 
-Poi, sono state generate nuove reti, questa volta più complesse, con un numero di nodi crescente, con i modelli di generazione introdotti in @H-graph-generative-model: Stochastic Block Model, Barabási-Albert, Erdős-Rényi e Watts-Strogatz; rispettivamente, ogni rete, è stata generata con i parametri in @networks-parameters.
+#grid(
+  figure(
+    image("images/barabasi-albert.png"),
+    caption: [ Modello Barabási-Albert ],
+  ),
+  figure(
+    image("images/erdos-renyi.png"),
+    caption: [ Modello Erdős-Rényi ],
+  ),
 
-[figure con una rete esempio x ogni modello.]
+  figure(
+    image("images/stochastic-block-model.png"),
+    caption: [ Modello a Blocchi Stocastico ],
+  ),
+  figure(
+    image("images/watts-strogatz.png"),
+    caption: [ Modello Watts-Strogatz ],
+  ),
 
+  columns: (1fr, 1fr),
+  label: <toy-examples-1>,
+  caption: [Rappresentazione di reti di test con $100$ nodi per rete. Dimensione dei nodi proporzionale al grado e colore dei nodi in base all'opinione politica. Intensità proporzionale all'estremità dell'opinione politica; rosso = repubblicano e blu = democratico.],
+)
+
+Sono state generate nuove reti, questa volta più complesse (in @toy-examples-1), con un numero maggiore di nodi e un distanziamento crescente tra nodi che hanno "opinioni" diverse, così da simulare un atteggiamento di crescente polarizzazione #footnote[spiegare nel dettaglio con magari citazione a https://www.michelecoscia.com/wp-content/uploads/2025/09/journal.pone_.0328210.pdf]. Con i modelli di generazione introdotti in @H-graph-generative-model: Stochastic Block Model, Barabási-Albert, Erdős-Rényi e Watts-Strogatz;
+// rispettivamente, ogni rete, è stata generata con i parametri in @networks-parameters.
 
 // #show figure.where(kind: table): set block(breakable: true)
 #figure(
@@ -730,11 +796,13 @@ Poi, sono state generate nuove reti, questa volta più complesse, con un numero 
   caption: [Parametri per la generazione delle reti raffiguranti i toy examples, divisi per modello.],
 ) <networks-parameters>
 
-aggiungere che la polarizzazione può essere calcolata con la node vector distance e citare i due papers di michele, perché appunto i toy examples hanno anche i nodi che appartengono a delle stance politiche randomiche
+Per ogni rete è stata calcolata la laplaciana magnetica e, infine, la polarizzazione mediante la misura _generalized euclidean_ vista in @H-node-vector-distance. Tali risultati sono stati analizzati in correlazione con le misure di social balance #footnote[cos'è?], triangoli rafforzanti (gruppi di tre nodi con interazioni positive e della stessa opinione politica) e triangoli respingenti (gruppi di tre nodi con interazioni positive solo tra nodi della stessa opinione politica, negative con opinioni politiche opposte), omofilia e disaccordo#footnote[come viene calcolato?].
 
-abbiamo cercato di confrontare i risultati ottenuti sui toy examples, con alcune proprietà come omofilia, triangoli, etc...
+mostrare che il valore cresce al crescere dell'accentramento dei nodi della stessa stance politica.
 
-i risultati sono stati incoraggianti, perché abbiamo trovato delle correlazioni, (ma nel prossimo capitolo li approfondiamo? forse no, li mettiamo qui ma facciamo un'analisi più approfondita nel prossimo capitolo. il vero risultato è stato quello della rete di reddit).
+Sono state trovate delle correlazioni significative ed incoraggianti che hanno poi portato all'implementazione di questa misura sul dataset di Reddit. Verranno approfondite in @H2-results-real-networks.
+
+mettere qui i grafici e la tabella dei risultati tho.
 
 == Implementazione su reti reali
 
@@ -819,6 +887,10 @@ Infine, dopo aver terminato la migrazione del codice sorgente, si è eseguita la
 // Parlare dei risultati (+ robe che mi manderà Michele)
 
 indagare (e nel caso aggiugnerlo) il problema che prende più in considerazione la topologia della rete, che la feature del nodo (la magn lapl prende in considerazione solo la topologia ovviamente. questo si riferisce solo alla polarizzazione, quindi lapl+nvd) che potrebbe essere un problema su reti grandi/piccole. l'abbiamo verificato andando a randomizzare le opinioni di tutti i nodi delle reti finali, andando di fatto a creare un "null model" che avesse topologia medesima, ma opinioni distribuite randomicamente. i valori di polarizzazione cambiavano molto poco. https://github.com/demic-dev/reddit-polarization/blob/main/magnetic_laplacian.md
+
+== Toy Examples <H2-results-toy-examples>
+
+== Reti Reali <H2-results-real-networks>
 
 #pagebreak()
 
