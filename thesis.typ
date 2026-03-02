@@ -1,5 +1,5 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
-#import "@preview/subpar:0.2.2" as subpar: grid
+#import "@preview/subpar:0.2.2" as subpar: grid as subpar-grid
 
 // Page setup
 #set page(
@@ -124,6 +124,25 @@
     #text(size: 14pt, style: "italic")[dedicato a ...]
   ]
 ]
+
+
+// #show outline.entry: it => {
+//   block([
+//     *Debug:* #repr(it) \
+//     #it
+//   ])
+// }
+// #show outline.entry: it => text(
+//   [
+//     #it.indented(
+//       it.prefix(),
+//       it.body()
+//         // + sym.space
+//         + box(width: 1fr, it.fill)
+//         // + sym.space
+//         + it.page(),
+//     )],
+// )
 
 #outline(
   title: [Indice],
@@ -414,14 +433,16 @@ Il dominio della modularità è definito in $[-0.5, +1]$: più il valore è bass
 + *Coefficiente di Clustering*: È una proprietà che misura quanto, in una rete, i nodi tendono a essere connessi tra di loro. Soprattutto nelle reti sociali, i nodi tendono ad avere un'alta densità di collegamenti. È una misura locale o globale. A livello locale, misura quanto è probabile che i vicini di un nodo tendono a formare una cricca. Dato $N$ l'insieme dei vicini di $i$ e $k_i = |N|$: $ C C_i = (|{ e_(j k) : v_j, v_k in N, e_(k j) in E }|)/(k_v\(k_v-1\)) $\ A livello globale, invece, ci si basa su triple di nodi (triangoli o triadi). Il coefficiente globale di clustering rappresenta quanti triangoli chiusi ci sono, rispetto a tutte le triadi in una rete: $ C C = (\# "triangles")/(\# "triads") $
 
 === Node Vector Distance <H-node-vector-distance>
-Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato #footnote[aggiungere citazioni a paper su djikstra, bellman-ford, etc]. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi. Però, tengono conto solamente di un aspetto, ovvero di portare un dato in un nodo $i$ ad un nodo $j$. In modo binario, un dato può trovarsi in un nodo oppure in un altro, o in un qualsiasi nodo intermedio, ma non può diffondersi in modo "continuo", con una parte di informazione presente simultaneamente in più nodi, né partire da più nodi contemporaneamente.\
+Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato #footnote[aggiungere citazioni a paper su djikstra, bellman-ford, etc]. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi.
+
+Però, questo tiene conto solamente di un aspetto. Ovvero di portare un dato da un nodo $i$ ad un nodo $j$. In modo binario, un dato può trovarsi in un nodo oppure in un altro, o in un qualsiasi nodo intermedio, ma non può diffondersi in modo "continuo", con una parte di informazione presente simultaneamente in più nodi, né partire da più nodi contemporaneamente.\
 Tuttavia, molte situazioni del mondo reale possono essere modellate in questo modo, come la _diffusione di un virus_, la _qualità di una campagna di marketing virale_ o la _polarizzazione in un social network_, fenomeni che in ogni caso partono da uno o più nodi e si diffondono verso i nodi vicini.
 
 L'intuizione dietro la _Node Vector Distance_ (NVD) deriva dal misurare, data una rete e due tempi $t_1$ e $t_2$, la diffusione di una proprietà di un nodo nel tempo.
 
 Formalmente @coscia2020node, data una rete non diretta $G = (V, E)$, dove $V$ è l'insieme dei nodi ed $E$ è l'insieme degli archi, definiamo la proprietà $A$ in ogni nodo della rete, con un vettore $A$ di lunghezza $|V|$ e dominio in $[0, 1]$. Assumendo per semplicità che tra $t_1$ e $t_2$ la rete non cambi, la NVD misura la distanza percorsa e la diffusione della proprietà $A$ nel tempo, come in @nvd-diffusion-a e in @nvd-diffusion-b.
 
-#grid(
+#subpar-grid(
   figure(
     diagram(
       node-stroke: .1em,
@@ -451,12 +472,21 @@ Formalmente @coscia2020node, data una rete non diretta $G = (V, E)$, dove $V$ è
   <nvd-diffusion-b>,
 
   columns: (1fr, 1fr),
+  caption: [Diffusione della proprietà $A$ nel grafo $G$.],
 )
 
 Esistono tre classi di soluzioni per la NVD @coscia2020node: _Generalized Euclidean_, _Shortest Path_ e _Spectral_. Ci concentreremo solo sulla prima, la _Generalized Euclidean_, in quanto quella usata durante il tirocinio.
 
-La _Generalized Euclidean_ (GE) misura le distanze in una rete nello stesso modo in cui misurerebbe le distanze in un piano Euclideo multidimensionale. È data da: $ delta_(A_(t 1), A_(t 2)) = sqrt((A_(t 1) - A_(t 2))^T L^+(A_(t 1) - A_(t 2))) $
+La _Generalized Euclidean_ (GE) misura le distanze in una rete nello stesso modo in cui misurerebbe le distanze in un piano Euclideo multidimensionale. È data da: $ delta_(A_(t 1), A_(t 2)) = sqrt((A_(t 1) - A_(t 2))^T L^dagger(A_(t 1) - A_(t 2))) $
 dove $L^+$ è la matrice Laplaciana pseudo-inversa di Moore-Penrose (non è invertibile perché è una matrice singolare), e $(A_(t 1) - A_(t 2))^T$ è la matrice trasposta della differenza della  proprietà $A$ nei tempi presi in considerazione.
+
+In letteratura scientifica, questa misura è stata utilizzata per misurare la polarizzazione ideologica in una rete sociale @ideological-polarization-quantifying dove, la proprietà $A$, rappresenta l'opinione politica di ogni utente, che spazia in un range continuo da $-1$ a $+1$ (da democratico a repubblicano) e scomposta in $A^+$ e $A^-$.
+
+Rispettivamente, $A^+ = cases(
+  a_i arrow.double.r a_i >= 0, 0 arrow.double.r a_i < 0
+)$ e $A^- cases(|a_i| arrow.double.r a_i < 0, 0 arrow.double.r a_i >= 0)$ così che la polarizzazione sia data da: $ delta_(A) = sqrt((A^+ - A^-)^T L^dagger (A^+ - A^-)) $
+
+Questa rappresenta la distanza tra due nodi randomici, pesata sull'estremità delle loro opinioni. Quindi, una rete piena di nodi non estremi ($0 <= overline(A) <= |0.1|$) avrà una polarizzazione minore alla stessa rete con nodi tendenti ad opinioni estreme ($overline(A) >= |0.8|$).
 
 == Laplaciana Magnetica
 La Laplaciana Magnetica, o _Magnetic Laplacian_, ha radici nella fisica quantistica. Analogo all'operatore di Schrödinger magnetico @cmp-1104270832, è stato creato per modellare il comportamento delle particelle in un campo elettromagnetico, incorporando però un vettore che ruota la matrice Laplaciana classica @krejcirik2013magneticlaplacianshrinkingtubular.
@@ -506,7 +536,6 @@ Invece, la matrice Laplaciana magnetica con $theta = pi/2$, equivale a:$ mat(
   1/2i, 1, -1/2i;
   -1/2i, 1/2i, 1;
 ) $
-
 
 #figure(
   diagram(
@@ -674,7 +703,9 @@ Pandas è stato impiegato esclusivamente nelle fasi finali del processo, quando 
 
 == Misurazione della Polarizzazione
 
-Per misurare la polarizzazine settimanale, viene importata la rete e viene costruito un tensore, che contiene la matrice degli archi, con i relativi attributi e una matrice che contiene gli attributi di ogni nodo, ovvero la posizione politica di un determinato utente rispetto ad ogni topic elencato sopra. Successivamente, viene calcolata la matrice laplacian e vi si calcola la pseudo-inversa, che rappresentera la struttura della rete. Infine, viene calcolata la _generalized euclidean_, fornendo come parametro il vettore che contiene le posizioni politiche per un determinato argomento.
+Per misurare la polarizzazine settimanale, viene importata la rete e viene costruito un tensore, che contiene la matrice degli archi, con i relativi attributi e una matrice che contiene gli attributi di ogni nodo, ovvero la posizione politica di un determinato utente rispetto ad ogni topic elencato sopra.
+
+Viene utilizzata la node vector distance per calcolare la polarizzazione all'interno della rete, come anticipato in @H-node-vector-distance. Quindi, viene calcolata la matrice laplacian e vi si calcola la pseudo-inversa, che rappresentera la struttura della rete. Infine, viene calcolata la _generalized euclidean_, fornendo come parametro il vettore che contiene le posizioni politiche per un determinato argomento.
 
 #show figure: set block(breakable: true)
 #figure(
@@ -723,86 +754,159 @@ La Magnetic Laplacian, come visto nei capitoli precedenti, è un operatore che h
 
 == Toy Examples
 
-Rimuovere tutto quello che ho scritto finora, son un po' cazzate. Riscrivere dicendo che si applica lo stesso metodo del paper sulla ideological polarization di MC. Calcolando le varie robe che ha calcolato anche lui, ma su grafi diretti. Magari, posso calcolare tutto questo però, su diversi modelli di rete, può essere interessante.
+Per il testing di questo nuovo operatore, si seguono le tecniche utilizzate in @ideological-polarization-quantifying, dove vengono create varie reti casuali, con i seguenti comportamenti:
 
-// Riscrivere la Gen. Eucl part usando alcuni esempi del paper di cui sopra, perché è scritta molto bene. spiegare perché funziona, prendendo come esempio il paper di michele che gli è stato recentemente pubblicato. (nel capitolo teorico)
+#set enum(numbering: "a)")
++ opinioni politiche che diventano sempre più estreme (@toy-examples-extreme-growing);
++ nodi che si segregano sempre più in echo chamber (@toy-examples-community-segregation).
+#set enum(numbering: "1.")
 
-// In @toy-examples-1, le misurazioni della Node Vector Distance su grafi semplici, con pochi nodi, a confronto con reti dirette ma rese indirette per poter applicare calcolare la matrice Laplacian classica, e reti dirette da cui è stata calcolata la matrice Magnetic Laplacian.
-
-// Della relazione hermitiana - eigenvalues forse ha senso parlarne nel capitolo precedente e usare il paper @hermitian-magnetic-lapl
-// Inizialmente, sono state create delle reti piccole, con pochi nodi e senza la necessità di avere community, per assicurarsi che l'operatore rispettasse le proprietà di una matrice Laplaciana, come si è visto nei capitoli precedenti. Ma soprattutto, che fosse Hermitiana, ovvero una matrice complessa la cui matrice trasposta coniugata sia uguale alla matrice di partenza; così che, durante il calcolo della NVD tramite la _generalized euclidean_, ci si potesse facilmente sbarazzare dei numeri complessi, portando i risultati su valori reali. Nonostante, sia stato già provato che matrici complesse Hermitiane @hermitian-eigenvalues
-
-// [ aggiungere un paio di esempi, mostrando la gen. euclidean ]
-
-#grid(
+#subpar-grid(
   figure(
-    image("images/barabasi-albert.png"),
-    caption: [ Modello Barabási-Albert ],
-  ),
-  figure(
-    image("images/erdos-renyi.png"),
-    caption: [ Modello Erdős-Rényi ],
+    image("images/ba_moderate.svg"),
+    caption: [Una rete con distribuzione di opinioni politiche moderate.],
   ),
 
   figure(
-    image("images/stochastic-block-model.png"),
-    caption: [ Modello a Blocchi Stocastico ],
-  ),
-  figure(
-    image("images/watts-strogatz.png"),
-    caption: [ Modello Watts-Strogatz ],
+    image("images/ba_extreme.svg"),
+    caption: [Una rete con distribuzione di opinioni politiche estreme.],
   ),
 
   columns: (1fr, 1fr),
-  label: <toy-examples-1>,
-  caption: [Rappresentazione di reti di test con $100$ nodi per rete. Dimensione dei nodi proporzionale al grado e colore dei nodi in base all'opinione politica. Intensità proporzionale all'estremità dell'opinione politica; rosso = repubblicano e blu = democratico.],
+  label: <toy-examples-extreme-growing>,
+  caption: [Sull'asse delle $x$, il range di opione politca. Sull'asse delle $y$ la quantità di nodi con tale opinione politica.],
 )
 
-Sono state generate nuove reti, questa volta più complesse (in @toy-examples-1), con un numero maggiore di nodi e un distanziamento crescente tra nodi che hanno "opinioni" diverse, così da simulare un atteggiamento di crescente polarizzazione #footnote[spiegare nel dettaglio con magari citazione a https://www.michelecoscia.com/wp-content/uploads/2025/09/journal.pone_.0328210.pdf]. Con i modelli di generazione introdotti in @H-graph-generative-model: Stochastic Block Model, Barabási-Albert, Erdős-Rényi e Watts-Strogatz;
-// rispettivamente, ogni rete, è stata generata con i parametri in @networks-parameters.
-
-// #show figure.where(kind: table): set block(breakable: true)
-#figure(
-  table(
-    columns: (auto, auto),
-    inset: 8pt,
-    align: horizon,
-    table.header([Modello], [Parametri]),
-    [Stochastic Block Model],
-    [
-      $|C| =$ `n // 2`, `n - n // 2`, `max(1, n // 10)`\
-      $p =$ `[0.5, 0.1]`, `[0.1, 0.5]`, `[0.2, 0.2]`
-    ],
-
-    [Barabási-Albert],
-    [
-      $|V| =$ `n`\
-      $m=$ `3`
-    ],
-
-    [Erdős-Rényi],
-    [
-      $|V| =$ `n`\
-      $p =$ `0.15`
-    ],
-
-    [Watts-Strogatz],
-    [
-      $|V| =$ `n`\
-      $k =$ `min(4, n - 1)`\
-      $p =$ `0.3`
-    ],
+#subpar-grid(
+  figure(
+    image("images/opinion-A.png"),
+    caption: [Rete dove i nodi hanno un'opinione moderata ed interagiscono tra loro.],
   ),
-  caption: [Parametri per la generazione delle reti raffiguranti i toy examples, divisi per modello.],
-) <networks-parameters>
+  figure(
+    image("images/opinion-E.png"),
+    caption: [Rete dove i nodi hanno un'opinione più estrema e tendono ad interagire meno tra loro.],
+  ),
+  columns: (1fr, 1fr),
+  label: <toy-examples-community-segregation>,
+  caption: [Da sx a dx, i nodi tendono a raggrupparsi in echo-chamber e ad interagire con nodi di opinione simile.],
+)
 
-Per ogni rete è stata calcolata la laplaciana magnetica e, infine, la polarizzazione mediante la misura _generalized euclidean_ vista in @H-node-vector-distance. Tali risultati sono stati analizzati in correlazione con le misure di social balance #footnote[cos'è?], triangoli rafforzanti (gruppi di tre nodi con interazioni positive e della stessa opinione politica) e triangoli respingenti (gruppi di tre nodi con interazioni positive solo tra nodi della stessa opinione politica, negative con opinioni politiche opposte), omofilia e disaccordo#footnote[come viene calcolato?].
+Queste condizioni, vengono testate sui modelli generativi introdotti in @H-graph-generative-model: Stochastic Block Model, Erdős-Rényi, Watts-Strogatz e Barabási-Albert. Le opinioni di ogni nodo sono assegnate arbitrariamente, seguendo cinque distribuzioni, di crescente estremizzazione:
 
-mostrare che il valore cresce al crescere dell'accentramento dei nodi della stessa stance politica.
++ Distribuzione normale: $overline(p) = 0$ e $sigma = 0.15$
++ Distribuzione normale: $overline(p) = 0$ e $sigma = 0.30$
++ Distribuzione bimodale: $overline(p) = plus.minus 0.3$ e $sigma = 0.20$
++ Distribuzione bimodale: $overline(p) = plus.minus 0.5$ e $sigma = 0.20$
++ Distribuzione bimodale: $overline(p) = plus.minus 0.8$ e $sigma = 0.15$
+
+Invece, l'isolazione delle community, anch'essa ha seguito cinque fasi, partendo dalla rete più polarizzata (punto n.5). Ad ogni rete, progressivamente vengono rimossi gli archi inter-community con le probabilità: $0.00, 0.25, 0.50, 0.75, 0.95$ (@inter-communities-edges-removal).
+
+Per ogni rete è stata calcolata la laplaciana magnetica e, infine, la polarizzazione mediante la misura _generalized euclidean_ vista in @H-node-vector-distance. Tali risultati sono stati analizzati in correlazione con le misure di social balance, triangoli _rafforzanti_, triangoli _respingenti_ e assortatività.
+
+#subpar-grid(
+  figure(
+    diagram(
+      node-stroke: .1em,
+      edge-stroke: 0.1em,
+      spacing: 3em,
+      node((0, 0), radius: 1em),
+      edge((0, 0), (1, 0), ``, "-", stroke: green),
+      node((1, 0), radius: 1em),
+      edge((1, 0), (1, 1), ``, "-", stroke: green),
+      node((1, 1), radius: 1em),
+      edge((1, 1), (0, 0), ``, "-", stroke: green),
+    ),
+    caption: [],
+  ),
+  figure(
+    diagram(
+      node-stroke: .1em,
+      edge-stroke: 0.1em,
+      spacing: 3em,
+      node((0, 0), radius: 1em),
+      edge((0, 0), (1, 0), ``, "-", stroke: green),
+      node((1, 0), radius: 1em),
+      edge((1, 0), (1, 1), ``, "-", stroke: red),
+      node((1, 1), radius: 1em),
+      edge((1, 1), (0, 0), ``, "-", stroke: red),
+    ),
+    caption: [],
+  ),
+  figure(
+    diagram(
+      node-stroke: .1em,
+      edge-stroke: 0.1em,
+      spacing: 3em,
+      node((0, 0), radius: 1em, fill: rgb("#C14C15")),
+      edge((0, 0), (1, 0), ``, "-|>", stroke: green),
+      node((1, 0), radius: 1em, fill: rgb("#C14C15")),
+      edge((1, 0), (1, 1), ``, "-|>", stroke: green),
+      node((1, 1), radius: 1em, fill: rgb("#C14C15")),
+      edge((1, 1), (0, 0), ``, "-|>", stroke: green),
+    ),
+    caption: [],
+  ),
+  figure(
+    diagram(
+      node-stroke: .1em,
+      edge-stroke: 0.1em,
+      spacing: 3em,
+      node((0, 0), radius: 1em, fill: rgb("#C14C15")),
+      edge((0, 0), (1, 0), ``, "-", stroke: green),
+      node((1, 0), radius: 1em, fill: rgb("#C14C15")),
+      edge((1, 0), (1, 1), ``, "-|>", stroke: red),
+      node((1, 1), radius: 1em, fill: rgb("#09669D")),
+      edge((1, 1), (0, 0), ``, "-|>", stroke: red),
+    ),
+    caption: [],
+  ),
+  columns: (1fr, 1fr),
+  caption: [Triangoli bilanciati.],
+  label: <balanced-triangles>,
+)
+
+Il social balance è una misura che indica quanti triangoli bilanciati ci sono in una rete, in base alla tossicità (@balanced-triangles(a) e @balanced-triangles(b)), i triangoli rafforzanti (@balanced-triangles(c)) e respingenti (@balanced-triangles(d)) sono invece basati sulla loro opinione politica.
+
+#show figure.where(kind: table): set block(breakable: true)
+#subpar-grid(
+  [*Stochastic Block Model*],
+  [*Barabási-Albert*],
+  [*Erdős-Rényi*],
+  [*Watts-Strogatz*],
+
+  figure(
+    image("images/sbm/isolation-A.png"),
+  ),
+  image("images/ba/isolation-A.png"),
+  image("images/er/isolation-A.png"),
+  image("images/ws/isolation-A.png"),
+
+  image("images/sbm/isolation-B.png"),
+  image("images/ba/isolation-B.png"),
+  image("images/er/isolation-B.png"),
+  image("images/ws/isolation-B.png"),
+
+  image("images/sbm/isolation-C.png"),
+  image("images/ba/isolation-C.png"),
+  image("images/er/isolation-C.png"),
+  image("images/ws/isolation-C.png"),
+
+  image("images/sbm/isolation-D.png"),
+  image("images/ba/isolation-D.png"),
+  image("images/er/isolation-D.png"),
+  image("images/ws/isolation-D.png"),
+
+  image("images/sbm/isolation-E.png"),
+  image("images/ba/isolation-E.png"),
+  image("images/er/isolation-E.png"),
+  image("images/ws/isolation-E.png"),
+  columns: (1fr, 1fr, 1fr, 1fr),
+  align: center,
+  caption: [Incremento dell'isolamento tra nodi di opinioni opposte.],
+  label: <inter-communities-edges-removal>,
+)
 
 Sono state trovate delle correlazioni significative ed incoraggianti che hanno poi portato all'implementazione di questa misura sul dataset di Reddit. Verranno approfondite in @H2-results-real-networks.
-
-mettere qui i grafici e la tabella dei risultati tho.
 
 == Implementazione su reti reali
 
@@ -850,7 +954,7 @@ if is_directed:
       create_using=nx.DiGraph())
 ```
 
-L'altra soluzione era quella invece di (... trovare altra soluzione che funzioni). Sebbene fosse la soluzione ottimale, questa soluzione avrebbe necessitato di eseugire tutta la pipeline volta per volta, poiché nuovi nodi sarebbero stati mantenuti e, quindi, nuovi messaggi sarebbero dovuti essere classificati, secondo gli step della pipeline introdotta in precedenza #footnote[ Il resto della pipeline richiedeva l'esecuzione di modelli eseguiti su computer performanti (quali l'_HPC_, l'High Performance Computing) che, però, portano ad un incremento sostanziale dei tempi di sviluppo.]. Invece, per tutta la durata del tirocinio, è stato utilizzato un file di cache, creato nella prima versione del progetto, con tutti i messaggi del dataset non diretto (dopo il backboning) e la rispettiva classificazione per argomento, tossicità e opinione politica. Questo ha permesso anche di velocizzare le iterazioni tra sviluppo e test.
+L'altra soluzione era quella invece di (... trovare altra soluzione che funzioni). Sebbene fosse la soluzione ottimale, questa soluzione avrebbe necessitato di eseugire tutta la pipeline volta per volta, poiché nuovi nodi sarebbero stati mantenuti e, quindi, nuovi messaggi sarebbero dovuti essere classificati, secondo gli step della pipeline introdotta in precedenza #footnote[ Il resto della pipeline richiedeva l'esecuzione di modelli eseguiti su computer performanti (quali l'_HPC_, l'High Performance Computing) che, però, avrebbero portato ad un incremento sostanziale dei tempi di sviluppo.]. Invece, per tutta la durata del tirocinio, è stato utilizzato un file di cache, creato nella prima versione del progetto, con tutti i messaggi del dataset non diretto (dopo il backboning) e la rispettiva classificazione per argomento, tossicità e opinione politica. Questo ha permesso anche di velocizzare le iterazioni tra sviluppo e test.
 
 La soluzione che effettivamente è stata utilizzata, ha funzionato, nonostante, alla fine, ci fosse una correlazione molto forte, quasi sospetta #footnote[aggiungere reference alla figura che metto nel prox capitolo], tra la polarizzazione calcolata con le reti indirette, e la polarizzazione calcolata con le reti dirette. Ciò nonostante, i risultati verranno approfonditi nel capitolo successivo.
 
