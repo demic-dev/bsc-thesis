@@ -154,11 +154,6 @@
   target: figure.where(kind: image),
 )
 
-#outline(
-  title: [Indice delle tabelle],
-  target: figure.where(kind: table),
-)
-
 #pagebreak()
 
 = Introduzione
@@ -191,7 +186,7 @@ Solitamente, nella Network Science, vengono preferite reti semplici, quindi non 
 
 #pagebreak()
 
-= Stato dell'art
+= Stato dell'arte
 
 == Social Network Analysis
 La Social Network Analysis - analisi delle reti sociali - non è una vera e propria teoria, ma più una strategia generale per analizzare le strutture sociali. Nasce ben prima dell'informatica, nell'ambito della sociologia, con l'intento di studiare i comportamenti delle persone in base al contesto in cui si trovano. Le relazioni tra gli "attori" di una rete sono la priorità; nonostante ciò, le proprietà singole di un attore sono necessarie per analizzare fenomeni sociali.
@@ -433,14 +428,14 @@ Il dominio della modularità è definito in $[-0.5, +1]$: più il valore è bass
 + *Coefficiente di Clustering*: È una proprietà che misura quanto, in una rete, i nodi tendono a essere connessi tra di loro. Soprattutto nelle reti sociali, i nodi tendono ad avere un'alta densità di collegamenti. È una misura locale o globale. A livello locale, misura quanto è probabile che i vicini di un nodo tendono a formare una cricca. Dato $N$ l'insieme dei vicini di $i$ e $k_i = |N|$: $ C C_i = (|{ e_(j k) : v_j, v_k in N, e_(k j) in E }|)/(k_v\(k_v-1\)) $\ A livello globale, invece, ci si basa su triple di nodi (triangoli o triadi). Il coefficiente globale di clustering rappresenta quanti triangoli chiusi ci sono, rispetto a tutte le triadi in una rete: $ C C = (\# "triangles")/(\# "triads") $
 
 === Node Vector Distance <H-node-vector-distance>
-Trovare la distanza tra due nodi è un problema che in letteratura scientifica è stato abbondantemente studiato #footnote[aggiungere citazioni a paper su djikstra, bellman-ford, etc]. Grazie ad esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro e che possono comunicare. Questo ha dato spazio ad internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo rispetto a noi.
+Trovare la distanza tra due nodi è un problema ampiamente studiato in letteratura scientifica #footnote[aggiungere citazioni a paper su Dijkstra, Bellman-Ford, etc.]. Grazie a esso, la teoria dei grafi si è potuta estendere alle reti come le intendiamo comunemente, ovvero un insieme di computer collegati tra loro in grado di comunicare. Questo ha reso possibile lo sviluppo di internet, che ci permette di scambiare dati con computer che si trovano dall'altra parte del mondo.
 
-Però, questo tiene conto solamente di un aspetto. Ovvero di portare un dato da un nodo $i$ ad un nodo $j$. In modo binario, un dato può trovarsi in un nodo oppure in un altro, o in un qualsiasi nodo intermedio, ma non può diffondersi in modo "continuo", con una parte di informazione presente simultaneamente in più nodi, né partire da più nodi contemporaneamente.\
-Tuttavia, molte situazioni del mondo reale possono essere modellate in questo modo, come la _diffusione di un virus_, la _qualità di una campagna di marketing virale_ o la _polarizzazione in un social network_, fenomeni che in ogni caso partono da uno o più nodi e si diffondono verso i nodi vicini.
+Tuttavia, questo approccio considera solamente un aspetto: trasportare un dato da un nodo $i$ a un nodo $j$. In modo binario, un dato può trovarsi in un nodo oppure in un altro, o in un qualsiasi nodo intermedio, ma non può diffondersi in modo "continuo", con una parte di informazione presente simultaneamente in più nodi, né partire da più nodi contemporaneamente.\
+Eppure, molte situazioni del mondo reale seguono proprio questo secondo schema, come la _diffusione di un virus_, la _qualità di una campagna di marketing virale_ o la _polarizzazione in un social network_: fenomeni che partono da uno o più nodi e si propagano verso i nodi vicini.
 
-L'intuizione dietro la _Node Vector Distance_ (NVD) deriva dal misurare, data una rete e due tempi $t_1$ e $t_2$, la diffusione di una proprietà di un nodo nel tempo.
+L'intuizione alla base della _Node Vector Distance_ (NVD) consiste nel misurare, data una rete e due istanti $t_1$ e $t_2$, la diffusione di una proprietà di un nodo nel tempo.
 
-Formalmente @coscia2020node, data una rete non diretta $G = (V, E)$, dove $V$ è l'insieme dei nodi ed $E$ è l'insieme degli archi, definiamo la proprietà $A$ in ogni nodo della rete, con un vettore $A$ di lunghezza $|V|$ e dominio in $[0, 1]$. Assumendo per semplicità che tra $t_1$ e $t_2$ la rete non cambi, la NVD misura la distanza percorsa e la diffusione della proprietà $A$ nel tempo, come in @nvd-diffusion-a e in @nvd-diffusion-b.
+Formalmente @coscia2020node, data una rete non diretta $G = (V, E)$, dove $V$ è l'insieme dei nodi ed $E$ è l'insieme degli archi, definiamo la proprietà $A$ in ogni nodo della rete tramite un vettore $A$ di lunghezza $|V|$ e dominio in $[0, 1]$. Assumendo per semplicità che tra $t_1$ e $t_2$ la rete non cambi, la NVD misura la distanza percorsa e la diffusione della proprietà $A$ nel tempo, come illustrato in @nvd-diffusion-a e @nvd-diffusion-b.
 
 #subpar-grid(
   figure(
@@ -475,34 +470,34 @@ Formalmente @coscia2020node, data una rete non diretta $G = (V, E)$, dove $V$ è
   caption: [Diffusione della proprietà $A$ nel grafo $G$.],
 )
 
-Esistono tre classi di soluzioni per la NVD @coscia2020node: _Generalized Euclidean_, _Shortest Path_ e _Spectral_. Ci concentreremo solo sulla prima, la _Generalized Euclidean_, in quanto quella usata durante il tirocinio.
+Esistono tre classi di soluzioni per la NVD @coscia2020node: _Generalized Euclidean_, _Shortest Path_ e _Spectral_. Ci concentreremo solo sulla prima, la _Generalized Euclidean_, in quanto è quella utilizzata durante il tirocinio.
 
-La _Generalized Euclidean_ (GE) misura le distanze in una rete nello stesso modo in cui misurerebbe le distanze in un piano Euclideo multidimensionale. È data da: $ delta_(A_(t 1), A_(t 2)) = sqrt((A_(t 1) - A_(t 2))^T L^dagger(A_(t 1) - A_(t 2))) $
-dove $L^+$ è la matrice Laplaciana pseudo-inversa di Moore-Penrose (non è invertibile perché è una matrice singolare), e $(A_(t 1) - A_(t 2))^T$ è la matrice trasposta della differenza della  proprietà $A$ nei tempi presi in considerazione.
+La _Generalized Euclidean_ (GE) misura le distanze in una rete nello stesso modo in cui verrebbero misurate in uno spazio Euclideo multidimensionale. È definita da: $ delta_(A_(t 1), A_(t 2)) = sqrt((A_(t 1) - A_(t 2))^T L^dagger(A_(t 1) - A_(t 2))) $
+dove $L^dagger$ è la matrice Laplaciana pseudo-inversa di Moore-Penrose (la Laplaciana non è invertibile in quanto matrice singolare), e $(A_(t 1) - A_(t 2))^T$ è il trasposto del vettore differenza della proprietà $A$ tra i due istanti considerati.
 
-In letteratura scientifica, questa misura è stata utilizzata per misurare la polarizzazione ideologica in una rete sociale @ideological-polarization-quantifying dove, la proprietà $A$, rappresenta l'opinione politica di ogni utente, che spazia in un range continuo da $-1$ a $+1$ (da democratico a repubblicano) e scomposta in $A^+$ e $A^-$.
+In letteratura scientifica, questa misura è stata utilizzata per quantificare la polarizzazione ideologica in una rete sociale @ideological-polarization-quantifying, dove la proprietà $A$ rappresenta l'opinione politica di ogni utente, espressa con un valore continuo da $-1$ a $+1$ (da democratico a repubblicano), e scomposta in $A^+$ e $A^-$.
 
 Rispettivamente, $A^+ = cases(
   a_i arrow.double.r a_i >= 0, 0 arrow.double.r a_i < 0
-)$ e $A^- cases(|a_i| arrow.double.r a_i < 0, 0 arrow.double.r a_i >= 0)$ così che la polarizzazione sia data da: $ delta_(A) = sqrt((A^+ - A^-)^T L^dagger (A^+ - A^-)) $
+)$ e $A^- = cases(|a_i| arrow.double.r a_i < 0, 0 arrow.double.r a_i >= 0)$, così che la polarizzazione sia data da: $ delta_(A) = sqrt((A^+ - A^-)^T L^dagger (A^+ - A^-)) $
 
-Questa rappresenta la distanza tra due nodi randomici, pesata sull'estremità delle loro opinioni. Quindi, una rete piena di nodi non estremi ($0 <= overline(A) <= |0.1|$) avrà una polarizzazione minore alla stessa rete con nodi tendenti ad opinioni estreme ($overline(A) >= |0.8|$).
+Questa misura rappresenta la distanza tra due nodi scelti casualmente, pesata in base all'estremità delle loro opinioni. Di conseguenza, una rete composta da nodi con opinioni moderate ($0 <= overline(A) <= |0.1|$) presenterà una polarizzazione inferiore rispetto alla stessa rete con nodi dalle opinioni estreme ($overline(A) >= |0.8|$).
 
 == Laplaciana Magnetica
-La Laplaciana Magnetica, o _Magnetic Laplacian_, ha radici nella fisica quantistica. Analogo all'operatore di Schrödinger magnetico @cmp-1104270832, è stato creato per modellare il comportamento delle particelle in un campo elettromagnetico, incorporando però un vettore che ruota la matrice Laplaciana classica @krejcirik2013magneticlaplacianshrinkingtubular.
+La Laplaciana Magnetica, o _Magnetic Laplacian_, ha radici nella fisica quantistica. Analoga all'operatore di Schrödinger magnetico @cmp-1104270832, è stata creata per modellare il comportamento delle particelle in un campo elettromagnetico, incorporando un fattore di fase che ruota la matrice Laplaciana classica @krejcirik2013magneticlaplacianshrinkingtubular.
 
-Analogamente, si può interpretare la fase complessa delle particelle, come la direzione degli archi in un grafo.
+Per analogia, la fase complessa associata alle particelle può essere interpretata come la direzione degli archi in un grafo.
 
-Dato un grafo diretto $G = (V, E)$, definiamo $w_s (i, j)$ il peso simmetrizzato degli archi dal nodo $i$ al nodo $j$: $ w_s (i, j) = (w(i, j) + w(j, i))/2 $
-La fase è data da $e^(i theta a(i, j))$, dove $theta$ è un parametro e $a(i, j)$ è definita: $ a(i, j) = cases(
+Dato un grafo diretto $G = (V, E)$, definiamo $w_s (i, j)$ il peso simmetrizzato dell'arco dal nodo $i$ al nodo $j$: $ w_s (i, j) = (w(i, j) + w(j, i))/2 $
+La fase è data da $e^(i theta a(i, j))$, dove $theta$ è un parametro e $a(i, j)$ è definita come: $ a(i, j) = cases(
   1 arrow.double.r (i, j) in E,
   -1 arrow.double.r (j, i) in E,
   0 arrow.double.r (i, j) and (j, i) in E
 ) $
 
-E, infine, definiamo $psi(i): V -> CC$, una funzione che mappa un numero complesso ad ogni nodo. Quindi, l'operatore $hat(cal(L))_(a, theta)$ è definito @Fanuel_2017: $ hat(cal(L))_(a, theta) psi(i) = sum_j w_s (i, j) (psi(i) - e^(i theta a(i, j)) psi(j)) $
+Definiamo inoltre $psi(i): V -> CC$, una funzione che associa un numero complesso a ogni nodo. L'operatore $hat(cal(L))_(a, theta)$ è allora definito come @Fanuel_2017: $ hat(cal(L))_(a, theta) psi(i) = sum_j w_s (i, j) (psi(i) - e^(i theta a(i, j)) psi(j)) $
 
-Il risultato della Laplacian dipende dal parametro $theta$, che rappresenta la carica elettrica della particella. Se $theta = 0$, si ottiene la Laplaciana classica che abbiamo definito nei capitoli precedenti: $L = D - A = hat(cal(L))_(a, 0) = hat(cal(L))_(0, theta)$. Inoltre, si ottengono le stesse dinamiche quando $theta = theta + 2 pi$, quindi si può dire che $theta$ sia un angolo @Fanuel_2017. In base al valore di $theta$, la Laplacian restituisce risultati differenti in base alle strutture che si vogliono evidenziare. In @theta-comparison, una descrizione esaustiva.
+Il comportamento della Laplacian dipende dal parametro $theta$, che rappresenta la carica elettrica della particella. Per $theta = 0$, si ottiene la Laplaciana classica definita nei capitoli precedenti: $L = D - A = hat(cal(L))_(a, 0) = hat(cal(L))_(0, theta)$. Poiché le stesse dinamiche si ripresentano quando $theta = theta + 2 pi$, il parametro $theta$ può essere interpretato come un angolo @Fanuel_2017. Al variare di $theta$, la Laplacian evidenzia strutture differenti nella rete, come descritto in @theta-comparison.
 
 #align(center, [
   #figure(
@@ -524,14 +519,14 @@ Il risultato della Laplacian dipende dal parametro $theta$, che rappresenta la c
   ) <theta-comparison>
 ])
 
-La Laplaciana Magnetica ha trovato utilizzi in community evaluation per grafi diretti @Fanuel_2017, analisi spettrale @Fabila_Carrasco_2022 e, come vedremo nei capitoli successivi, per calcolare la Node Vector Distance su grafi diretti.
+La Laplaciana Magnetica ha trovato impiego nella community evaluation per grafi diretti @Fanuel_2017, nell'analisi spettrale @Fabila_Carrasco_2022 e, come vedremo nei capitoli successivi, nel calcolo della Node Vector Distance su grafi diretti.
 
-Ad esempio, dato un semplice grafo diretto come in @direct-triangle, calcolare la matrice Laplacian, vuol dire trasformare il grafo in grafo indiretto ed ottenere: $ mat(
+Ad esempio, dato un semplice grafo diretto come in @direct-triangle, calcolare la matrice Laplaciana classica equivale a trattare il grafo come non diretto, ottenendo: $ mat(
   2, -1, -1;
   -1, 2, -1;
   -1, -1, 2;
 ) $
-Invece, la matrice Laplaciana magnetica con $theta = pi/2$, equivale a:$ mat(
+La matrice Laplaciana magnetica con $theta = pi/2$, invece, è:$ mat(
   1, -1/2i, +1/2i;
   1/2i, 1, -1/2i;
   -1/2i, 1/2i, 1;
@@ -632,9 +627,9 @@ Pandas @The_pandas_development_team_pandas-dev_pandas_Pandas è una libreria Pyt
 Le sue strutture dati principali sono le Series, array monodimensionali con indice associato, e i DataFrame, strutture bidimensionali simili a tabelle con righe e colonne etichettate. Sebbene internamente si basino su array NumPy, supportano anche dati non numerici come date, stringhe e categorie. Pandas fornisce funzionalità potenti per il caricamento di dati da vari formati (CSV, Excel, SQL, JSON), la pulizia dei dati (gestione valori mancanti, duplicati), operazioni di raggruppamento e aggregazione (`groupby`), join e merge tra dataset, e conversioni di tipo. La sua API intuitiva e le prestazioni elevate lo rendono uno strumento fondamentale per il data wrangling e l'analisi esplorativa dei dati nel campo della Data Science.
 
 == Reddit
-Reddit è un social network dove gli utenti possono pubblicare contenuti sotto forma di link, testo, immagini o video, e dove altri utenti possono commentare. È suddiviso in comunità chiamate subreddit, precedute dalla radice `r/` (come `r/politics` o `r/python`), che possono essere generaliste o monotematiche. Con oltre 100.000 subreddit attivi, viene definito un aggregatore di comunità.
+Reddit è un social network dove gli utenti possono pubblicare contenuti sotto forma di link, testo, immagini o video, e dove altri utenti possono commentare. È suddiviso in comunità chiamate subreddit, precedute dal prefisso `r/` (come `r/politics` o `r/python`), che possono essere generaliste o monotematiche. Con oltre 100.000 subreddit attivi, viene definito un aggregatore di comunità.
 
-Il sistema di raccomandazione funziona tramite upvotes e downvotes, giudizi che gli utenti registrati possono dare ai post e commenti per influenzarne la visibilità. Gli upvotes aumentano la probabilità che un contenuto sia mostrato, mentre i downvotes la riducono. Questo meccanismo determina l'ordinamento dei contenuti nelle homepage e nelle singole community.
+Il sistema di raccomandazione funziona tramite upvote e downvote, giudizi che gli utenti registrati possono dare ai post e ai commenti per influenzarne la visibilità. Gli upvote aumentano la probabilità che un contenuto venga mostrato, mentre i downvote la riducono. Questo meccanismo determina l'ordinamento dei contenuti nelle homepage e nelle singole community.
 
 A dicembre 2025, Reddit si posiziona nella top 10 dei siti più visitati al mondo ed è il quarto social media più usato @ViewWeb.
 
@@ -667,13 +662,13 @@ Pandas è stato impiegato esclusivamente nelle fasi finali del processo, quando 
 == Procedura di Costruzione della Rete
 È possibile suddividere questa sezione in 6 fasi:
 
-+ *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, filtrando via tutti i post, poiché l'analisi è solo sui commenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (quindi che appartengono a subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, ovvero utenti di Reddit che scrivono risposte automatiche in base a determinati triggers.
++ *Data Filtering*: Partendo da un file `.csv` per ogni mese, si itera attraverso tutti i post e commenti, escludendo i post, poiché l'analisi riguarda esclusivamente i commenti. Successivamente, vengono mantenuti solamente i dati appartenenti a subreddit rilevanti (ovvero subreddit politici degli Stati Uniti). Vengono anche rimossi tutti i commenti scritti da bot, cioè utenti di Reddit che producono risposte automatiche in base a determinati trigger.
 
-+ *Preliminary Network*: In questo passaggio, si inizia a dividere i messaggi in settimane. Vengono lasciati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato una quantità di messaggi pari o superiore alla media (i self-loop, quindi utenti che rispondono a se stessi, non vengono contati): $ |M_u| >= (sum_(u in U) |M|)/(|U|) $Successivamente, si crea una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (utente $u$ risponde ad utente $u'$ o viceversa). Di conseguenza, se due utenti hanno interagito molto tra di loro, ci saranno più archi che li collegano. Maggiore è il numero di archi che li collegano, maggiore è il peso (la significatività statistica) tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi. Viene usato il metodo di Noise-Correction, metodo che utilizza gli archi e il loro peso. Viene restituito il Largest Connected Component.
++ *Preliminary Network*: In questo passaggio, si inizia a suddividere i messaggi in settimane. Vengono conservati solamente i messaggi che hanno una lunghezza significativa (15 caratteri, in questo caso). Vengono mantenuti solamente gli utenti che hanno scambiato una quantità di messaggi pari o superiore alla media (i self-loop, ovvero i messaggi in cui un utente risponde a se stesso, non vengono contati): $ |M_u| >= (sum_(u in U) |M|)/(|U|) $ Successivamente, si costruisce una rete dove ogni nodo rappresenta un utente e ogni arco rappresenta un messaggio (l'utente $u$ risponde all'utente $u'$ o viceversa). Di conseguenza, se due utenti hanno interagito frequentemente tra loro, ci saranno più archi che li collegano. Maggiore è il numero di tali archi, maggiore è il peso (la significatività statistica) della relazione tra loro. Infine, viene effettuato il backboning della rete, con l'obiettivo di snellirla e renderla più gestibile. Si cerca di massimizzare il numero di nodi e minimizzare il numero di archi, usando il metodo di Noise-Correction, che si basa sugli archi e il loro peso. Viene restituita la componente connessa maggiore (Largest Connected Component).
 
-  Inoltre, al fine di anonimizzare i dati e rispettare il GDPR, viene assegnato un nuovo id a ogni utente. Si mantiene una tabella di mapping globale per rendere coerente l'`id` dell'utente tra le settimane e i mesi.
+  Inoltre, al fine di anonimizzare i dati e rispettare il GDPR, viene assegnato un nuovo id a ogni utente. Si mantiene una tabella di mapping globale per garantire la coerenza dell'`id` dell'utente tra le settimane e i mesi.
 
-+ *Topic Detection*: Per ogni rete e per ogni messaggio di ogni rete, si utilizza il modello BERTopic @grootendorst2022bertopic per classificare automaticamente ogni messaggio con l'argomento più adatto. Ogni rete preliminare, viene divisa in due sottoinsiemi rispettivamente di allenamento (training) e di classificazione. Inizialmente, il modello viene addestrato con $4096$ messaggi per ogni settimana. Dopo il training, si iniziano ad etichettare tutti i messaggi di ogni rete. I topic vengono aggregati e, manualmente, vengono esaminati, raggruppati in macrotopic e scartati quelli non rilevanti. Infine, ad ogni messaggio viene assegnato uno dei seguenti topic:
++ *Topic Detection*: Per ogni rete e per ogni messaggio al suo interno, si utilizza il modello BERTopic @grootendorst2022bertopic per classificare automaticamente ogni messaggio con l'argomento più adatto. Ogni rete preliminare viene divisa in due sottoinsiemi, rispettivamente di addestramento (training) e di classificazione. Inizialmente, il modello viene addestrato con $4096$ messaggi per ogni settimana. Dopo il training, si procede a etichettare tutti i messaggi di ogni rete. I topic vengono aggregati e, manualmente, vengono esaminati, raggruppati in macrotopic e scartati quelli non rilevanti. Infine, a ogni messaggio viene assegnato uno dei seguenti topic:
   - _abortion_: Raggruppa temi come l'aborto, i metodi contraccettivi e i diritti riproduttivi in generale;
   - _climate_: Contiene commenti riguardo il riscaldamento globale, la deforestazione, i veicoli elettrici, lobby fossili, energie rinnovabili, etc.;
   - _gender_: Commenti riguardo il femminismo, il divario retributivo di genere, l'identità di genere, LGBTQ+, pronomi, etc.;
@@ -682,19 +677,19 @@ Pandas è stato impiegato esclusivamente nelle fasi finali del processo, quando 
   - _racial_justice_: Riguarda la giustizia razziale e le forze dell'ordine, in senso lato. Gli argomenti trattati includono Black Lives Matter, la polizia in generale, le richieste di defunding e gli arresti.
   - _unauthorized_immigration_: Include argomenti quali il confine degli Stati Uniti, l'espulsione o i bambini e l'immigrazione negli Stati Uniti. I post non si concentrano solo sull'immigrazione clandestina, ma possono anche trattare discussioni più ampie sugli immigrati latinoamericani.
 
-+ *Toxicity*: Viene calcolata la tossicità di ogni messaggio, con un punteggio che varia da 0 (messaggio educato e che rispetta l'interlocutore) ad 1 (messaggio volgare, con insulti o minacce verso l'interlocutore). Viene usato il modello _Detoxify_ @Detoxify con le impostazioni di default.
++ *Toxicity*: Viene calcolata la tossicità di ogni messaggio, con un punteggio che varia da 0 (messaggio educato e rispettoso verso l'interlocutore) a 1 (messaggio volgare, con insulti o minacce verso l'interlocutore). Viene usato il modello _Detoxify_ @Detoxify con le impostazioni predefinite.
 
-+ *Stance*: Tramite un modello LLM open source, Llama 3 @llama3modelcard, viene effettuato il rilevamento dell'opinione politica che ha un messaggio. L'opinione può essere etichettata come democratica o repubblicana. Essendo una scelta binaria, diventa più semplice effettuare una classificazione. Si inizializza un'istanza di Llama con il seguente messaggio (o prompt):```txt
++ *Stance*: Tramite un modello LLM open source, Llama 3 @llama3modelcard, viene effettuato il rilevamento dell'orientamento politico espresso in un messaggio. L'orientamento può essere etichettato come democratico o repubblicano. Trattandosi di una scelta binaria, la classificazione risulta più semplice. Si inizializza un'istanza di Llama con il seguente messaggio (o prompt): ```txt
     You are an expert political scientist. The following message is part of the debate on {topic} in the United States. In this debate there are two sides. Side D thinks {democratic_opinion}. Side R thinks {republican_opinion}. If the message is ambiguous, it belongs to side U. Classify the following message as belonging to side D, R, or U. You can only reply with one letter between D, R, or U, no other answer is acceptable."
-  ``` Ogni topic avrà un prompt con una struttura uguale, ma con il contenuto adattato ad esso. Data la natura probabilistica degli LLM, verranno restituiti i token `R` e `D`, con le rispettive probabilità. Viene assegnato il valore $-1$ per un'opinione democratica, e $+1$ per un'opinione repubblicana. Il valore finale della posizione politica del messaggio, sarà: $p(R) - p(D)$.
+  ``` Ogni topic avrà un prompt con la medesima struttura, ma con il contenuto adattato ad esso. Data la natura probabilistica degli LLM, verranno restituiti i token `R` e `D` con le rispettive probabilità. Viene assegnato il valore $-1$ per un'opinione democratica e $+1$ per un'opinione repubblicana. Il valore finale dell'orientamento politico del messaggio sarà: $p(R) - p(D)$.
 
-+ *Final Network*: Come ultimo step, vengono create le reti finali. Le reti possono essere sia per topic, sia complete. Durante la costruzione della rete, vengono raccolti gli utenti e i relativi messaggi di una settimana; i messaggi vengono raggruppati per topic e, infine, si fa una media generale rispetto alle opinioni rilevate in base ai suoi messaggi. Nel caso in cui un utente, in una settimana, non abbia scritto abbastanza commenti significativi da permettere il calcolo di un punteggio per ogni topic, il problema viene risolto tramite due strategie:
-  - _rolling opinion_: assumiamo che la sua opinione durante la settimana $x$ sia simile alla sua opinione alle settimane precedenti ($x-1$, $x-2$, ..., $x-n$) e vengono quindi recuperati tutti i suoi messaggi nel dataset;
-  - _zombie mode_: se un utente non ha, invece, espresso opinioni su un determinato argomento, si assume che la sua posizione politica (democratica o repubblicana) su un argomento, sia analoga anche sugli altri, determinandola con una media delle sue opinioni.
++ *Final Network*: Come ultimo passo, vengono create le reti finali. Le reti possono essere sia per topic sia complete. Durante la costruzione della rete, vengono raccolti gli utenti e i relativi messaggi di una settimana; i messaggi vengono raggruppati per topic e, infine, viene calcolata una media delle opinioni rilevate in base ai messaggi di ogni utente. Nel caso in cui un utente, in una settimana, non abbia scritto abbastanza commenti significativi da permettere il calcolo di un punteggio per ogni topic, il problema viene risolto tramite due strategie:
+  - _rolling opinion_: si assume che l'opinione dell'utente durante la settimana $x$ sia simile a quella delle settimane precedenti ($x-1$, $x-2$, ..., $x-n$); vengono quindi recuperati tutti i suoi messaggi presenti nel dataset;
+  - _zombie mode_: se un utente non ha espresso opinioni su un determinato argomento, si assume che il suo orientamento politico (democratico o repubblicano) su quell'argomento sia analogo a quello espresso sugli altri, determinandolo come media delle sue opinioni disponibili.
 
-  Viene restituita la componente connessa maggiore (LCC), poiché c'è bisogno di una rete connessa con il maggior numero di nodi.
+  Viene restituita la componente connessa maggiore (LCC), poiché è necessaria una rete connessa con il maggior numero di nodi.
 
-  In conclusione, viene eseguita una riduzione dei parametri tramite la Principal Component Analysis (PCA), con il fine di restituire un valore generale circa la posizione politica di un utente. In @final-undirected-network-example, un esempio di una rete finale.
+  Infine, viene eseguita una riduzione della dimensionalità tramite la Principal Component Analysis (PCA), con il fine di restituire un valore sintetico circa l'orientamento politico di ogni utente. In @final-undirected-network-example, un esempio di una rete finale.
 
   #figure(
     image("images/19-04.png"),
@@ -703,9 +698,9 @@ Pandas è stato impiegato esclusivamente nelle fasi finali del processo, quando 
 
 == Misurazione della Polarizzazione
 
-Per misurare la polarizzazine settimanale, viene importata la rete e viene costruito un tensore, che contiene la matrice degli archi, con i relativi attributi e una matrice che contiene gli attributi di ogni nodo, ovvero la posizione politica di un determinato utente rispetto ad ogni topic elencato sopra.
+Per misurare la polarizzazione settimanale, viene importata la rete e viene costruito un tensore contenente la matrice degli archi con i relativi attributi e una matrice con gli attributi di ogni nodo, ovvero l'orientamento politico di un determinato utente rispetto a ogni topic elencato sopra.
 
-Viene utilizzata la node vector distance per calcolare la polarizzazione all'interno della rete, come anticipato in @H-node-vector-distance. Quindi, viene calcolata la matrice laplacian e vi si calcola la pseudo-inversa, che rappresentera la struttura della rete. Infine, viene calcolata la _generalized euclidean_, fornendo come parametro il vettore che contiene le posizioni politiche per un determinato argomento.
+Viene utilizzata la node vector distance per calcolare la polarizzazione all'interno della rete, come anticipato in @H-node-vector-distance. Viene quindi calcolata la matrice laplaciana e la sua pseudo-inversa, che rappresenta la struttura della rete. Infine, viene calcolata la _generalized euclidean_, fornendo come parametro il vettore che contiene gli orientamenti politici per un determinato argomento.
 
 #show figure: set block(breakable: true)
 #figure(
@@ -744,13 +739,13 @@ Viene utilizzata la node vector distance per calcolare la polarizzazione all'int
 )
 
 == Limite e Domanda di Ricerca
-Il limite del progetto allo stato attuale si ritrova nella composizione delle reti, rappresentate come reti non dirette e che quindi non rappresentano la direzione dell'interazione tra due utenti. Questo non rappresenta un limite di per sé, perché l'uso di grafi non diretti nelle analisi delle reti è molto diffuso. Tuttavia, numerosi articoli scientifici @rossi2023edgedirectionalityimproveslearning @sun2024datacentricmachinelearningdirected @Kummerfeld2021-sl @Sporns2018-bc mostrano la limitazione di perdere l'informazione di direzionalità. Di conseguenza, si voleva rilevare se, l'aggiunta di complessità al progetto, derivante prima di tutto dall'incorporare l'informazione di direzionalità, ma anche all'uso di algoritmi che funzionassero anche per grafi diretti, potesse portare risultati interressanti, che svelano informazioni che tramite una rete non diretta, sono nascoste.
+Il limite del progetto allo stato attuale risiede nella composizione delle reti, rappresentate come reti non dirette, che non catturano la direzione dell'interazione tra due utenti. Questo non costituisce un limite di per sé, poiché l'uso di grafi non diretti nelle analisi delle reti è molto diffuso. Tuttavia, numerosi articoli scientifici @rossi2023edgedirectionalityimproveslearning @sun2024datacentricmachinelearningdirected @Kummerfeld2021-sl @Sporns2018-bc mostrano i limiti derivanti dalla perdita dell'informazione di direzionalità. Di conseguenza, si voleva verificare se l'aggiunta di complessità al progetto, derivante in primo luogo dall'incorporare l'informazione di direzionalità e dall'uso di algoritmi compatibili con grafi diretti, potesse produrre risultati interessanti, in grado di rivelare informazioni altrimenti nascoste in una rete non diretta.
 
 #pagebreak()
 
 = Modifiche apportate
 
-La Magnetic Laplacian, come visto nei capitoli precedenti, è un operatore che ha trovato molti usi nella _community evaluation_ e nella _spectral analysis_. Però, prima d'ora, non era mai stato testato in altre condizioni, come con la _node vector distance_. Per questo, prima di implementare l'operatore sul progetto descritto nel capitolo precedente, è stata testata a fondo su dei toy examples, per verificare quali comportamenti misurasse maggiormente e se avessero senso.
+La Magnetic Laplacian, come visto nei capitoli precedenti, è un operatore che ha trovato molti usi nella _community evaluation_ e nella _spectral analysis_. Tuttavia, prima d'ora, non era mai stato testato in altre condizioni, come con la _node vector distance_. Per questo motivo, prima di implementare l'operatore sul progetto descritto nel capitolo precedente, è stata testata a fondo su dei toy examples, per verificare quali comportamenti misurasse maggiormente e se avessero senso.
 
 == Toy Examples
 
@@ -774,7 +769,7 @@ Per il testing di questo nuovo operatore, si seguono le tecniche utilizzate in @
 
   columns: (1fr, 1fr),
   label: <toy-examples-extreme-growing>,
-  caption: [Sull'asse delle $x$, il range di opione politca. Sull'asse delle $y$ la quantità di nodi con tale opinione politica.],
+  caption: [Sull'asse delle $x$, il range di opinione politica. Sull'asse delle $y$ la quantità di nodi con tale opinione politica.],
 )
 
 #subpar-grid(
@@ -788,18 +783,18 @@ Per il testing di questo nuovo operatore, si seguono le tecniche utilizzate in @
   ),
   columns: (1fr, 1fr),
   label: <toy-examples-community-segregation>,
-  caption: [Da sx a dx, i nodi tendono a raggrupparsi in echo-chamber e ad interagire con nodi di opinione simile.],
+  caption: [Da sx verso dx, i nodi tendono a raggrupparsi in echo-chamber e ad interagire con nodi di opinione simile.],
 )
 
 Queste condizioni, vengono testate sui modelli generativi introdotti in @H-graph-generative-model: Stochastic Block Model, Erdős-Rényi, Watts-Strogatz e Barabási-Albert. Le opinioni di ogni nodo sono assegnate arbitrariamente, seguendo cinque distribuzioni, di crescente estremizzazione:
 
-+ Distribuzione normale: $overline(p) = 0$ e $sigma = 0.15$
-+ Distribuzione normale: $overline(p) = 0$ e $sigma = 0.30$
-+ Distribuzione bimodale: $overline(p) = plus.minus 0.3$ e $sigma = 0.20$
-+ Distribuzione bimodale: $overline(p) = plus.minus 0.5$ e $sigma = 0.20$
-+ Distribuzione bimodale: $overline(p) = plus.minus 0.8$ e $sigma = 0.15$
++ Distribuzione normale: $overline(p) = 0$ e $sigma = 0.15$;
++ Distribuzione normale: $overline(p) = 0$ e $sigma = 0.30$;
++ Distribuzione bimodale: $overline(p) = plus.minus 0.3$ e $sigma = 0.20$;
++ Distribuzione bimodale: $overline(p) = plus.minus 0.5$ e $sigma = 0.20$;
++ Distribuzione bimodale: $overline(p) = plus.minus 0.8$ e $sigma = 0.15$.
 
-Invece, l'isolazione delle community, anch'essa ha seguito cinque fasi, partendo dalla rete più polarizzata (punto n.5). Ad ogni rete, progressivamente vengono rimossi gli archi inter-community con le probabilità: $0.00, 0.25, 0.50, 0.75, 0.95$ (@inter-communities-edges-removal).
+Invece, l'isolamento delle community ha anch'essa seguito cinque fasi, partendo dalla rete più polarizzata (punto n. 5). In ogni rete, progressivamente, vengono rimossi gli archi inter-community con le probabilità: $0.00, 0.25, 0.50, 0.75, 0.95$ (@inter-communities-edges-removal).
 
 Per ogni rete è stata calcolata la laplaciana magnetica e, infine, la polarizzazione mediante la misura _generalized euclidean_ vista in @H-node-vector-distance. Tali risultati sono stati analizzati in correlazione con le misure di social balance, triangoli _rafforzanti_, triangoli _respingenti_ e assortatività.
 
@@ -859,11 +854,11 @@ Per ogni rete è stata calcolata la laplaciana magnetica e, infine, la polarizza
     caption: [],
   ),
   columns: (1fr, 1fr),
-  caption: [Triangoli bilanciati.],
+  caption: [Triangoli bilanciati. Arco verde: positivo, arco rosso: negativo.],
   label: <balanced-triangles>,
 )
 
-Il social balance è una misura che indica quanti triangoli bilanciati ci sono in una rete, in base alla tossicità (@balanced-triangles(a) e @balanced-triangles(b)), i triangoli rafforzanti (@balanced-triangles(c)) e respingenti (@balanced-triangles(d)) sono invece basati sulla loro opinione politica.
+Il social balance è una misura che indica il rapporto tra i triangoli bilanciati e tutti i triangoli in una rete, in base alla tossicità (@balanced-triangles(a) e @balanced-triangles(b)); i triangoli rafforzanti (@balanced-triangles(c)) e respingenti (@balanced-triangles(d)) sono invece classificati in base all'opinione politica dei nodi.
 
 #show figure.where(kind: table): set block(breakable: true)
 #subpar-grid(
@@ -900,21 +895,21 @@ Il social balance è una misura che indica quanti triangoli bilanciati ci sono i
   image("images/ws/isolation-E.png"),
   columns: (1fr, 1fr, 1fr, 1fr),
   align: center,
-  caption: [Incremento dell'isolamento tra nodi di opinioni opposte.],
+  caption: [Dall'alto verso il basso, incremento dell'isolamento tra nodi di opinioni opposte.],
   label: <inter-communities-edges-removal>,
 )
 
-Sono state trovate delle correlazioni significative ed incoraggianti che hanno poi portato all'implementazione di questa misura sul dataset di Reddit. Verranno approfondite in @H2-results-real-networks.
+Sono state trovate correlazioni significative e incoraggianti, che hanno poi portato all'implementazione di questa misura sul dataset di Reddit. Verranno approfondite in @H2-results-real-networks.
 
 == Implementazione su reti reali
 
-Dopo aver testato su dei toy examples, ci si è trasferiti sul progetto principale e si sono implementati i risultati. Prima di poter implementare la nuova misura, si è aggiunto il supporto alle reti dirette, quindi riscrivendo alcune sezioni della pipeline. Oltre che a dei cambiamenti triviali riguardanti le strutture dati ed evitare lo sdoppiamento degli archi per mantenere la rete diretta (@diff-laplacian), è stata ripensata la sezione di backboning.
+Dopo aver eseguito i test sui toy examples, ci si è trasferiti sul progetto principale e si sono implementati i risultati. Prima di poter implementare la nuova misura, è stato aggiunto il supporto alle reti dirette, riscrivendo alcune sezioni della pipeline. Oltre a dei cambiamenti banali riguardanti le strutture dati e l'eliminazione dello sdoppiamento degli archi per mantenere la rete diretta (@diff-laplacian), è stata ripensata la sezione di backboning.
 
-Poiché, semplicemente utilizzando strutture dati dirette invece che indirette, i valori di _thresholding_, in alcune settimane, divergevano da $2.625$ (valore di default) a valori $>800$. È stato riscontrato specialmente in settimane in cui c'erano meno dati del solito. Di conseguenza, nelle reti finali, in tali settimane, erano presenti pochissimi nodi (sull'ordine delle decine, rispetto a reti sull'ordine delle decine di migliaia), andando ad invalidare i risultati.
+Utilizzando semplicemente strutture dati dirette invece che indirette, i valori di _thresholding_, in alcune settimane, divergevano da $2.625$ (valore di default) a valori $>800$. Il problema si riscontrava specialmente nelle settimane in cui erano disponibili meno dati del solito. Di conseguenza, nelle reti finali di tali settimane erano presenti pochissimi nodi (sull'ordine delle decine, rispetto a reti sull'ordine delle decine di migliaia), invalidando i risultati.
 
-Il motivo va cercato andando ad approfondire la sezione di backboning, poiché cerca il threshold minore in cui il rapporto tra il grado medio della rete, $overline(k)$, e $log_2(|V|)$ è minore di $0.5$, un'euristica che massimizza il numero di nodi e minimizza il numero di archi. Per fare ciò, testa iterativamente il valore di threshold, contando quanti archi e nodi sopravvivono e verificando se il rapporto $overline(k) / (log_2(|V|))$ scende sotto la soglia di $0.5$. Il criterio di threshold è dato da: $ tilde(L)_(i j) - "threshold" dot sqrt(v a r [tilde(L)_(i j)]) > 0 $
+Il motivo va cercato nella sezione di backboning: essa cerca il threshold minimo per cui il rapporto tra il grado medio della rete $overline(k)$ e $log_2(|V|)$ è inferiore a $0.5$, un'euristica che massimizza il numero di nodi e minimizza il numero di archi. Per fare ciò, testa iterativamente i valori di threshold, contando quanti archi e nodi sopravvivono e verificando se il rapporto $overline(k) / (log_2(|V|))$ scende sotto la soglia di $0.5$. Il criterio di threshold è dato da: $ tilde(L)_(i j) - "threshold" dot sqrt(v a r [tilde(L)_(i j)]) > 0 $
 
-Il threshold testato e la nuova rete, spogliata degli archi e dei nodi superflui, vengono usate per calcolare la sparsità della nuova rete. Possono generarsi tre situazioni:
+Il threshold testato e la nuova rete, privata degli archi e dei nodi superflui, vengono usati per calcolare la sparsità della nuova rete. Possono verificarsi tre situazioni:
 
 #set enum(numbering: "a)")
 + Se tutti i threshold testati producono una rete sufficientemente sparsa, allora si restituisce il minimo threshold di $2.625$;
@@ -922,12 +917,12 @@ Il threshold testato e la nuova rete, spogliata degli archi e dei nodi superflui
 + Se nessun threshold produce una rete sparsa, viene rieseguito l'algoritmo, incrementando la finestra di valori di threshold testati.
 #set enum(numbering: "1.")
 
-Proprio in questo momento la pipeline falliva, poiché nel caso diretto, la rete contiene circa il 40% di archi in più rispetto alla proiezione non diretta (poiché $A arrow B$ e $B arrow A$ sono archi distinti), causando un grado medio più alto. Questo faceva sì che il rapporto $overline(k) / (log_2(|V|))$ superasse la soglia di $0.5$ per alcune settimane, innescando la riesecuzione iterativa dell'algoritmo e facendo divergere il threshold a valori superiori a $800$. A tali soglie, la quasi totalità degli archi veniva rimossa, producendo reti molto piccole.
+Proprio in questa fase la pipeline falliva: nel caso diretto, la rete contiene circa il 40% di archi in più rispetto alla proiezione non diretta (poiché $A arrow B$ e $B arrow A$ sono archi distinti), causando un grado medio più alto. Questo faceva sì che il rapporto $overline(k) / (log_2(|V|))$ superasse la soglia di $0.5$ per alcune settimane, innescando la riesecuzione iterativa dell'algoritmo e facendo divergere il threshold a valori superiori a $800$. A tali soglie, quasi la totalità degli archi veniva rimossa, producendo reti molto piccole.
 
 // Le settimane in cui il threshold non divergeva non erano tuttavia correttamente filtrate: il threshold di $2.625$ non rimuoveva sostanzialmente alcun arco, poiché i punteggi di significatività erano tutti concentrati vicino a $1$. Il comportamento era quindi bimodale: threshold $approx 3$ (nessun filtraggio) o threshold $approx 1000$ (filtraggio estremo).
 // Nell'algoritmo di Noise Correction non diretto, gli archi sono doppi per via della direzionalità, così che, dato $kappa = 1/(E[N_(i j)]) = (hat(N)_(. .))/(hat(N)_(i .) hat(N)_(j .))$, $n_(i .)$ e $n_(. j)$ riflettono il peso totale del nodo $n$ e $tilde(L)_(i j)$, centrato in $0$, è equilibrato.\ Invece, nel caso della Noise Correction diretta, gli archi non sono doppi e $tilde(L)_(i j)$ è tendente ad $1$, facendo divergere il threshold.
 
-La soluzione proposta è di, _solamente durante la fase di backboning_, simmetrizzare gli archi diretti in una proiezione non diretta, riducendo il numero di archi e stabilizzando il rapporto $overline(k) / (log_2(|V|))$ sotto la soglia di $0.5$ per tutte le settimane. Successivamente, si filtrano dalla rete originale diretta solo gli archi le cui coppie di nodi hanno superato il test di significatività, come in @new-backboning-function.
+La soluzione proposta consiste nel, _esclusivamente durante la fase di backboning_, simmetrizzare gli archi diretti in una proiezione non diretta, riducendo il numero di archi e stabilizzando il rapporto $overline(k) / (log_2(|V|))$ al di sotto della soglia di $0.5$ per tutte le settimane. Successivamente, si filtrano dalla rete originale diretta solo gli archi le cui coppie di nodi hanno superato il test di significatività, come mostrato in @new-backboning-function.
 
 // Il motivo, va cercato andando ad approfondire la sezione di backboning, poiché cerca il threshold minore in cui il grado medio della rete è minore di $log_2(|V|)$, un'euristica che massimizza il numero di nodi e minimizza il numero di archi. Per fare ciò, testa iterativamente il valore di threshold, contando quanti archi e nodi sopravvivono e comparando l'average degree ottenuto, con quello precedente. Il criterio di threshold è dato da: $ tilde(L)_(i j) - "threshold" dot sqrt(v a r [tilde(L)_(i j)]) > 0 $
 //
@@ -1015,7 +1010,7 @@ La soluzione proposta è di, _solamente durante la fase di backboning_, simmetri
   caption: [Modifiche al file che calcola la matrice Laplacian e la inverte.],
 ) <diff-laplacian>
 
-Infine, dopo aver terminato la migrazione del codice sorgente, si è eseguita la pipeline e, tramite i risultati ottenuti, si sono eseguite delle misurazioni sulla rete, per raccogliere correlazioni tra i nuovi risultati e le caratteristiche della rete, comparandole con dei _null models_ di riferimento. Nel prossimo capitolo, analizzeremo nel dettaglio i risultati ottenuti dall'operatore _Magnetic Laplacian_ sia nel caso di reti randomiche, sia nel caso della rete reale di Reddit.
+Infine, dopo aver completato la migrazione del codice sorgente, si è eseguita la pipeline e, tramite i risultati ottenuti, si sono effettuate delle misurazioni sulla rete per raccogliere correlazioni tra i nuovi risultati e le caratteristiche della rete, confrontandole con i risultati ottenuti dalle precedenti reti non dirette. Nel prossimo capitolo verranno analizzati nel dettaglio i risultati ottenuti dall'operatore _Magnetic Laplacian_, sia nel caso di reti casuali, sia nel caso della rete reale di Reddit.
 
 #pagebreak()
 
