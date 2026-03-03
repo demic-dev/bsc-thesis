@@ -349,15 +349,15 @@ $L_(i j)$ misura quanto il peso di un arco, tra i nodi $i$ e $j$ sia alto rispet
   > 1 arrow.double.r "peso maggiore a quanto atteso",
   > 0 and < 1 arrow.double.r "peso minore a quanto atteso"
 ) $
-quindi, viene successivamente centrato in $0$, che chiameremo $tilde(L)_(i j)$.
+quindi, viene successivamente centrato in $0$, che chiameremo $tilde(L)_(i j)$ (questa misura viene anche chiamata _score_).
 
 Successivamente, viene calcolata la varianza con il metodo delta, dei valori ottenuti in precedenza: $ v a r[tilde(L)_(i j)] = v a r[hat(N)_(i j)] ((2(kappa + hat(N)_(i j) (d kappa)/(d hat(N)_(i j))))/(k hat(N)_(i j) + 1 )^2) $dove $v a r[hat(N)_(i j)]$ è la varianza di una distribuzione Binomiale: $ v a r [N_(i j)] = N_(. .)hat(P)_(i j) (1 - hat(P)_(i j)) $
 e $kappa$: $ kappa = 1/(E[N_(i j)]) $ e: $ (d kappa)/(d hat(N)_(i j)) = 1/(hat(N)_(i .)hat(N)_(. j)) - hat(N)_(. .) (hat(N)_(i .) + hat(N)_(. j))/((hat(N)_(i .) hat(N)_(. j))^2) $
 
 dato che le reti reali sono sparse ed è difficile stimare con precisione $hat(P)_(i j)$, si assume che $hat(P)_(i j)$ usi un framework bayesiano che segue una distribuzione Beta: $[n_(i j) + alpha, n_(. .) - n_(i j) + beta]$. Dato che anche $alpha$ e $beta$ sono sconosciuti, si assume che la generazione dei pesi degli archi assuma una distribuzione ipergeometrica, in cui ogni volta che il peso di un arco incrementa di $1$ per il nodo $n$, allora si estrae e rimuove un nodo $j$ dall'insieme dei nodi (distribuiti secondo il peso $N_(i .)$ e $N_(. j)$ di ogni nodo). Così, la media $mu$ e la varianza $sigma^2$ sono definite, rispettivamente: $ E[p_(i j)] = E[N_(i j)/N_(. .)] = 1/(N_(. .))(N_(i .)N_(. j))/(N_(. .)) = mu = alpha/(alpha + beta) $ e $ v a r[p_(i j)] = 1/(N^2_(. .))(N_(i .)N_(. j)(N_(. .) - N_(i .))(N_(. .) - N_(. j)))/(N^2_(. .)(N_(. .) - 1)) = sigma^2 = (alpha beta)/((alpha + beta)^2)(alpha + beta + 1) $
-che così possono essere risolte in $alpha$ e $beta$. Che permette di ricavare $V[hat(N)_(i j)]$ e, quindi, la varianza $V[tilde(L)_(i j)]$.
+che così possono essere risolte in $alpha$ e $beta$. Che permette di ricavare $v a r[hat(N)_(i j)]$ e, quindi, la varianza $v a r[tilde(L)_(i j)]$.
 
-Infine, un arco sarà mantenuto solo se il peso è maggiore di $delta sqrt(V[tilde(L)_(i j)])$, ovvero se supera $delta$-volte la deviazione standard. Dove $delta$ è un parametro di threshold che viene passato all'algoritmo. Per maggiori informazioni, rimando al paper originale @noise-corrected-backboning.
+Infine, un arco sarà mantenuto solo se il peso è maggiore di $delta sqrt(v a r[tilde(L)_(i j)])$, ovvero se supera $delta$-volte la deviazione standard. Dove $delta$ è un parametro di threshold che viene passato all'algoritmo. Per maggiori informazioni, rimando al paper originale @noise-corrected-backboning.
 
 L'algoritmo di NC, favorisce il mantenimento di connessioni tra nodi non centrali, ma sullo stesso livello di gerarchia @coscia2021atlas.
 
@@ -810,11 +810,11 @@ Per ogni rete è stata calcolata la laplaciana magnetica e, infine, la polarizza
       edge-stroke: 0.1em,
       spacing: 3em,
       node((0, 0), radius: 1em),
-      edge((0, 0), (1, 0), ``, "-", stroke: green),
+      edge((0, 0), (1, 0), ``, "-", stroke: rgb("#77dd77")),
       node((1, 0), radius: 1em),
-      edge((1, 0), (1, 1), ``, "-", stroke: green),
+      edge((1, 0), (1, 1), ``, "-", stroke: rgb("#77dd77")),
       node((1, 1), radius: 1em),
-      edge((1, 1), (0, 0), ``, "-", stroke: green),
+      edge((1, 1), (0, 0), ``, "-", stroke: rgb("#77dd77")),
     ),
     caption: [],
   ),
@@ -824,39 +824,37 @@ Per ogni rete è stata calcolata la laplaciana magnetica e, infine, la polarizza
       edge-stroke: 0.1em,
       spacing: 3em,
       node((0, 0), radius: 1em),
-      edge((0, 0), (1, 0), ``, "-", stroke: green),
+      edge((0, 0), (1, 0), ``, "-", stroke: rgb("#77dd77")),
       node((1, 0), radius: 1em),
-      edge((1, 0), (1, 1), ``, "-", stroke: red),
+      edge((1, 0), (1, 1), ``, "-", stroke: rgb("#ff6961")),
       node((1, 1), radius: 1em),
-      edge((1, 1), (0, 0), ``, "-", stroke: red),
+      edge((1, 1), (0, 0), ``, "-", stroke: rgb("#ff6961")),
     ),
     caption: [],
   ),
   figure(
     diagram(
-      node-stroke: .1em,
       edge-stroke: 0.1em,
       spacing: 3em,
       node((0, 0), radius: 1em, fill: rgb("#C14C15")),
-      edge((0, 0), (1, 0), ``, "-|>", stroke: green),
+      edge((0, 0), (1, 0), ``, "-|>", stroke: rgb("#77dd77")),
       node((1, 0), radius: 1em, fill: rgb("#C14C15")),
-      edge((1, 0), (1, 1), ``, "-|>", stroke: green),
+      edge((1, 0), (1, 1), ``, "-|>", stroke: rgb("#77dd77")),
       node((1, 1), radius: 1em, fill: rgb("#C14C15")),
-      edge((1, 1), (0, 0), ``, "-|>", stroke: green),
+      edge((1, 1), (0, 0), ``, "-|>", stroke: rgb("#77dd77")),
     ),
     caption: [],
   ),
   figure(
     diagram(
-      node-stroke: .1em,
       edge-stroke: 0.1em,
       spacing: 3em,
       node((0, 0), radius: 1em, fill: rgb("#C14C15")),
-      edge((0, 0), (1, 0), ``, "-", stroke: green),
+      edge((0, 0), (1, 0), ``, "-", stroke: rgb("#77dd77")),
       node((1, 0), radius: 1em, fill: rgb("#C14C15")),
-      edge((1, 0), (1, 1), ``, "-|>", stroke: red),
+      edge((1, 0), (1, 1), ``, "-|>", stroke: rgb("#ff6961")),
       node((1, 1), radius: 1em, fill: rgb("#09669D")),
-      edge((1, 1), (0, 0), ``, "-|>", stroke: red),
+      edge((1, 1), (0, 0), ``, "-|>", stroke: rgb("#ff6961")),
     ),
     caption: [],
   ),
@@ -911,52 +909,87 @@ Sono state trovate delle correlazioni significative ed incoraggianti che hanno p
 == Implementazione su reti reali
 
 Dopo aver testato su dei toy examples, ci si è trasferiti sul progetto principale e si sono implementati i risultati. Prima di poter implementare la nuova misura, si è aggiunto il supporto alle reti dirette, quindi riscrivendo alcune sezioni della pipeline. Oltre che a dei cambiamenti triviali riguardanti le strutture dati ed evitare lo sdoppiamento degli archi per mantenere la rete diretta (@diff-laplacian), è stata ripensata la sezione di backboning.
-\ Poiché, semplicemente utilizzando strutture dati dirette invece che indirette, i valori di _thresholding_, in alcune settimane, divergevano da $2.625$ (valore di default) a valori $>900$. È stato riscontrato specialmente in settimane in cui c'erano meno dati del solito. Di conseguenza, le reti finali, in tali settimane, erano presenti pochissimi nodi (sull'ordine delle decine, rispetto a reti sull'ordine delle migliaia), andando ad invalidare i risultati.
 
-Le soluzioni proposte sono due, ma ne è stata implementata solamente una. La prima, che è quella che è stata infine utilizzata, è quella di trattare _solamente durante la fase di backboning_, la rete diretta come una proiezione di quella indiretta, quindi duplicando gli archi tra due nodi e, infine, adeguare i risultati del backboning indiretto a quello diretto, per ottenere valori di threshold compatibili:
+Poiché, semplicemente utilizzando strutture dati dirette invece che indirette, i valori di _thresholding_, in alcune settimane, divergevano da $2.625$ (valore di default) a valori $>800$. È stato riscontrato specialmente in settimane in cui c'erano meno dati del solito. Di conseguenza, nelle reti finali, in tali settimane, erano presenti pochissimi nodi (sull'ordine delle decine, rispetto a reti sull'ordine delle decine di migliaia), andando ad invalidare i risultati.
 
-```py
-if is_directed:
-  # Compute backbone on the undirected projection
-  # To get comparable edge scores, then filter original directed edges
-  edges_undirected = edges.copy()
-  edges_undirected["src_norm"] = edges_undirected[["src", "trg"]].min(axis=1)
-  edges_undirected["trg_norm"] = edges_undirected[["src", "trg"]].max(axis=1)
-  edges_undirected_agg = edges_undirected.groupby(["src_norm", "trg_norm"])["nij"].sum().reset_index()
-  edges_undirected_agg = edges_undirected_agg.rename(columns={"src_norm": "src", "trg_norm": "trg"})
-  # Double for undirected backbone calculation
-  edges_undirected_agg = pd.concat([edges_undirected_agg, edges_undirected_agg.rename(columns={"src": "trg", "trg": "src"})])
+Il motivo va cercato andando ad approfondire la sezione di backboning, poiché cerca il threshold minore in cui il rapporto tra il grado medio della rete, $overline(k)$, e $log_2(|V|)$ è minore di $0.5$, un'euristica che massimizza il numero di nodi e minimizza il numero di archi. Per fare ciò, testa iterativamente il valore di threshold, contando quanti archi e nodi sopravvivono e verificando se il rapporto $overline(k) / (log_2(|V|))$ scende sotto la soglia di $0.5$. Il criterio di threshold è dato da: $ tilde(L)_(i j) - "threshold" dot sqrt(v a r [tilde(L)_(i j)]) > 0 $
 
-  # Using undirected logic
-  edges_nc = bb.noise_corrected(edges_undirected_agg, undirected=True)
-  threshold = find_bb_threshold(edges_nc, is_directed=False)
-  edges_nc_bb = bb.thresholding(edges_nc, threshold)
+Il threshold testato e la nuova rete, spogliata degli archi e dei nodi superflui, vengono usate per calcolare la sparsità della nuova rete. Possono generarsi tre situazioni:
 
-  # From normalized pairs to scores
-  pair_scores = edges_nc_bb.set_index(["src", "trg"])["score"].to_dict()
+#set enum(numbering: "a)")
++ Se tutti i threshold testati producono una rete sufficientemente sparsa, allora si restituisce il minimo threshold di $2.625$;
++ Se esiste un threshold che produce una rete sparsa, si restituisce il più piccolo di tali threshold;
++ Se nessun threshold produce una rete sparsa, viene rieseguito l'algoritmo, incrementando la finestra di valori di threshold testati.
+#set enum(numbering: "1.")
 
-  # Filter original directed edges to only those whose node pairs survived
-  edges["src_norm"] = edges[["src", "trg"]].min(axis=1)
-  edges["trg_norm"] = edges[["src", "trg"]].max(axis=1)
-  edges["pair"] = list(zip(edges["src_norm"], edges["trg_norm"]))
-  surviving_pairs = set(zip(edges_nc_bb["src"], edges_nc_bb["trg"]))
-  edges_filtered = edges[edges["pair"].isin(surviving_pairs)].copy()
+Proprio in questo momento la pipeline falliva, poiché nel caso diretto, la rete contiene circa il 40% di archi in più rispetto alla proiezione non diretta (poiché $A arrow B$ e $B arrow A$ sono archi distinti), causando un grado medio più alto. Questo faceva sì che il rapporto $overline(k) / (log_2(|V|))$ superasse la soglia di $0.5$ per alcune settimane, innescando la riesecuzione iterativa dell'algoritmo e facendo divergere il threshold a valori superiori a $800$. A tali soglie, la quasi totalità degli archi veniva rimossa, producendo reti molto piccole.
 
-  # Assign the score from the undirected backbone to each directed edge
-  edges_filtered["score"] = edges_filtered["pair"].map(pair_scores)
-  edges_filtered = edges_filtered.drop(["pair", "src_norm", "trg_norm"], axis=1)
+// Le settimane in cui il threshold non divergeva non erano tuttavia correttamente filtrate: il threshold di $2.625$ non rimuoveva sostanzialmente alcun arco, poiché i punteggi di significatività erano tutti concentrati vicino a $1$. Il comportamento era quindi bimodale: threshold $approx 3$ (nessun filtraggio) o threshold $approx 1000$ (filtraggio estremo).
+// Nell'algoritmo di Noise Correction non diretto, gli archi sono doppi per via della direzionalità, così che, dato $kappa = 1/(E[N_(i j)]) = (hat(N)_(. .))/(hat(N)_(i .) hat(N)_(j .))$, $n_(i .)$ e $n_(. j)$ riflettono il peso totale del nodo $n$ e $tilde(L)_(i j)$, centrato in $0$, è equilibrato.\ Invece, nel caso della Noise Correction diretta, gli archi non sono doppi e $tilde(L)_(i j)$ è tendente ad $1$, facendo divergere il threshold.
 
-  G = nx.from_pandas_edgelist(
-      edges_filtered,
-      source="src",
-      target="trg",
-      edge_attr=True,
-      create_using=nx.DiGraph())
-```
+La soluzione proposta è di, _solamente durante la fase di backboning_, simmetrizzare gli archi diretti in una proiezione non diretta, riducendo il numero di archi e stabilizzando il rapporto $overline(k) / (log_2(|V|))$ sotto la soglia di $0.5$ per tutte le settimane. Successivamente, si filtrano dalla rete originale diretta solo gli archi le cui coppie di nodi hanno superato il test di significatività, come in @new-backboning-function.
 
-L'altra soluzione era quella invece di (... trovare altra soluzione che funzioni). Sebbene fosse la soluzione ottimale, questa soluzione avrebbe necessitato di eseugire tutta la pipeline volta per volta, poiché nuovi nodi sarebbero stati mantenuti e, quindi, nuovi messaggi sarebbero dovuti essere classificati, secondo gli step della pipeline introdotta in precedenza #footnote[ Il resto della pipeline richiedeva l'esecuzione di modelli eseguiti su computer performanti (quali l'_HPC_, l'High Performance Computing) che, però, avrebbero portato ad un incremento sostanziale dei tempi di sviluppo.]. Invece, per tutta la durata del tirocinio, è stato utilizzato un file di cache, creato nella prima versione del progetto, con tutti i messaggi del dataset non diretto (dopo il backboning) e la rispettiva classificazione per argomento, tossicità e opinione politica. Questo ha permesso anche di velocizzare le iterazioni tra sviluppo e test.
+// Il motivo, va cercato andando ad approfondire la sezione di backboning, poiché cerca il threshold minore in cui il grado medio della rete è minore di $log_2(|V|)$, un'euristica che massimizza il numero di nodi e minimizza il numero di archi. Per fare ciò, testa iterativamente il valore di threshold, contando quanti archi e nodi sopravvivono e comparando l'average degree ottenuto, con quello precedente. Il criterio di threshold è dato da: $ tilde(L)_(i j) - "threshold" dot sqrt(v a r [tilde(L)_(i j)]) > 0 $
+//
+// Il threshold testato e la nuova rete, spogliata degli archi e dei nodi superflui, vengono usate per calcolare la sparsità della nuova rete, rispetto a $log_2(|V|)$. Possono generare tre situazioni:
+//
+// #set enum(numbering: "a)")
+// + Se la rete è sparsa, allora si restituisce il minimo threshold di $2.625$;
+// + Se la rete è densa, restituisce il threshold più piccolo che permette di avere una rete densa;
+// + Se non esiste un threshold adatto, viene rieseguito l'algoritmo, incrementando la finestra di valori di threshold accettati.
+// #set enum(numbering: "1.")
+//
+// Proprio in questo momento, la pipeline falliva, poiché l'algoritmo non riusciva a trovare un valore adatto e veniva rieseguito, incrementando e facendo divergere la finestra di valori di threshold accettati.
+//
+// Nell'algoritmo di Noise Correction non diretto, gli archi sono doppi per via della direzionalità, così che, dato $kappa = 1/(E[N_(i j)]) = (hat(N)_(. .))/(hat(N)_(i .) hat(N)_(j .))$, $n_(i .)$ e $n_(. j)$ riflettono il peso totale del nodo $n$ e $tilde(L)_(i j)$, centrato in $0$, è equilibrato.\ Invece, nel caso della Noise Correction diretta, gli archi non sono doppi e $tilde(L)_(i j)$ è tendente ad $1$, facendo divergere il threshold.
+//
+// La soluzione proposta è di, _solamente durante la fase di backboning_, simmetrizzare gli archi diretti, per ottenere threshold stabili e, successivamente, di filtrare, dalla nuova rete, gli archi che son stati creati ad-hoc per il backboning, come in @new-backboning-function.
 
-La soluzione che effettivamente è stata utilizzata, ha funzionato, nonostante, alla fine, ci fosse una correlazione molto forte, quasi sospetta #footnote[aggiungere reference alla figura che metto nel prox capitolo], tra la polarizzazione calcolata con le reti indirette, e la polarizzazione calcolata con le reti dirette. Ciò nonostante, i risultati verranno approfonditi nel capitolo successivo.
+#figure(
+  ```py
+  if is_directed:
+    # Compute backbone on the undirected projection
+    # To get comparable edge scores, then filter original directed edges
+    edges_undirected = edges.copy()
+    edges_undirected["src_norm"] = edges_undirected[["src", "trg"]].min(axis=1)
+    edges_undirected["trg_norm"] = edges_undirected[["src", "trg"]].max(axis=1)
+    edges_undirected_agg = edges_undirected.groupby(["src_norm", "trg_norm"])["nij"].sum().reset_index()
+    edges_undirected_agg = edges_undirected_agg.rename(columns={"src_norm": "src", "trg_norm": "trg"})
+    # Double for undirected backbone calculation
+    edges_undirected_agg = pd.concat([edges_undirected_agg, edges_undirected_agg.rename(columns={"src": "trg", "trg": "src"})])
+
+    # Using undirected logic
+    edges_nc = bb.noise_corrected(edges_undirected_agg, undirected=True)
+    threshold = find_bb_threshold(edges_nc, is_directed=False)
+    edges_nc_bb = bb.thresholding(edges_nc, threshold)
+
+    # From normalized pairs to scores
+    pair_scores = edges_nc_bb.set_index(["src", "trg"])["score"].to_dict()
+
+    # Filter original directed edges to only those whose node pairs survived
+    edges["src_norm"] = edges[["src", "trg"]].min(axis=1)
+    edges["trg_norm"] = edges[["src", "trg"]].max(axis=1)
+    edges["pair"] = list(zip(edges["src_norm"], edges["trg_norm"]))
+    surviving_pairs = set(zip(edges_nc_bb["src"], edges_nc_bb["trg"]))
+    edges_filtered = edges[edges["pair"].isin(surviving_pairs)].copy()
+
+    # Assign the score from the undirected backbone to each directed edge
+    edges_filtered["score"] = edges_filtered["pair"].map(pair_scores)
+    edges_filtered = edges_filtered.drop(["pair", "src_norm", "trg_norm"], axis=1)
+
+    G = nx.from_pandas_edgelist(
+        edges_filtered,
+        source="src",
+        target="trg",
+        edge_attr=True,
+        create_using=nx.DiGraph())
+  ```,
+  caption: [La nuova funzione di backboning.],
+) <new-backboning-function>
+
+// L'altra soluzione era quella invece di (... trovare altra soluzione che funzioni). Sebbene fosse la soluzione ottimale, questa soluzione avrebbe necessitato di eseugire tutta la pipeline volta per volta, poiché nuovi nodi sarebbero stati mantenuti e, quindi, nuovi messaggi sarebbero dovuti essere classificati, secondo gli step della pipeline introdotta in precedenza #footnote[ Il resto della pipeline richiedeva l'esecuzione di modelli eseguiti su computer performanti (quali l'_HPC_, l'High Performance Computing) che, però, avrebbero portato ad un incremento sostanziale dei tempi di sviluppo e fuori dagli scopi del tirocinio.]. Invece, per tutta la durata del tirocinio, è stato utilizzato un file di cache, creato nella prima versione del progetto, con tutti i messaggi del dataset non diretto (dopo il backboning) e la rispettiva classificazione per argomento, tossicità e opinione politica. Questo ha permesso anche di velocizzare le iterazioni tra sviluppo e test.
+//
+// La soluzione che effettivamente è stata utilizzata, ha funzionato, nonostante, alla fine, ci fosse una correlazione molto forte, quasi sospetta #footnote[aggiungere reference alla figura che metto nel prox capitolo], tra la polarizzazione calcolata con le reti indirette, e la polarizzazione calcolata con le reti dirette. Ciò nonostante, i risultati verranno approfonditi nel capitolo successivo.
 
 #show figure: set block(breakable: true)
 #figure(
