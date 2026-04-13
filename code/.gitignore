@@ -1,6 +1,7 @@
-__pycache__/
-.vscode/
+__pycache__
+.vscode
+.direnv
 *.ipynb_checkpoints
 
-data/final_networks*/
+data/final_networks*
 data/fig_2c*.csv

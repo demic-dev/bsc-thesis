@@ -5,6 +5,7 @@ in pkgs.mkShell {
   packages = [
     (python.withPackages (python-pkgs: with python-pkgs; [
         ipython
+        ipykernel
         jupyter
         jupyter-core
         pandas
