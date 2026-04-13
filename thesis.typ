@@ -1268,11 +1268,12 @@ Later, we split the experiment in two tests: with the first, the smaller dense c
   table(
     stroke: none,
     align: center,
-    columns: (auto, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
-    $\#$, $n$, $m$, $C_A$, $C_B$, [engaging], [result],
+    columns: (auto, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
+    $\#$, $n$, $m$, $C_A$, $C_B$, [engaging], [directed], [result],
 
-    $1$, $400$, $100$, $1$, $-1$, [N], $2.04$,
-    $2$, $400$, $100$, $1$, $-1$, [Y], $2.49$,
+    $1$, $400$, $100$, $1$, $-1$, [N], [Y], $2.042$,
+    $2$, $400$, $100$, $1$, $-1$, [Y], [Y], $2.409$,
+    $3$, $400$, $100$, $1$, $-1$, [Y/N], [N], $0.483$,
   ),
   caption: [Parameters and results of the third experiment.],
 ) <troll-army-params-results>
@@ -1313,20 +1314,20 @@ These results shows us that the node vector distance with the magnetic laplacian
 #subpar-grid(
   figure(
     image("code/output/plots/tr-(+++)-directed-corr.svg"),
-    caption: [_Strengthening_ triangles, $c o r r= 0.67$],
+    caption: [_Strengthening_ triangles\ $c o r r= 0.67, p = 4.4 times 10^(-8)$],
   ),
   figure(
     image("code/output/plots/tr-(+--)-directed-corr.svg"),
-    caption: [_Repulsing_ triangles, $c o r r = 0.64$],
+    caption: [_Repulsing_ triangles\ $c o r r = 0.64, p = 4.07 times 10^(-7)$],
   ),
 
   figure(
     image("code/output/plots/tr-(+++)-undirected-corr.svg"),
-    caption: [_Strengthening_ triangles, $c o r r = 0.31$],
+    caption: [_Strengthening_ triangles\ $c o r r = 0.31, p = 0.02$],
   ),
   figure(
     image("code/output/plots/tr-(+--)-undirected-corr.svg"),
-    caption: [_Repulsing_ triangles, $c o r r = 0.26$],
+    caption: [_Repulsing_ triangles\ $c o r r = 0.26, p = 0.05$],
   ),
   columns: (1fr, 1fr),
   caption: [Scatter plot between number of triangles (x axis) and polarization (y axis). Top are evaluated on directed networks, bottom on undirected.],
